@@ -15,7 +15,7 @@ namespace PIT_SENAI_V2.Classes
         private MySqlCommand cmd;
         private MySqlDataAdapter da;
         private DataTable dt;
-        private string idOrdem;
+        public string idOrdem;
 
         public DataTable procurarProdutos(string pesquisa)
         {
@@ -43,6 +43,7 @@ namespace PIT_SENAI_V2.Classes
 				            p.nomeProduto like concat('%',@pesquisa,'%') or
 				            p.idProduto like @pesquisa)
 		            and saida is null
+                    and vendido = 0
 	            group by p.idProduto
                 order by p.idProduto asc;";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
@@ -87,7 +88,7 @@ namespace PIT_SENAI_V2.Classes
             try
             {
                 cmd.Connection = con.Conectar();
-                idOrdem = cmd.ExecuteScalar().ToString();
+                this.idOrdem = cmd.ExecuteScalar().ToString();
                 return true;
             }
             catch(MySqlException e)
@@ -185,7 +186,7 @@ namespace PIT_SENAI_V2.Classes
             try
             {
                 cmd.Connection = con.Conectar();
-                soma = "Total:" + cmd.ExecuteScalar().ToString();
+                soma = cmd.ExecuteScalar().ToString();
             }
             catch(MySqlException e)
             {

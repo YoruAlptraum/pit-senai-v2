@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Caixa.cs" />
     <Compile Include="Classes\Estoquista.cs" />
     <Compile Include="Classes\Login.cs" />
     <Compile Include="Classes\Vendedor.cs" />
@@ -103,16 +104,40 @@
     <Compile Include="Dados\frmBase.Designer.cs">
       <DependentUpon>frmBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_4PesquisarIDBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_4PesquisarIDBase.Designer.cs">
+      <DependentUpon>frm4_4PesquisarIDBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_5Historico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_5Historico.Designer.cs">
+      <DependentUpon>frm4_5Historico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_7FecharCaixa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_7FecharCaixa.Designer.cs">
+      <DependentUpon>frm4_7FecharCaixa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_6AbrirCaixa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_6AbrirCaixa.Designer.cs">
+      <DependentUpon>frm4_6AbrirCaixa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Intefaces\frm5Vendedor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Intefaces\frm5Vendedor.Designer.cs">
       <DependentUpon>frm5Vendedor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Intefaces\frm4Caixa.cs">
+    <Compile Include="Intefaces\Caixa\frm4Caixa.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Intefaces\frm4Caixa.Designer.cs">
+    <Compile Include="Intefaces\Caixa\frm4Caixa.Designer.cs">
       <DependentUpon>frm4Caixa.cs</DependentUpon>
     </Compile>
     <Compile Include="Intefaces\frm3Estoquista.cs">
@@ -139,6 +164,24 @@
     <Compile Include="Intefaces\frm0Login.Designer.cs">
       <DependentUpon>frm0Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_1Nota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_1Nota.Designer.cs">
+      <DependentUpon>frm4_1Nota.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_3SelecionarID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_3SelecionarID.Designer.cs">
+      <DependentUpon>frm4_3SelecionarID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_2CadastrarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Caixa\frm4_2CadastrarCliente.Designer.cs">
+      <DependentUpon>frm4_2CadastrarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Intefaces\frmRegistrarEntrada.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,10 +193,22 @@
     <EmbeddedResource Include="Dados\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_4PesquisarIDBase.resx">
+      <DependentUpon>frm4_4PesquisarIDBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_5Historico.resx">
+      <DependentUpon>frm4_5Historico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_7FecharCaixa.resx">
+      <DependentUpon>frm4_7FecharCaixa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_6AbrirCaixa.resx">
+      <DependentUpon>frm4_6AbrirCaixa.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\frm5Vendedor.resx">
       <DependentUpon>frm5Vendedor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Intefaces\frm4Caixa.resx">
+    <EmbeddedResource Include="Intefaces\Caixa\frm4Caixa.resx">
       <DependentUpon>frm4Caixa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\frm3Estoquista.resx">
@@ -168,6 +223,15 @@
     <EmbeddedResource Include="Intefaces\frm0Login.resx">
       <DependentUpon>frm0Login.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_1Nota.resx">
+      <DependentUpon>frm4_1Nota.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_3SelecionarID.resx">
+      <DependentUpon>frm4_3SelecionarID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Caixa\frm4_2CadastrarCliente.resx">
+      <DependentUpon>frm4_2CadastrarCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\frmRegistrarEntrada.resx">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>
     </EmbeddedResource>
@@ -179,6 +243,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\PIT_SENAI_V2.Classes.DadosGlobais.datasource" />
@@ -197,9 +262,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Main Icon.ico" />
+    <None Include="Resources\Search.png" />
+    <None Include="Resources\Search.ico" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

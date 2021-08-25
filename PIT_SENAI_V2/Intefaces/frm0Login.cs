@@ -24,8 +24,12 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            confirmar();
+        }
+        private void confirmar()
+        {
             //Se o login estiver correto permitir entrada
-            int.TryParse(txbUsuario.Text,out int idUsuario);
+            int.TryParse(txbUsuario.Text, out int idUsuario);
             if (login.VerificarLogin(idUsuario, txbSenha.Text))
             {
                 //Abrir formulario de acordo com o tipo de acesso
@@ -33,7 +37,7 @@ namespace PIT_SENAI_V2.Dados
             }
             else
             {
-                MessageBox.Show("Favor conferir credenciais","Login não encontrado");
+                MessageBox.Show("Favor conferir credenciais", "Login não encontrado");
             }
         }
 
@@ -89,6 +93,14 @@ namespace PIT_SENAI_V2.Dados
         private void AbrirVendedor()
         {
             Application.Run(new frm5Vendedor());
+        }
+
+        private void txbSenha_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && btnConfirmar.Enabled)
+            {
+                confirmar();
+            }
         }
     }
 }

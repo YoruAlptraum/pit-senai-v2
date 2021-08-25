@@ -20,6 +20,7 @@ namespace PIT_SENAI_V2.Dados
             btnSaida.Enabled = false;
             UpdateDGVs();
             KeyPreview = true;
+            this.Text = "Controle de Estoque: " + DadosGlobais.usuario;
         }
         private void btnPesquisarEstoque_Click(object sender, EventArgs e)
         {
@@ -80,6 +81,11 @@ namespace PIT_SENAI_V2.Dados
                 else PesquisarEstoque();
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DadosGlobais.sair(this);
         }
     }
 }

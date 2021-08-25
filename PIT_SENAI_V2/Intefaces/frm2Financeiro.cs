@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PIT_SENAI_V2.Classes;
 
 namespace PIT_SENAI_V2.Dados
 {
@@ -15,6 +16,11 @@ namespace PIT_SENAI_V2.Dados
         public frm2Financeiro()
         {
             InitializeComponent();
+        }
+
+        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DadosGlobais.sair(this);
         }
     }
 }

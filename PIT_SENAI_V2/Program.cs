@@ -17,7 +17,7 @@ namespace PIT_SENAI_V2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frm5Vendedor());
+            Application.Run(new frm0Login());
         }
     }
 }

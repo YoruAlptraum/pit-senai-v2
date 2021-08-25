@@ -58,19 +58,7 @@ values
 (0,'Magalu','Luao','imoveis','(00) 1111-1111','(00) 2344-2333','magalu@mail.com'),
 (0,'Redes Mar','Redesmar','Infra redes', '(22)2344-3333', null, 'redesmar@mail.com');
 
--- drop procedure procurarFornecedores;
-delimiter ##
-create procedure procurarFornecedores(pesquisa varchar(255))	
-begin
-	select * from fornecedores as f
-    where 
-		if(pesquisa = null, null,
-		f.fornecedor like concat('%',pesquisa,'%')
-		or   
-		f.idFornecedor like pesquisa);
-end;##
-delimiter ;
--- call procurarFornecedores('');
+
 
 CREATE TABLE categorias (
     idCategoria INT PRIMARY KEY AUTO_INCREMENT,
@@ -100,37 +88,6 @@ insert into produtos values
 (0,'Armario 5 portas',123.22,2,4,1),
 (0,'Cabo de cobre',123.22,2,1,2);
 
--- drop procedure procurarProdutos;
-delimiter ##
-create procedure procurarProdutos (pesquisa varchar(255))	
-begin
-		select
-		p.idProduto,
-        p.nomeProduto,
-        p.preco,
-        p.estoqueMinimo,
-        Count(*) as 'emEstoque',
-        c.categoria,
-        f.fornecedor        
-    from 
-		produtos as p
-	inner join 
-		estoque as e on e.idProduto = p.idProduto
-	inner join 
-		categorias as c on c.idCategoria = p.idCategoria
-    inner join
-		fornecedores as f on f.idFornecedor = p.idFornecedor
-    where 
-		if(@pesquisa = null, null,
-				p.nomeProduto like concat('%',@pesquisa,'%') or
-				p.idProduto like @pesquisa)
-		and saida is null
-	group by p.idProduto
-    order by idProduto asc;
-end;##
-delimiter ;
--- call procurarProdutos('');
-
 
 drop table estoque;
 CREATE TABLE estoque (
@@ -148,41 +105,7 @@ values
     
 insert into estoque values (0,0,date(now()),null,3);
 */
--- drop procedure procurarEstoque;
-delimiter ##
-create procedure procurarEstoque(pesquisa varchar(255))	
-begin
-	select
-		e.idEstoque,
-        case 
-			when vendido = 0 then 'não vendido'
-            when vendido = 1 then 'vendido'
-		end as 'status',
-        e.entrada,
-        e.saida,
-		p.idProduto,
-        p.nomeProduto,
-        p.preco,
-        p.estoqueMinimo,
-        c.categoria,
-        f.fornecedor
-    from 
-		estoque as e
-    inner join 
-		produtos as p on e.idProduto = p.idProduto
-	inner join 
-		categorias as c on c.idCategoria = p.idCategoria
-    inner join
-		fornecedores as f on f.idFornecedor = p.idFornecedor    
-    where 
-		if(pesquisa = null, null,
-		p.nomeProduto like concat('%',pesquisa,'%')        
-		or   
-		e.idEstoque like pesquisa
-		or   
-		p.idProduto like pesquisa);
-end;##
--- call procurarEstoque('');
+
 
 -- selecionar as primeiras instancias de um produto que ainda não tenha sendo vendido
 -- select * from estoque where idproduto = 1 and vendido = 0 limit 3;
@@ -233,16 +156,46 @@ CREATE TABLE clientes(
     FOREIGN KEY (idVendedor)
         REFERENCES funcionarios (idFuncionario)
 );
-insert into 
-	clientes(nome,documento,endereco,cep,tel,contato,telComercial,contatoComercial,email,idVendedor,banco)
-values
-	(@nome,@documento,@endereco,@cep,@tel,@contato,@telComercial,@contatoComercial,@email,@idVendedor,@banco);
 
+create table contatosDosClientes(
+	idCliente int not null,
+	tipoContato varchar(100),
+    contato varchar(100),
+    foreign key (idCliente)
+		references clientes(idCliente)
+);
+
+insert into 
+	clientes (nome,documento,endereco,cep,idVendedor,banco) 
+values(
+	@nome,
+    @documento,
+    @endereco,
+    @cep,
+    @idVendedor,
+    @banco
+	);
+
+set @idCliente = 10;
+select 
+	tipoContato as 'Tipo',
+    contato as 'Contato'
+from contatosdosclientes 
+where idCliente = @idCliente;
+
+
+insert into
+	contatosdosclientes
+values(
+	@idCliente,
+    @tipoContato,
+    @Contato
+	);
 
 CREATE TABLE ordens (
     idOrdem INT PRIMARY KEY AUTO_INCREMENT,
     descricao VARCHAR(255),
-    dataEmisao DATE default (curdate()),
+    dataEmissao DATE default (curdate()),
     idCliente INT,
     idFuncionario INT not null,
     FOREIGN KEY (idCliente)
@@ -259,41 +212,47 @@ CREATE TABLE itemsDasOrdens (
         REFERENCES ordens (idOrdem)
 );
 
+-- pesquisa baseada na data de emissão | select * from ordens where dataEmissao like ('%13%');
 
+-- deletar ordem
 update estoque set vendido = 0 where idEstoque in (select idEstoque from itemsdasordens where idOrdem = 3);
 delete from itemsdasordens where idOrdem = 3;
 delete from ordens where idOrdem = 3;
 
-select * from itemsdasordens;
-select * from estoque;
 
 insert into ordens (idOrdem,descricao,idCliente,idFuncionario)
 	values (3,'Primeira Ordem de Teste',1,5);
-call adicionarItemAOrdem(2);
-
+call adicionarItemAOrdem(5,1);
 
 delimiter ##
 create procedure adicionarItemAOrdem(idDaOrdem int,idDoProduto int)
 begin
 	declare idDoEstoque int;
     set idDoEstoque =
-		(select idEstoque 
-		from estoque
-		where vendido = 0 and idProduto = idDoProduto
+		(select 
+			idEstoque 
+		from 
+			estoque
+		where 
+			vendido = 0 and idProduto = idDoProduto
 		limit 1
 		);
+        
 	insert into 
 		itemsdasordens (idEstoque,idOrdem)
 	values 
 		(idDoEstoque,idDaOrdem);
-	update estoque set vendido = 1 where idEstoque = idDoEstoque;
+        
+	update 
+		estoque 
+    set 
+		vendido = 1 
+    where 
+		idEstoque = idDoEstoque;
 end;##
 delimiter ;
 
--- call adicionarItemAOrdem(2,2);
-
-select* from estoque;
-select * from itemsdasordens;
+-- call adicionarItemAOrdem(6,2);
 
 select
 	p.idProduto as 'ID',
@@ -317,35 +276,52 @@ inner join itemsdasordens as i
 	on i.idEstoque = e.idEstoque
 where i.idOrdem = 1;
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE tiposDePagamento (
-    idPagamento INT PRIMARY KEY AUTO_INCREMENT,
-    tipoDePagamento VARCHAR(100) NOT NULL UNIQUE
+CREATE TABLE FormasDePagamento (
+    idFormaDePagamento INT PRIMARY KEY AUTO_INCREMENT,
+    FormaDePagamento VARCHAR(100) NOT NULL UNIQUE
 );
-CREATE TABLE fitas (
-    idFita INT PRIMARY KEY AUTO_INCREMENT,
-    fita VARCHAR(100) NOT NULL UNIQUE
-);
-insert into fitas 
+insert into 
+	Formasdepagamento(FormaDePagamento)
 values
-	(0,'Cupon fiscal'),
-	(0,'Nota fiscal eletronica'),
-	(0,'Tic');
+	('Dinheriro'),
+    ('Débito'),
+    ('Crédito'),
+    ('Parcelado'),
+    ('Cheque');
+
+CREATE TABLE fechamentoCaixa (
+    dataFechamento date PRIMARY KEY default (curdate()),
+    horaAbertura time default (time(now())),    
+    idFuncionarioAbertura INT not null,
+    saldoInicial decimal(32,2) not null,
+    horaFechamento time,
+    idFuncionarioFechamento int,
+    valorFechamento DECIMAL(32 , 2),
+    valorContado DECIMAL(32 , 2),
+    observacao varchar(255),
+    FOREIGN KEY (idFuncionarioAbertura)
+        REFERENCES funcionarios (idFuncionario),
+    FOREIGN KEY (idFuncionarioFechamento)
+        REFERENCES funcionarios (idFuncionario)
+);
+
+
 CREATE TABLE notas (
     idNota INT PRIMARY KEY AUTO_INCREMENT,
-    descricao VARCHAR(255),
-    dataEmisao DATE default (curdate()),
+    observacao VARCHAR(255),
+    dataEmissao date default (curdate()),
+    horaEmissao time default (time(now())),
     idCliente INT NOT NULL,
     idVendedor INT NOT NULL,
-    idPagamento INT NOT NULL,
-    idFita INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (idPagamento)
-        REFERENCES tiposDePagamento (idPagamento),
+    idFormaDePagamento INT NOT NULL,
+    foreign key (dataEmissao)
+		references fechamentoCaixa(dataFechamento),
+    FOREIGN KEY (idFormaDePagamento)
+        REFERENCES FormasDePagamento (idFormaDePagamento),
     FOREIGN KEY (idCliente)
         REFERENCES clientes (idCliente),
     FOREIGN KEY (idVendedor)
-        REFERENCES funcionarios (idVendedor),
-    FOREIGN KEY (idFita)
-        REFERENCES fitas (idFita)
+        REFERENCES funcionarios (idFuncionario)
 );
 CREATE TABLE itemsDasNotas (
     idEstoque INT not null,
@@ -359,29 +335,36 @@ CREATE TABLE tiposDeMovimento (
     idTipoDeMovimento INT PRIMARY KEY AUTO_INCREMENT,
     tipoDeMovimento VARCHAR(100) not null unique
 );
-insert into tiposdemovimento
+insert into 
+	tiposdemovimento (tipoDeMovimento)
 values
-(0,'Pagamento'),
-(0,'Recebimento'),
-(0,'Est. Cred'),
-(0,'Est. Debt');
+	('Pagamento'),
+	('Recebimento'),
+	('Est. Cred'),
+	('Est. Debt');
 CREATE TABLE movimentoDoCaixa (
     idMovimento INT PRIMARY KEY AUTO_INCREMENT,
-    dataMovimento date default (curdate()),
+    dataMovimento date not null,
+    horaMovimento time not null,
     idTipoDeMovimento INT default 1,
     descricao VARCHAR(255),
-    valor DECIMAL(32 , 2 ),
+    valor DECIMAL(32 , 2 ) ,
     idNota int,
+    foreign key (dataMovimento)
+		references fechamentoCaixa(dataFechamento),
     FOREIGN KEY (idTipoDeMovimento)
         REFERENCES tiposDeMovimento (idTipoDeMovimento),
 	foreign key (idNota)
 		references notas(idNota)
 );
-CREATE TABLE fechamentoCaixa (
-    dataFechamento DATE PRIMARY KEY default (curdate()),
-    valorFechamento DECIMAL(32 , 2 ),
-    valorContado DECIMAL(32 , 2 ),
-    idFuncionario INT not null,
-    FOREIGN KEY (idFuncionario)
-        REFERENCES funcionarios (idFuncionario)
-);
+
+		set @id = '1';
+        set @senha = 'senha';
+            select 
+                idFuncionario,idAcesso,nome 
+            from 
+                funcionarios
+            where 
+                idFuncionario = @id and senha = md5(@senha)
+		union
+		select * from fechamentoDeCaixa where dataFechamento = curdate();

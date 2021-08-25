@@ -23,7 +23,30 @@ namespace PIT_SENAI_V2.Classes
             dt = new DataTable();
 
             cmd.CommandText = @"
-            call procurarProdutos(@pesquisa);";
+    select
+		p.idProduto,
+        p.nomeProduto,
+        p.preco,
+        p.estoqueMinimo,
+        Count(*) as 'emEstoque',
+        c.categoria,
+        f.fornecedor        
+    from 
+		produtos as p
+	inner join 
+		estoque as e on e.idProduto = p.idProduto
+	inner join 
+		categorias as c on c.idCategoria = p.idCategoria
+    inner join
+		fornecedores as f on f.idFornecedor = p.idFornecedor
+    where 
+		if(@pesquisa = null, null,
+				p.nomeProduto like concat('%',@pesquisa,'%') or
+				p.idProduto like @pesquisa)
+		and saida is null
+        and vendido = 0
+	group by p.idProduto
+    order by idProduto asc;";
             cmd.Parameters.AddWithValue("@pesquisa",pesquisa);
 
             try
@@ -48,7 +71,13 @@ namespace PIT_SENAI_V2.Classes
             dt = new DataTable();
 
             cmd.CommandText = @"
-            call procurarFornecedores(@pesquisa);";
+	select * from fornecedores as f
+    where 
+		if(@pesquisa = null, null,
+		f.fornecedor like concat('%',@pesquisa,'%')
+		or   
+		f.idFornecedor like @pesquisa);
+";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
 
             try
@@ -73,7 +102,35 @@ namespace PIT_SENAI_V2.Classes
             dt = new DataTable();
 
             cmd.CommandText = @"
-            call procurarestoque(@pesquisa)";
+	select
+		e.idEstoque,
+        case 
+			when vendido = 0 then 'não vendido'
+            when vendido = 1 then 'vendido'
+		end as 'status',
+        e.entrada,
+        e.saida,
+		p.idProduto,
+        p.nomeProduto,
+        p.preco,
+        p.estoqueMinimo,
+        c.categoria,
+        f.fornecedor
+    from 
+		estoque as e
+    inner join 
+		produtos as p on e.idProduto = p.idProduto
+	inner join 
+		categorias as c on c.idCategoria = p.idCategoria
+    inner join
+		fornecedores as f on f.idFornecedor = p.idFornecedor    
+    where 
+		if(@pesquisa = null, null,
+		p.nomeProduto like concat('%',@pesquisa,'%')        
+		or   
+		e.idEstoque like @pesquisa
+		or   
+		p.idProduto like @pesquisa);";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
 
             try

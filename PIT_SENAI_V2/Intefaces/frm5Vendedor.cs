@@ -13,7 +13,6 @@ namespace PIT_SENAI_V2.Dados
 {
     public partial class frm5Vendedor : Form
     {
-        private Estoquista est = new Estoquista();
         private Vendedor ven = new Vendedor();
         private bool ordem;
 
@@ -21,7 +20,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             btnImprimir.Enabled = btnDescartar.Enabled = 
-                btnAdicionar.Enabled = grpOrdem.Enabled = false;
+                btnAdicionar.Enabled = grpOrdem.Enabled = ordem = false;
+            this.Text = "Vendedor: " + DadosGlobais.usuario;
             pesquisarCatalogo();
         }
         private void pesquisarCatalogo()
@@ -30,7 +30,10 @@ namespace PIT_SENAI_V2.Dados
         }
         private void btnNovaOrdem_Click(object sender, EventArgs e)
         {
-            grpOrdem.Enabled = ordem = ven.gerarOrdem(txbDescricao.Text,txbPesquisarCliente.Text);
+            grpOrdem.Enabled = btnAdicionar.Enabled = 
+                btnImprimir.Enabled = btnDescartar.Enabled = ordem =
+                ven.gerarOrdem(txbDescricao.Text,txbPesquisarCliente.Text);
+            btnNovaOrdem.Enabled = !ordem;
         }
         private void btnPesquisarCatalogo_Click(object sender, EventArgs e)
         {
@@ -43,7 +46,8 @@ namespace PIT_SENAI_V2.Dados
                 dgvCatalogo.SelectedRows[0].Cells["codigo"].Value.ToString());
             //atualizar a dgvItemsDaOrdem
             dgvItemsDaOrdem.DataSource = ven.ItensDaOrdem();
-            lblTotal.Text = ven.totalOrdem();
+            lblTotal.Text = "Total: " + ven.totalOrdem();
+            pesquisarCatalogo();
         }
         private void btnPesquisarCliente_Click(object sender, EventArgs e)
         {
@@ -53,19 +57,47 @@ namespace PIT_SENAI_V2.Dados
         {
             if(ordem)btnAdicionar.Enabled = true;
         }
+        private void resetOrdem()
+        {
+            btnImprimir.Enabled = btnDescartar.Enabled =
+                btnAdicionar.Enabled = grpOrdem.Enabled = ordem = false;
+            txbPesquisarCliente.Text = txbDescricao.Text = lblCliente.Text = "";
+            lblTotal.Text = "Total:";
+            pesquisarCatalogo();
+            dgvItemsDaOrdem.DataSource = null;
+            dgvItemsDaOrdem.Rows.Clear();
+        }
         private void btnImprimir_Click(object sender, EventArgs e)
         {
             //Atualizar a ordem
             ven.atualizarOrdem(txbDescricao.Text, txbPesquisarCliente.Text);
-            //Imprimir a ordem
-            //idOrdem, valorOrdem
-
+            //Imprimir a ordem caso o resultado do dialogo for OK
+            if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
+            {
+                PrintDocument.Print();
+            }
+            //resetar
+            resetOrdem();
         }
-
+        private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            //idOrdem, valorOrdem
+            string txt = 
+                $"ID da ordem: \t{ven.idOrdem}\n" +
+                $"Total a pagar:\t {ven.totalOrdem()}";
+            e.Graphics.DrawString(txt, new Font("Arial", 14, FontStyle.Bold), Brushes.Black, new PointF(100, 100));
+        }
         private void btnDescartar_Click(object sender, EventArgs e)
         {
             //Descartar a ordem e os items dessa ordem
             ven.descartarOrdem();
+            //resetar
+            resetOrdem();
+        }
+
+        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DadosGlobais.sair(this);
         }
     }
 }
