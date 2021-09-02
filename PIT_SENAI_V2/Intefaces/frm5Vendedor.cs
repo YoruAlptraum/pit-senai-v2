@@ -13,16 +13,49 @@ namespace PIT_SENAI_V2.Dados
 {
     public partial class frm5Vendedor : Form
     {
+        private DataTable itensDasOrdens;
         private Vendedor ven = new Vendedor();
         private bool ordem;
 
         public frm5Vendedor()
         {
             InitializeComponent();
+
             btnImprimir.Enabled = btnDescartar.Enabled = 
                 btnAdicionar.Enabled = grpOrdem.Enabled = ordem = false;
             this.Text = "Vendedor: " + DadosGlobais.usuario;
-            pesquisarCatalogo();
+            var ro = retomarOrdem();
+            if (ro.conectado)
+            {
+                if (ro.retomar)
+                {
+                    pesquisarCatalogo();
+                    MessageBox.Show("Ordem retomada");
+
+                    grpOrdem.Enabled = btnAdicionar.Enabled =
+                        btnImprimir.Enabled = btnDescartar.Enabled = ordem = true;
+                    btnNovaOrdem.Enabled = false;
+                }
+            }
+            else
+            {
+                tlp1.Enabled = false;
+                MessageBox.Show("Não foi possivel se conectar com o banco de dados");
+            }
+        }
+        //retomar a ordem de onde parou
+        private (bool conectado,bool retomar) retomarOrdem()
+        {
+            var ro = ven.retomarOrdem();
+            if (ro.retomar)
+            {
+                txbPesquisarCliente.Text = (string)ro.dt.Rows[0]["idCliente"];
+                txbDescricao.Text = (string)ro.dt.Rows[0]["observacao"];
+                lblCliente.Text = ven.procurarCliente(txbPesquisarCliente.Text);
+                dgvItensDaOrdem.DataSource = ven.ItensDaOrdem();
+                lblTotal.Text = "Total: " + ven.totalOrdem();
+            }
+            return (ro.conectado,ro.retomar);
         }
         private void pesquisarCatalogo()
         {
@@ -44,8 +77,8 @@ namespace PIT_SENAI_V2.Dados
             //adicionar o produto selecionado a lista de items da ordem
             ven.adicionarItemAOrdem(
                 dgvCatalogo.SelectedRows[0].Cells["codigo"].Value.ToString());
-            //atualizar a dgvItemsDaOrdem
-            dgvItemsDaOrdem.DataSource = ven.ItensDaOrdem();
+            //atualizar a dgvItensDaOrdem
+            dgvItensDaOrdem.DataSource = ven.ItensDaOrdem();
             lblTotal.Text = "Total: " + ven.totalOrdem();
             pesquisarCatalogo();
         }
@@ -61,11 +94,12 @@ namespace PIT_SENAI_V2.Dados
         {
             btnImprimir.Enabled = btnDescartar.Enabled =
                 btnAdicionar.Enabled = grpOrdem.Enabled = ordem = false;
+            btnNovaOrdem.Enabled = true;
             txbPesquisarCliente.Text = txbDescricao.Text = lblCliente.Text = "";
             lblTotal.Text = "Total:";
             pesquisarCatalogo();
-            dgvItemsDaOrdem.DataSource = null;
-            dgvItemsDaOrdem.Rows.Clear();
+            dgvItensDaOrdem.DataSource = null;
+            dgvItensDaOrdem.Rows.Clear();
         }
         private void btnImprimir_Click(object sender, EventArgs e)
         {

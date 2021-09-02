@@ -15,11 +15,6 @@ namespace PIT_SENAI_V2.Classes
         public static int id,privilegio;
         public static string usuario;
         public static bool caixaAberto;
-        static public void flush()
-        {
-            id = privilegio = 0;
-            usuario = null;
-        }
         static public void sair(Form f)
         {
             id = privilegio = 0;

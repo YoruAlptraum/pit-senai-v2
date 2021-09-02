@@ -89,7 +89,7 @@ insert into produtos values
 (0,'Cabo de cobre',123.22,2,1,2);
 
 
-drop table estoque;
+-- drop table estoque;
 CREATE TABLE estoque (
     idEstoque INT PRIMARY KEY AUTO_INCREMENT,
     vendido BIT(1) DEFAULT 0,
@@ -146,11 +146,6 @@ CREATE TABLE clientes(
     documento VARCHAR(100) NOT NULL UNIQUE,
     endereco VARCHAR(255),
     cep VARCHAR(20),
-    tel VARCHAR(50),
-    contato VARCHAR(50),
-    telComercial VARCHAR(50),
-    contatoComercial VARCHAR(50),
-    email VARCHAR(255) NOT NULL UNIQUE,
     idVendedor INT,
     banco VARCHAR(255),
     FOREIGN KEY (idVendedor)
@@ -194,8 +189,9 @@ values(
 
 CREATE TABLE ordens (
     idOrdem INT PRIMARY KEY AUTO_INCREMENT,
-    descricao VARCHAR(255),
+    observacao VARCHAR(255),
     dataEmissao DATE default (curdate()),
+    completa bit(1) default 0,
     idCliente INT,
     idFuncionario INT not null,
     FOREIGN KEY (idCliente)
@@ -203,7 +199,7 @@ CREATE TABLE ordens (
     FOREIGN KEY (idFuncionario)
         REFERENCES funcionarios (idFuncionario)
 );
-CREATE TABLE itemsDasOrdens (
+CREATE TABLE itensDasOrdens (
     idEstoque INT not null,
     idOrdem INT not null,
     FOREIGN KEY (idEstoque)
@@ -214,15 +210,11 @@ CREATE TABLE itemsDasOrdens (
 
 -- pesquisa baseada na data de emissão | select * from ordens where dataEmissao like ('%13%');
 
--- deletar ordem
-update estoque set vendido = 0 where idEstoque in (select idEstoque from itemsdasordens where idOrdem = 3);
-delete from itemsdasordens where idOrdem = 3;
-delete from ordens where idOrdem = 3;
 
-
-insert into ordens (idOrdem,descricao,idCliente,idFuncionario)
+insert into ordens (idOrdem,observacao,idCliente,idFuncionario)
 	values (3,'Primeira Ordem de Teste',1,5);
 call adicionarItemAOrdem(5,1);
+
 
 delimiter ##
 create procedure adicionarItemAOrdem(idDaOrdem int,idDoProduto int)
@@ -239,7 +231,7 @@ begin
 		);
         
 	insert into 
-		itemsdasordens (idEstoque,idOrdem)
+		itensdasordens (idEstoque,idOrdem)
 	values 
 		(idDoEstoque,idDaOrdem);
         
@@ -254,27 +246,6 @@ delimiter ;
 
 -- call adicionarItemAOrdem(6,2);
 
-select
-	p.idProduto as 'ID',
-    p.nomeProduto as 'Produto',
-    p.preco as 'Preço',
-    Count(*) as 'Qtde'
-from produtos as p
-inner join estoque as e
-	on p.idProduto = e.idProduto
-inner join itemsdasordens as i
-	on e.idEstoque = i.idEstoque 
-    where i.idOrdem = 1
-group by p.idProduto;
-
-select 
-	sum(p.preco)
-from produtos as p
-inner join estoque as e
-	on p.idProduto = e.idProduto
-inner join itemsdasordens as i
-	on i.idEstoque = e.idEstoque
-where i.idOrdem = 1;
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE FormasDePagamento (
     idFormaDePagamento INT PRIMARY KEY AUTO_INCREMENT,
@@ -304,26 +275,21 @@ CREATE TABLE fechamentoCaixa (
     FOREIGN KEY (idFuncionarioFechamento)
         REFERENCES funcionarios (idFuncionario)
 );
-
-
 CREATE TABLE notas (
     idNota INT PRIMARY KEY AUTO_INCREMENT,
-    observacao VARCHAR(255),
     dataEmissao date default (curdate()),
     horaEmissao time default (time(now())),
-    idCliente INT NOT NULL,
-    idVendedor INT NOT NULL,
+    idOrdem int,
     idFormaDePagamento INT NOT NULL,
     foreign key (dataEmissao)
 		references fechamentoCaixa(dataFechamento),
+	foreign key (idOrdem)
+		references ordens(idOrdem),
     FOREIGN KEY (idFormaDePagamento)
-        REFERENCES FormasDePagamento (idFormaDePagamento),
-    FOREIGN KEY (idCliente)
-        REFERENCES clientes (idCliente),
-    FOREIGN KEY (idVendedor)
-        REFERENCES funcionarios (idFuncionario)
+        REFERENCES FormasDePagamento (idFormaDePagamento)
 );
-CREATE TABLE itemsDasNotas (
+
+CREATE TABLE itensDasNotas (
     idEstoque INT not null,
     idNota INT not null,
     FOREIGN KEY (idEstoque)
@@ -331,40 +297,63 @@ CREATE TABLE itemsDasNotas (
     FOREIGN KEY (idNota)
         REFERENCES notas (idNota)
 );
-CREATE TABLE tiposDeMovimento (
-    idTipoDeMovimento INT PRIMARY KEY AUTO_INCREMENT,
-    tipoDeMovimento VARCHAR(100) not null unique
-);
-insert into 
-	tiposdemovimento (tipoDeMovimento)
-values
-	('Pagamento'),
-	('Recebimento'),
-	('Est. Cred'),
-	('Est. Debt');
+
 CREATE TABLE movimentoDoCaixa (
     idMovimento INT PRIMARY KEY AUTO_INCREMENT,
-    dataMovimento date not null,
-    horaMovimento time not null,
-    idTipoDeMovimento INT default 1,
-    descricao VARCHAR(255),
+    dataMovimento date default (curdate()),
+    horaMovimento time default (time(now())),
+    tipoDeMovimento varchar(255),
+    observacao VARCHAR(255),
     valor DECIMAL(32 , 2 ) ,
     idNota int,
+    idFuncionario int,
     foreign key (dataMovimento)
 		references fechamentoCaixa(dataFechamento),
-    FOREIGN KEY (idTipoDeMovimento)
-        REFERENCES tiposDeMovimento (idTipoDeMovimento),
 	foreign key (idNota)
-		references notas(idNota)
+		references notas(idNota),
+	foreign key (idFuncionario)
+		references funcionarios(idFuncionario)
 );
 
-		set @id = '1';
-        set @senha = 'senha';
-            select 
-                idFuncionario,idAcesso,nome 
-            from 
-                funcionarios
-            where 
-                idFuncionario = @id and senha = md5(@senha)
-		union
-		select * from fechamentoDeCaixa where dataFechamento = curdate();
+set @formadepagamento = 'Cheque', @idOrdem = '2';
+insert into notas
+	(idFormaDePagamento,idOrdem)
+values
+	((
+    select 
+		idFormaDePagamento 
+    from 
+		formasdepagamento 
+    where 
+		FormaDePagamento = @FormaDePagamento),
+	@idOrdem);    
+set @idNota = (select idNota from notas order by idNota desc limit 1),
+@tipodemovimento = 'Recebimento',@observacao = 'aaa',@valor = '123',@idFuncionario = '5';
+insert into movimentoDoCaixa
+	(dataMovimento, horaMovimento,tipoDeMovimento,observacao,valor,idNota,idFuncionario)
+value
+	(curdate(), time(now()),@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
+insert into itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
+
+
+
+set @FormaDePagamento = 'Cheque',@idOrdem = '1',@tipoDeMovimento = 'Recebimento', @observacao = '', @valor = '3', @idFuncionario = '5';
+    insert into notas
+	    (idFormaDePagamento,idOrdem)
+    values
+	    ((select 
+		    idFormaDePagamento 
+        from 
+		    formasdepagamento 
+        where 
+		    FormaDePagamento = @FormaDePagamento),
+	    @idOrdem);
+
+    set @idNota = (select idNota from notas order by idNota desc limit 1);
+
+    insert into movimentoDoCaixa
+	    (dataMovimento, horaMovimento,tipoDeMovimento,observacao,valor,idNota,idFuncionario)
+    value
+	    (curdate(), time(now()),@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
+    insert into 
+        itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);

@@ -7,6 +7,7 @@ using PIT_SENAI_V2.Dados;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace PIT_SENAI_V2.Classes
 {
@@ -18,34 +19,47 @@ namespace PIT_SENAI_V2.Classes
         DataTable dt;
         public bool VerificarLogin(int id, string senha)
         {
-            cmd = new MySqlCommand();
-            da = new MySqlDataAdapter(cmd);
-            dt = new DataTable();
-
-            cmd.CommandText = @"
-            select 
-                idFuncionario,idAcesso,nome 
-            from 
-                funcionarios
-            where 
-                idFuncionario = @id and senha = md5(@senha)";
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@senha", senha);
             try
             {
-                cmd.Connection = con.Conectar();
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                using (TransactionScope scope = new TransactionScope())
                 {
-                    DataRow dr = dt.Rows[0];
-                    //preencher os dados globais
-                    DadosGlobais.id = Convert.ToInt32(dr["idFuncionario"]);
-                    DadosGlobais.privilegio = Convert.ToInt32(dr["idAcesso"]);
-                    DadosGlobais.usuario = dr["nome"].ToString();
-                    //retornar o acesso
-                    return true;
+                    cmd = new MySqlCommand();
+                    da = new MySqlDataAdapter(cmd);
+                    dt = new DataTable();
+
+                    cmd.CommandText = @"
+                        select 
+                            idFuncionario,idAcesso,nome 
+                        from 
+                            funcionarios
+                        where 
+                            idFuncionario = @id and senha = md5(@senha)";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@senha", senha);
+
+                    cmd.Connection = con.Conectar();
+                    da.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+                        //preencher os dados globais
+                        DadosGlobais.id = Convert.ToInt32(dr["idFuncionario"]);
+                        DadosGlobais.privilegio = Convert.ToInt32(dr["idAcesso"]);
+                        DadosGlobais.usuario = dr["nome"].ToString();
+                        cmd = new MySqlCommand();
+                        cmd.CommandText = @"
+select dataFechamento from fechamentocaixa where dataFechamento = curdate();";
+                        cmd.Connection = con.Conectar();
+                        if (cmd.ExecuteScalar() == null)
+                        {
+                            DadosGlobais.caixaAberto = false;
+                        }
+                        else DadosGlobais.caixaAberto = true;
+                        //retornar o acesso
+                        return true;
+                    }
+                    else return false;
                 }
-                else return false;
             }
             catch (MySqlException e)
             {

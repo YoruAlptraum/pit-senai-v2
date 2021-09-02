@@ -32,13 +32,14 @@ namespace PIT_SENAI_V2.Dados
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm4_6AbrirCaixa));
             this.tlp1 = new System.Windows.Forms.TableLayoutPanel();
             this.grpSaldoInicial = new System.Windows.Forms.GroupBox();
-            this.txbSaldoInicial = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblRS = new System.Windows.Forms.Label();
             this.btnAbrirCaixa = new System.Windows.Forms.Button();
+            this.nudSaldoInicial = new System.Windows.Forms.NumericUpDown();
             this.tlp1.SuspendLayout();
             this.grpSaldoInicial.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSaldoInicial)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp1
@@ -69,22 +70,13 @@ namespace PIT_SENAI_V2.Dados
             this.grpSaldoInicial.TabStop = false;
             this.grpSaldoInicial.Text = "Informe o saldo inicial para o dia:";
             // 
-            // txbSaldoInicial
-            // 
-            this.txbSaldoInicial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbSaldoInicial.Location = new System.Drawing.Point(51, 1);
-            this.txbSaldoInicial.Margin = new System.Windows.Forms.Padding(1);
-            this.txbSaldoInicial.Name = "txbSaldoInicial";
-            this.txbSaldoInicial.Size = new System.Drawing.Size(375, 38);
-            this.txbSaldoInicial.TabIndex = 0;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.txbSaldoInicial, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblRS, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.nudSaldoInicial, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 34);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -114,6 +106,22 @@ namespace PIT_SENAI_V2.Dados
             this.btnAbrirCaixa.TabIndex = 2;
             this.btnAbrirCaixa.Text = "Abrir Caixa";
             this.btnAbrirCaixa.UseVisualStyleBackColor = true;
+            this.btnAbrirCaixa.Click += new System.EventHandler(this.btnAbrirCaixa_Click);
+            // 
+            // nudSaldoInicial
+            // 
+            this.nudSaldoInicial.DecimalPlaces = 2;
+            this.nudSaldoInicial.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudSaldoInicial.Location = new System.Drawing.Point(51, 1);
+            this.nudSaldoInicial.Margin = new System.Windows.Forms.Padding(1);
+            this.nudSaldoInicial.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.nudSaldoInicial.Name = "nudSaldoInicial";
+            this.nudSaldoInicial.Size = new System.Drawing.Size(375, 38);
+            this.nudSaldoInicial.TabIndex = 0;
             // 
             // frm4_6AbrirCaixa
             // 
@@ -122,6 +130,7 @@ namespace PIT_SENAI_V2.Dados
             this.ClientSize = new System.Drawing.Size(439, 127);
             this.Controls.Add(this.tlp1);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(7);
             this.MaximizeBox = false;
@@ -132,6 +141,7 @@ namespace PIT_SENAI_V2.Dados
             this.grpSaldoInicial.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSaldoInicial)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -141,8 +151,8 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.TableLayoutPanel tlp1;
         private System.Windows.Forms.GroupBox grpSaldoInicial;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox txbSaldoInicial;
         private System.Windows.Forms.Label lblRS;
         private System.Windows.Forms.Button btnAbrirCaixa;
+        private System.Windows.Forms.NumericUpDown nudSaldoInicial;
     }
 }

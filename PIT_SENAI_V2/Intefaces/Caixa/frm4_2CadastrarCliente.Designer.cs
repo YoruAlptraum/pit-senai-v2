@@ -55,21 +55,18 @@ namespace PIT_SENAI_V2.Dados
             this.txbTipoContato = new System.Windows.Forms.TextBox();
             this.txbContato = new System.Windows.Forms.TextBox();
             this.mns1 = new System.Windows.Forms.MenuStrip();
-            this.tsmiSair = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCaixa = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiNota = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiCadastrar = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAtualizarCadastro = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiPesquisarID = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiHistorico = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.abrirCaixaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFecharCaixa = new System.Windows.Forms.ToolStripMenuItem();
             this.tlp1.SuspendLayout();
             this.tlp2.SuspendLayout();
             this.grpContatos.SuspendLayout();
@@ -369,52 +366,49 @@ namespace PIT_SENAI_V2.Dados
             // mns1
             // 
             this.mns1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiSair,
-            this.tsmiCaixa});
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6});
             this.mns1.Location = new System.Drawing.Point(0, 0);
             this.mns1.Name = "mns1";
             this.mns1.Size = new System.Drawing.Size(635, 24);
-            this.mns1.TabIndex = 5;
+            this.mns1.TabIndex = 6;
             this.mns1.Text = "Menu";
-            // 
-            // tsmiSair
-            // 
-            this.tsmiSair.Name = "tsmiSair";
-            this.tsmiSair.Size = new System.Drawing.Size(38, 20);
-            this.tsmiSair.Text = "Sair";
-            this.tsmiSair.Click += new System.EventHandler(this.logOffToolStripMenuItem_Click);
-            // 
-            // tsmiCaixa
-            // 
-            this.tsmiCaixa.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem,
-            this.toolStripMenuItem5,
-            this.tsmiNota,
-            this.toolStripMenuItem1,
-            this.tsmiCadastrar,
-            this.tsmiAtualizarCadastro,
-            this.toolStripMenuItem4,
-            this.tsmiPesquisarID,
-            this.toolStripMenuItem3,
-            this.tsmiHistorico,
-            this.toolStripMenuItem2,
-            this.abrirCaixaToolStripMenuItem,
-            this.tsmiFecharCaixa});
-            this.tsmiCaixa.Name = "tsmiCaixa";
-            this.tsmiCaixa.Size = new System.Drawing.Size(48, 20);
-            this.tsmiCaixa.Text = "Caixa";
-            // 
-            // menuToolStripMenuItem
-            // 
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.menuToolStripMenuItem.Text = "Menu";
-            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(38, 20);
+            this.toolStripMenuItem5.Text = "Sair";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.logOffToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiMenu,
+            this.toolStripSeparator1,
+            this.tsmiNota,
+            this.toolStripSeparator2,
+            this.tsmiCadastrar,
+            this.tsmiAtualizarCadastro,
+            this.toolStripSeparator3,
+            this.tsmiPesquisarID,
+            this.toolStripSeparator4,
+            this.tsmiHistorico});
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(48, 20);
+            this.toolStripMenuItem6.Text = "Caixa";
+            // 
+            // tsmiMenu
+            // 
+            this.tsmiMenu.Name = "tsmiMenu";
+            this.tsmiMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmiMenu.Text = "Menu";
+            this.tsmiMenu.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiNota
             // 
@@ -423,10 +417,10 @@ namespace PIT_SENAI_V2.Dados
             this.tsmiNota.Text = "Nota";
             this.tsmiNota.Click += new System.EventHandler(this.tsmiNota_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripSeparator2
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiCadastrar
             // 
@@ -442,10 +436,10 @@ namespace PIT_SENAI_V2.Dados
             this.tsmiAtualizarCadastro.Text = "Atualizar Cadastro";
             this.tsmiAtualizarCadastro.Click += new System.EventHandler(this.tsmiAtualizarCadastro_Click);
             // 
-            // toolStripMenuItem4
+            // toolStripSeparator3
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiPesquisarID
             // 
@@ -454,10 +448,10 @@ namespace PIT_SENAI_V2.Dados
             this.tsmiPesquisarID.Text = "Pesquisar ID";
             this.tsmiPesquisarID.Click += new System.EventHandler(this.tsmiPesquisarID_Click);
             // 
-            // toolStripMenuItem3
+            // toolStripSeparator4
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmiHistorico
             // 
@@ -465,25 +459,6 @@ namespace PIT_SENAI_V2.Dados
             this.tsmiHistorico.Size = new System.Drawing.Size(180, 22);
             this.tsmiHistorico.Text = "Histórico";
             this.tsmiHistorico.Click += new System.EventHandler(this.tsmiHistorico_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
-            // 
-            // abrirCaixaToolStripMenuItem
-            // 
-            this.abrirCaixaToolStripMenuItem.Name = "abrirCaixaToolStripMenuItem";
-            this.abrirCaixaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.abrirCaixaToolStripMenuItem.Text = "Abrir Caixa";
-            this.abrirCaixaToolStripMenuItem.Click += new System.EventHandler(this.abrirCaixaToolStripMenuItem_Click);
-            // 
-            // tsmiFecharCaixa
-            // 
-            this.tsmiFecharCaixa.Name = "tsmiFecharCaixa";
-            this.tsmiFecharCaixa.Size = new System.Drawing.Size(180, 22);
-            this.tsmiFecharCaixa.Text = "Fechar Caixa";
-            this.tsmiFecharCaixa.Click += new System.EventHandler(this.tsmiFecharCaixa_Click);
             // 
             // frm4_2CadastrarCliente
             // 
@@ -542,20 +517,17 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.TextBox txbTipoContato;
         private System.Windows.Forms.TextBox txbContato;
         private System.Windows.Forms.MenuStrip mns1;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSair;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCaixa;
-        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMenu;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem tsmiNota;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem tsmiCadastrar;
         private System.Windows.Forms.ToolStripMenuItem tsmiAtualizarCadastro;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem tsmiPesquisarID;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem tsmiHistorico;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem abrirCaixaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFecharCaixa;
     }
 }

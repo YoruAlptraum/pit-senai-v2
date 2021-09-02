@@ -41,7 +41,7 @@ namespace PIT_SENAI_V2.Dados
             this.grpOrdem = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblTotal = new System.Windows.Forms.Label();
-            this.dgvItemsDaOrdem = new System.Windows.Forms.DataGridView();
+            this.dgvItensDaOrdem = new System.Windows.Forms.DataGridView();
             this.grpCatalogo = new System.Windows.Forms.GroupBox();
             this.tlpProdutos = new System.Windows.Forms.TableLayoutPanel();
             this.tlpPesquisarCatalogo = new System.Windows.Forms.TableLayoutPanel();
@@ -66,7 +66,7 @@ namespace PIT_SENAI_V2.Dados
             this.tlp2.SuspendLayout();
             this.grpOrdem.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvItemsDaOrdem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItensDaOrdem)).BeginInit();
             this.grpCatalogo.SuspendLayout();
             this.tlpProdutos.SuspendLayout();
             this.tlpPesquisarCatalogo.SuspendLayout();
@@ -202,14 +202,14 @@ namespace PIT_SENAI_V2.Dados
             this.grpOrdem.Size = new System.Drawing.Size(230, 285);
             this.grpOrdem.TabIndex = 0;
             this.grpOrdem.TabStop = false;
-            this.grpOrdem.Text = "Items da Ordem:";
+            this.grpOrdem.Text = "Itens da Ordem:";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.lblTotal, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dgvItemsDaOrdem, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dgvItensDaOrdem, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -229,21 +229,21 @@ namespace PIT_SENAI_V2.Dados
             this.lblTotal.TabIndex = 0;
             this.lblTotal.Text = "Total:";
             // 
-            // dgvItemsDaOrdem
+            // dgvItensDaOrdem
             // 
-            this.dgvItemsDaOrdem.AllowUserToAddRows = false;
-            this.dgvItemsDaOrdem.AllowUserToDeleteRows = false;
-            this.dgvItemsDaOrdem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvItemsDaOrdem.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvItemsDaOrdem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItemsDaOrdem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvItemsDaOrdem.Location = new System.Drawing.Point(0, 0);
-            this.dgvItemsDaOrdem.Margin = new System.Windows.Forms.Padding(0);
-            this.dgvItemsDaOrdem.Name = "dgvItemsDaOrdem";
-            this.dgvItemsDaOrdem.ReadOnly = true;
-            this.dgvItemsDaOrdem.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvItemsDaOrdem.Size = new System.Drawing.Size(230, 224);
-            this.dgvItemsDaOrdem.TabIndex = 1;
+            this.dgvItensDaOrdem.AllowUserToAddRows = false;
+            this.dgvItensDaOrdem.AllowUserToDeleteRows = false;
+            this.dgvItensDaOrdem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvItensDaOrdem.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvItensDaOrdem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvItensDaOrdem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvItensDaOrdem.Location = new System.Drawing.Point(0, 0);
+            this.dgvItensDaOrdem.Margin = new System.Windows.Forms.Padding(0);
+            this.dgvItensDaOrdem.Name = "dgvItensDaOrdem";
+            this.dgvItensDaOrdem.ReadOnly = true;
+            this.dgvItensDaOrdem.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvItensDaOrdem.Size = new System.Drawing.Size(230, 224);
+            this.dgvItensDaOrdem.TabIndex = 1;
             // 
             // grpCatalogo
             // 
@@ -371,7 +371,7 @@ namespace PIT_SENAI_V2.Dados
             this.grpDescricao.Size = new System.Drawing.Size(764, 72);
             this.grpDescricao.TabIndex = 5;
             this.grpDescricao.TabStop = false;
-            this.grpDescricao.Text = "Descrição da Ordem:";
+            this.grpDescricao.Text = "Observação:";
             // 
             // txbDescricao
             // 
@@ -479,7 +479,7 @@ namespace PIT_SENAI_V2.Dados
             this.grpOrdem.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvItemsDaOrdem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItensDaOrdem)).EndInit();
             this.grpCatalogo.ResumeLayout(false);
             this.tlpProdutos.ResumeLayout(false);
             this.tlpPesquisarCatalogo.ResumeLayout(false);
@@ -502,7 +502,7 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.GroupBox grpOrdem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblTotal;
-        private System.Windows.Forms.DataGridView dgvItemsDaOrdem;
+        private System.Windows.Forms.DataGridView dgvItensDaOrdem;
         private System.Windows.Forms.GroupBox grpCatalogo;
         private System.Windows.Forms.TableLayoutPanel tlpProdutos;
         private System.Windows.Forms.TableLayoutPanel tlpPesquisarCatalogo;

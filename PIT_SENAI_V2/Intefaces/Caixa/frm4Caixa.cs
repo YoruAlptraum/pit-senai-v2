@@ -18,19 +18,17 @@ namespace PIT_SENAI_V2.Dados
         public frm4Caixa()
         {
             InitializeComponent();
-            this.Text = "Caixa: " + DadosGlobais.usuario;
-            btnNota.Focus();
-            menuToolStripMenuItem.Enabled = false;
-            if (DadosGlobais.caixaAberto)
-            {
-                btnFecharCaixa.Enabled = false;
-            }
-            else
-            {
-                btnAbrirCaixa.Enabled = btnNota.Enabled = false;
-            }
+            atualizar();
         }
-
+        public void atualizar()
+        {
+            this.Text = "Caixa: " + DadosGlobais.usuario;
+            menuToolStripMenuItem.Enabled = false;
+            btnFecharCaixa.Enabled = btnNota.Enabled =
+                tsmiFecharCaixa.Enabled = tsmiNota.Enabled = DadosGlobais.caixaAberto;
+            btnAbrirCaixa.Enabled = 
+                tsmiAbrirCaixa.Enabled = !DadosGlobais.caixaAberto;
+        }
         private void btnNota_Click(object sender, EventArgs e)
         {
             //gerar nota

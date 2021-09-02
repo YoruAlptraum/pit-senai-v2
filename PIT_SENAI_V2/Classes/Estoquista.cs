@@ -22,31 +22,32 @@ namespace PIT_SENAI_V2.Classes
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
 
-            cmd.CommandText = @"
-    select
+            cmd.CommandText = @"        
+  select
 		p.idProduto,
         p.nomeProduto,
         p.preco,
         p.estoqueMinimo,
-        Count(*) as 'emEstoque',
+		if(e.idEstoque is null,0,Count(*)) as 'emEstoque',
         c.categoria,
-        f.fornecedor        
+        f.fornecedor
     from 
 		produtos as p
-	inner join 
+	left join 
 		estoque as e on e.idProduto = p.idProduto
 	inner join 
 		categorias as c on c.idCategoria = p.idCategoria
     inner join
-		fornecedores as f on f.idFornecedor = p.idFornecedor
+		fornecedores as f on f.idFornecedor = p.idFornecedor        
     where 
 		if(@pesquisa = null, null,
 				p.nomeProduto like concat('%',@pesquisa,'%') or
 				p.idProduto like @pesquisa)
-		and saida is null
-        and vendido = 0
+		and e.saida is null
+        and (e.vendido is null or e.vendido = 0)                
 	group by p.idProduto
-    order by idProduto asc;";
+    order by p.idProduto asc;
+";
             cmd.Parameters.AddWithValue("@pesquisa",pesquisa);
 
             try

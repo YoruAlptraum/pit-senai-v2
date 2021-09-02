@@ -14,7 +14,7 @@ namespace PIT_SENAI_V2.Dados
     public partial class frm4_3SelecionarID : Form
     {
         Thread t1;
-        Caixa caixa;
+        Caixa caixa = new Caixa();
         string idCliente;
         Form main;
         public frm4_3SelecionarID(Form main)

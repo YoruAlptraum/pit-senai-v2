@@ -34,15 +34,16 @@ namespace PIT_SENAI_V2.Dados
             this.dgvSaldos = new System.Windows.Forms.DataGridView();
             this.tlpTotalContado = new System.Windows.Forms.TableLayoutPanel();
             this.lblTotalContado = new System.Windows.Forms.Label();
-            this.txbTotalContado = new System.Windows.Forms.TextBox();
             this.btnFecharCaixa = new System.Windows.Forms.Button();
             this.tlpObs = new System.Windows.Forms.TableLayoutPanel();
             this.lblObs = new System.Windows.Forms.Label();
             this.txbObs = new System.Windows.Forms.TextBox();
+            this.nudTotalContado = new System.Windows.Forms.NumericUpDown();
             this.tlp1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaldos)).BeginInit();
             this.tlpTotalContado.SuspendLayout();
             this.tlpObs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTotalContado)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp1
@@ -83,14 +84,14 @@ namespace PIT_SENAI_V2.Dados
             this.tlpTotalContado.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
             this.tlpTotalContado.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpTotalContado.Controls.Add(this.lblTotalContado, 0, 0);
-            this.tlpTotalContado.Controls.Add(this.txbTotalContado, 1, 0);
+            this.tlpTotalContado.Controls.Add(this.nudTotalContado, 1, 0);
             this.tlpTotalContado.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpTotalContado.Location = new System.Drawing.Point(0, 338);
             this.tlpTotalContado.Margin = new System.Windows.Forms.Padding(0);
             this.tlpTotalContado.Name = "tlpTotalContado";
             this.tlpTotalContado.RowCount = 1;
             this.tlpTotalContado.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpTotalContado.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpTotalContado.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTotalContado.Size = new System.Drawing.Size(465, 40);
             this.tlpTotalContado.TabIndex = 1;
             // 
@@ -104,15 +105,6 @@ namespace PIT_SENAI_V2.Dados
             this.lblTotalContado.TabIndex = 0;
             this.lblTotalContado.Text = "Total Contado: R$";
             // 
-            // txbTotalContado
-            // 
-            this.txbTotalContado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbTotalContado.Location = new System.Drawing.Point(226, 1);
-            this.txbTotalContado.Margin = new System.Windows.Forms.Padding(1);
-            this.txbTotalContado.Name = "txbTotalContado";
-            this.txbTotalContado.Size = new System.Drawing.Size(238, 38);
-            this.txbTotalContado.TabIndex = 1;
-            // 
             // btnFecharCaixa
             // 
             this.btnFecharCaixa.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -123,6 +115,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnFecharCaixa.TabIndex = 2;
             this.btnFecharCaixa.Text = "Fechar Caixa";
             this.btnFecharCaixa.UseVisualStyleBackColor = true;
+            this.btnFecharCaixa.Click += new System.EventHandler(this.btnFecharCaixa_Click);
             // 
             // tlpObs
             // 
@@ -159,6 +152,15 @@ namespace PIT_SENAI_V2.Dados
             this.txbObs.Size = new System.Drawing.Size(301, 38);
             this.txbObs.TabIndex = 1;
             // 
+            // nudTotalContado
+            // 
+            this.nudTotalContado.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTotalContado.Location = new System.Drawing.Point(226, 1);
+            this.nudTotalContado.Margin = new System.Windows.Forms.Padding(1);
+            this.nudTotalContado.Name = "nudTotalContado";
+            this.nudTotalContado.Size = new System.Drawing.Size(238, 38);
+            this.nudTotalContado.TabIndex = 1;
+            // 
             // frm4_7FecharCaixa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
@@ -177,6 +179,7 @@ namespace PIT_SENAI_V2.Dados
             this.tlpTotalContado.PerformLayout();
             this.tlpObs.ResumeLayout(false);
             this.tlpObs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTotalContado)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -187,10 +190,10 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.DataGridView dgvSaldos;
         private System.Windows.Forms.TableLayoutPanel tlpTotalContado;
         private System.Windows.Forms.Label lblTotalContado;
-        private System.Windows.Forms.TextBox txbTotalContado;
         private System.Windows.Forms.Button btnFecharCaixa;
         private System.Windows.Forms.TableLayoutPanel tlpObs;
         private System.Windows.Forms.Label lblObs;
         private System.Windows.Forms.TextBox txbObs;
+        private System.Windows.Forms.NumericUpDown nudTotalContado;
     }
 }

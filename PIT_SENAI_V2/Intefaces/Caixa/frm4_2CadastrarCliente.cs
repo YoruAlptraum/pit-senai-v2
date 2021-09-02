@@ -27,11 +27,6 @@ namespace PIT_SENAI_V2.Dados
                 this.Text = "Cadastrar Cliente";
                 btnCadastrar.Text = "Cadastrar";
                 resetarForm();
-
-                dgvContatos.ColumnCount = 2;
-                dgvContatos.ColumnHeadersVisible = true;
-                dgvContatos.Columns[0].Name = "Tipo";
-                dgvContatos.Columns[1].Name = "Contato";
             }
             else if (idCliente.Length > 0)
             {
@@ -51,7 +46,8 @@ namespace PIT_SENAI_V2.Dados
                 txbCep.Text = (string)cliente.Rows[0]["cep"];
                 txbBanco.Text = (string)cliente.Rows[0]["banco"];
             }
-            tsmiCadastrar.Enabled = btnRemoverContato.Enabled = false;
+            btnRemoverContato.Enabled = false;
+            tsmiNota.Enabled = DadosGlobais.caixaAberto;
         }
         private void btnAdicionarContato_Click(object sender, EventArgs e)
         {
@@ -91,18 +87,30 @@ namespace PIT_SENAI_V2.Dados
             }
             if (cadastrar)
             {
-                caixa.cadastrarCliente(txbNome.Text,
+                if(caixa.cadastrarCliente(txbNome.Text,
                     txbDocumento.Text,
-                    txbEndereco.Text, txbCep.Text, txbBanco.Text, contatos1);
-                resetarForm();
+                    txbEndereco.Text, txbCep.Text, txbBanco.Text, contatos1))
+                {
+                    resetarForm();
+                }
+                else
+                {
+                    MessageBox.Show("Erro com o banco de dados");
+                }
             }
             else
             {
-                caixa.atualizarCliente(txbNome.Text,txbDocumento.Text, 
-                    txbEndereco.Text, txbCep.Text,txbBanco.Text, contatos1, 
-                    idCliente);
-                caixa.abrirAtualizarCliente(this);
-                this.Close();
+                if(caixa.atualizarCliente(txbNome.Text,txbDocumento.Text, 
+                    txbEndereco.Text, txbCep.Text,txbBanco.Text, contatos1,
+                    idCliente))
+                {
+                    caixa.abrirAtualizarCliente(this);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Erro com o banco de dados");
+                }
             }
         }
         private void resetarForm()
@@ -110,8 +118,11 @@ namespace PIT_SENAI_V2.Dados
             txbNome.Text = txbDocumento.Text = txbEndereco.Text =
                 txbCep.Text = txbBanco.Text = txbTipoContato.Text =
                 txbContato.Text = "";
-            dgvContatos.DataSource = null;
-            dgvContatos.Rows.Clear();
+
+            contatos = new DataTable();
+            contatos.Columns.Add("Tipo");
+            contatos.Columns.Add("Contato");
+            dgvContatos.DataSource = contatos;
         }
 
         private void dgvContatos_SelectionChanged(object sender, EventArgs e)
@@ -155,16 +166,7 @@ namespace PIT_SENAI_V2.Dados
         {
             caixa.abrirHistorico(this);
         }
-
-        private void abrirCaixaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            caixa.abrirAbrirCaixa(this);
-        }
-
-        private void tsmiFecharCaixa_Click(object sender, EventArgs e)
-        {
-            caixa.abrirFecharCaixa(this);
-        }
         #endregion
+
     }
 }

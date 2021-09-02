@@ -17,6 +17,50 @@ namespace PIT_SENAI_V2.Classes
         private DataTable dt;
         public string idOrdem;
 
+        public (bool conectado,bool retomar,DataTable dt) retomarOrdem()
+        {
+            bool conectado,retomar;
+            cmd = new MySqlCommand();
+            dt = new DataTable();
+            da = new MySqlDataAdapter(cmd);
+            cmd.CommandText = @"                
+                select
+                    ifnull(idCliente,'') as 'idCliente' ,
+                    ifnull(observacao,'') as 'observacao',
+                    ifnull(idOrdem,'') as 'idOrdem'
+                from 
+                    ordens 
+                where completa = 0
+                and idFuncionario = @idFuncionario
+                order by idOrdem desc limit 1 ;
+            ";
+            cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+                if(dt.Rows.Count > 0)
+                {
+                    idOrdem = (string)dt.Rows[0]["idOrdem"];
+                    retomar = true;
+                }
+                else
+                {
+                    retomar = false;
+                }
+                conectado = true;
+            }
+            catch(MySqlException e)
+            {
+                conectado = retomar = false;
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return (conectado,retomar,dt);
+        }
         public DataTable procurarProdutos(string pesquisa)
         {
             cmd = new MySqlCommand();
@@ -62,16 +106,16 @@ namespace PIT_SENAI_V2.Classes
             }
             return dt;
         }
-        public bool gerarOrdem(string descricao,string documento)
+        public bool gerarOrdem(string observacao,string documento)
         {
             cmd = new MySqlCommand();
 
             cmd.CommandText = @"
                 insert into
                     ordens
-                        (descricao,idCliente,idFuncionario)
+                        (observacao,idCliente,idFuncionario)
                 values
-                    (@descricao,(
+                    (@observacao,(
                 select idCliente
                 from clientes 
                 where documento = @documento)
@@ -81,7 +125,7 @@ namespace PIT_SENAI_V2.Classes
                 where idFuncionario = @idFuncionario 
                 order by idOrdem desc 
                 limit 1;";
-            cmd.Parameters.AddWithValue("@descricao", descricao);
+            cmd.Parameters.AddWithValue("@observacao", observacao);
             cmd.Parameters.AddWithValue("@documento",documento);
             cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
 
@@ -101,21 +145,22 @@ namespace PIT_SENAI_V2.Classes
                 con.Desconectar();
             }
         }
-        public void atualizarOrdem(string descricao,string documento)
+        public void atualizarOrdem(string observacao,string documento)
         {
             cmd = new MySqlCommand();
             cmd.CommandText = @"
                 update ordens 
                 set 
-	                descricao = @descricao,
+	                observacao = @observacao,
 	                idCliente = (
                         select idCliente
                         from clientes 
                         where documento = @documento),
-	                dataEmisao = curdate()
+	                dataEmissao = curdate(),
+                    completa = 1
                 where idOrdem = @idOrdem;
                 ";
-            cmd.Parameters.AddWithValue("@descricao", descricao);
+            cmd.Parameters.AddWithValue("@observacao", observacao);
             cmd.Parameters.AddWithValue("@documento", documento);
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
             try
@@ -147,7 +192,7 @@ namespace PIT_SENAI_V2.Classes
                 from produtos as p
                 inner join estoque as e
 	                on p.idProduto = e.idProduto
-                inner join itemsdasordens as i
+                inner join itensdasordens as i
 	                on e.idEstoque = i.idEstoque 
                     where i.idOrdem = @idOrdem
                 group by p.idProduto;";
@@ -178,7 +223,7 @@ namespace PIT_SENAI_V2.Classes
                 from produtos as p
                 inner join estoque as e
 	                on p.idProduto = e.idProduto
-                inner join itemsdasordens as i
+                inner join itensdasordens as i
 	                on i.idEstoque = e.idEstoque
                 where i.idOrdem = @idOrdem;";
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
@@ -261,9 +306,9 @@ namespace PIT_SENAI_V2.Classes
                     set vendido = 0 
                 where idEstoque in 
                     (select idEstoque 
-                        from itemsdasordens 
+                        from itensdasordens 
                             where idOrdem = @idOrdem);
-                delete from itemsdasordens
+                delete from itensdasordens
                     where idOrdem = @idOrdem;
                 delete from ordens 
                     where idOrdem = @idOrdem;
