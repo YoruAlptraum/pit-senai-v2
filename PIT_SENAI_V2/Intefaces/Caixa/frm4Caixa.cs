@@ -19,6 +19,7 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             atualizar();
+            dgvMovimentoDeCaixa.DataSource = caixa.dtMovDoCaixa("");
         }
         public void atualizar()
         {

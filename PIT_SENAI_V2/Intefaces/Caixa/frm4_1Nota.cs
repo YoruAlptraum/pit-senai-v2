@@ -15,6 +15,7 @@ namespace PIT_SENAI_V2.Dados
     {
         DataTable dt;
         Caixa caixa = new Caixa();
+        bool idValido = false;
         public frm4_1Nota()
         {
             InitializeComponent();
@@ -61,7 +62,7 @@ namespace PIT_SENAI_V2.Dados
             }
             else if (cmbTipoDeMovimento.SelectedItem.ToString().Contains("Est."))
             {
-                lblIdOrdem.Text = "ID Nota:";
+                lblIdOrdem.Text = "ID Mov:";
                 btnValidarIdOrdem.Enabled = txbIdOrdem.Enabled = lblValidacao.Enabled = true;
             }
             else
@@ -73,8 +74,8 @@ namespace PIT_SENAI_V2.Dados
         private void cmbTipoDeMovimento_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (cmbTipoDeMovimento.SelectedIndex == 0 ||
-                cmbFormaDePagamento.SelectedIndex == 0 ||
-                nudValor.Value == 0) btnEmitirNota.Enabled = false;
+                cmbFormaDePagamento.SelectedIndex == 0)
+                btnEmitirNota.Enabled = false;
             else btnEmitirNota.Enabled = true;
         }
 
@@ -84,7 +85,8 @@ namespace PIT_SENAI_V2.Dados
             {
                 var v = caixa.validarOrdem(txbIdOrdem.Text);
                 lblValidacao.Text = v.mensagem;
-                if (v.valido)
+                idValido = v.valido;
+                if (idValido)
                 {
                     txbDescricao.Text = v.obs;
                     nudValor.Value = v.valor;
@@ -92,9 +94,10 @@ namespace PIT_SENAI_V2.Dados
             }
             else
             {
-                var v = caixa.validarNota(txbIdOrdem.Text);
-                lblValidacao.Text = v.mensagem; 
-                if (v.valido)
+                var v = caixa.validarMovCaixa(txbIdOrdem.Text);
+                lblValidacao.Text = v.mensagem;
+                idValido = v.valido;
+                if (idValido)
                 {
                     nudValor.Value = v.valor;
                 }
@@ -103,28 +106,77 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnEmitirNota_Click(object sender, EventArgs e)
         {
-            string mensagem = "";
+            string mensagem = "Erro com o banco de dados";
             switch (cmbTipoDeMovimento.SelectedItem.ToString())
             {
                 case "Recebimento":
-                    if (caixa.notaRecebimento(cmbFormaDePagamento.Text, txbIdOrdem.Text,
+                    if (!idValido)
+                    {
+                        mensagem = "O ID precisa ser válido";
+                    }
+                    else if (caixa.notaRecebimento(cmbFormaDePagamento.Text, txbIdOrdem.Text,
                         cmbTipoDeMovimento.Text, txbDescricao.Text, nudValor.Value.ToString()))
                     {
                         mensagem = "Recebimento registrado";
                     }
-                    else mensagem = "Erro com o banco de dados";
                     break;
                 case "Pagamento":
+                    if (caixa.notaPagamento(cmbTipoDeMovimento.Text, txbDescricao.Text,
+                        nudValor.Value.ToString()))
+                    {
+                        mensagem = "Pagamento registrado";
+                    }
                     break;
                 case "Est. Debt":
+                    if(!idValido)
+                    {
+                        mensagem = "O ID precisa ser válido";
+                    }
+                    else if (caixa.notaEst(cmbTipoDeMovimento.Text, txbDescricao.Text,
+                        nudValor.Value.ToString(), txbIdOrdem.Text))
+                    {
+                        mensagem = "Est. Debt registrado";
+                    }
                     break;
                 case "Est. Cred":
+                    if (!idValido)
+                    {
+                        mensagem = "O ID precisa ser válido";
+                    }
+                    else if (caixa.notaEst(cmbTipoDeMovimento.Text, txbDescricao.Text,
+                        nudValor.Value.ToString(), txbIdOrdem.Text))
+                    {
+                        mensagem = "Est. Cred registrado";
+                    }
                     break;
                 default:
                     mensagem = "Falha ao procurar tipo de movimento selecionado";
                     break;
             }
             MessageBox.Show(mensagem);
+        }
+
+        private void txbIdOrdem_TextChanged(object sender, EventArgs e)
+        {
+            if (cmbTipoDeMovimento.Text.Equals("Recebimento") &&
+                txbIdOrdem.Text.Trim().Length <= 0)
+            {
+                lblValidacao.Text = "É necessário informar o ID da ordem";
+                lblValidacao.ForeColor = Color.Red;
+                idValido = false;
+            }
+            else if (cmbTipoDeMovimento.Text.Contains("Est.") &&
+                txbIdOrdem.Text.Trim().Length <= 0)
+            {
+                lblValidacao.Text = "É necessário informar o ID do movimento";
+                lblValidacao.ForeColor = Color.Red;
+                idValido = false;
+            }
+            else
+            {
+                lblValidacao.Text = "";
+                lblValidacao.ForeColor = Color.Black;
+            }
         }
     }
 }

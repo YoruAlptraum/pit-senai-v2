@@ -101,6 +101,7 @@ namespace PIT_SENAI_V2.Dados
             this.txbIdOrdem.Name = "txbIdOrdem";
             this.txbIdOrdem.Size = new System.Drawing.Size(527, 38);
             this.txbIdOrdem.TabIndex = 0;
+            this.txbIdOrdem.TextChanged += new System.EventHandler(this.txbIdOrdem_TextChanged);
             // 
             // btnValidarIdOrdem
             // 
@@ -195,7 +196,6 @@ namespace PIT_SENAI_V2.Dados
             this.nudValor.Name = "nudValor";
             this.nudValor.Size = new System.Drawing.Size(310, 38);
             this.nudValor.TabIndex = 7;
-            this.nudValor.ValueChanged += new System.EventHandler(this.cmbTipoDeMovimento_SelectionChangeCommitted);
             // 
             // tlpObservacao
             // 
@@ -254,6 +254,7 @@ namespace PIT_SENAI_V2.Dados
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(7);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(16, 275);
             this.Name = "frm4_1Nota";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nota";

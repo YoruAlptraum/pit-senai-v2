@@ -315,45 +315,4 @@ CREATE TABLE movimentoDoCaixa (
 		references funcionarios(idFuncionario)
 );
 
-set @formadepagamento = 'Cheque', @idOrdem = '2';
-insert into notas
-	(idFormaDePagamento,idOrdem)
-values
-	((
-    select 
-		idFormaDePagamento 
-    from 
-		formasdepagamento 
-    where 
-		FormaDePagamento = @FormaDePagamento),
-	@idOrdem);    
-set @idNota = (select idNota from notas order by idNota desc limit 1),
-@tipodemovimento = 'Recebimento',@observacao = 'aaa',@valor = '123',@idFuncionario = '5';
-insert into movimentoDoCaixa
-	(dataMovimento, horaMovimento,tipoDeMovimento,observacao,valor,idNota,idFuncionario)
-value
-	(curdate(), time(now()),@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
-insert into itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
-
-
-
-set @FormaDePagamento = 'Cheque',@idOrdem = '1',@tipoDeMovimento = 'Recebimento', @observacao = '', @valor = '3', @idFuncionario = '5';
-    insert into notas
-	    (idFormaDePagamento,idOrdem)
-    values
-	    ((select 
-		    idFormaDePagamento 
-        from 
-		    formasdepagamento 
-        where 
-		    FormaDePagamento = @FormaDePagamento),
-	    @idOrdem);
-
-    set @idNota = (select idNota from notas order by idNota desc limit 1);
-
-    insert into movimentoDoCaixa
-	    (dataMovimento, horaMovimento,tipoDeMovimento,observacao,valor,idNota,idFuncionario)
-    value
-	    (curdate(), time(now()),@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
-    insert into 
-        itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
+    

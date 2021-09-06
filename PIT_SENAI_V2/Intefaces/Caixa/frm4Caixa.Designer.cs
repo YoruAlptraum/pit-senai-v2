@@ -84,8 +84,8 @@ namespace PIT_SENAI_V2.Dados
             // tlp2
             // 
             this.tlp2.ColumnCount = 2;
-            this.tlp2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tlp2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tlp2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tlp2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tlp2.Controls.Add(this.panel1, 0, 0);
             this.tlp2.Controls.Add(this.dgvMovimentoDeCaixa, 1, 0);
             this.tlp2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -103,7 +103,7 @@ namespace PIT_SENAI_V2.Dados
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(567, 634);
+            this.panel1.Size = new System.Drawing.Size(486, 634);
             this.panel1.TabIndex = 0;
             // 
             // tlpBotoes
@@ -129,7 +129,7 @@ namespace PIT_SENAI_V2.Dados
             this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
             this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.tlpBotoes.Size = new System.Drawing.Size(538, 611);
+            this.tlpBotoes.Size = new System.Drawing.Size(457, 611);
             this.tlpBotoes.TabIndex = 0;
             // 
             // btnPesquisarID
@@ -138,7 +138,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnPesquisarID.Location = new System.Drawing.Point(25, 286);
             this.btnPesquisarID.Margin = new System.Windows.Forms.Padding(25);
             this.btnPesquisarID.Name = "btnPesquisarID";
-            this.btnPesquisarID.Size = new System.Drawing.Size(488, 37);
+            this.btnPesquisarID.Size = new System.Drawing.Size(407, 37);
             this.btnPesquisarID.TabIndex = 3;
             this.btnPesquisarID.Text = "Pesquisar ID";
             this.btnPesquisarID.UseVisualStyleBackColor = true;
@@ -150,7 +150,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnNota.Location = new System.Drawing.Point(25, 25);
             this.btnNota.Margin = new System.Windows.Forms.Padding(25);
             this.btnNota.Name = "btnNota";
-            this.btnNota.Size = new System.Drawing.Size(488, 37);
+            this.btnNota.Size = new System.Drawing.Size(407, 37);
             this.btnNota.TabIndex = 0;
             this.btnNota.Text = "Nota";
             this.btnNota.UseVisualStyleBackColor = true;
@@ -162,7 +162,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnCadastrar.Location = new System.Drawing.Point(25, 112);
             this.btnCadastrar.Margin = new System.Windows.Forms.Padding(25);
             this.btnCadastrar.Name = "btnCadastrar";
-            this.btnCadastrar.Size = new System.Drawing.Size(488, 37);
+            this.btnCadastrar.Size = new System.Drawing.Size(407, 37);
             this.btnCadastrar.TabIndex = 1;
             this.btnCadastrar.Text = "Cadastrar";
             this.btnCadastrar.UseVisualStyleBackColor = true;
@@ -174,7 +174,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnAtualizarCadastro.Location = new System.Drawing.Point(25, 199);
             this.btnAtualizarCadastro.Margin = new System.Windows.Forms.Padding(25);
             this.btnAtualizarCadastro.Name = "btnAtualizarCadastro";
-            this.btnAtualizarCadastro.Size = new System.Drawing.Size(488, 37);
+            this.btnAtualizarCadastro.Size = new System.Drawing.Size(407, 37);
             this.btnAtualizarCadastro.TabIndex = 2;
             this.btnAtualizarCadastro.Text = "Atualizar Cadastro";
             this.btnAtualizarCadastro.UseVisualStyleBackColor = true;
@@ -186,7 +186,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnHistorico.Location = new System.Drawing.Point(25, 373);
             this.btnHistorico.Margin = new System.Windows.Forms.Padding(25);
             this.btnHistorico.Name = "btnHistorico";
-            this.btnHistorico.Size = new System.Drawing.Size(488, 37);
+            this.btnHistorico.Size = new System.Drawing.Size(407, 37);
             this.btnHistorico.TabIndex = 4;
             this.btnHistorico.Text = "Histórico";
             this.btnHistorico.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnFecharCaixa.Location = new System.Drawing.Point(25, 547);
             this.btnFecharCaixa.Margin = new System.Windows.Forms.Padding(25);
             this.btnFecharCaixa.Name = "btnFecharCaixa";
-            this.btnFecharCaixa.Size = new System.Drawing.Size(488, 39);
+            this.btnFecharCaixa.Size = new System.Drawing.Size(407, 39);
             this.btnFecharCaixa.TabIndex = 6;
             this.btnFecharCaixa.Text = "Fechar Caixa";
             this.btnFecharCaixa.UseVisualStyleBackColor = true;
@@ -210,7 +210,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnAbrirCaixa.Location = new System.Drawing.Point(25, 460);
             this.btnAbrirCaixa.Margin = new System.Windows.Forms.Padding(25);
             this.btnAbrirCaixa.Name = "btnAbrirCaixa";
-            this.btnAbrirCaixa.Size = new System.Drawing.Size(488, 37);
+            this.btnAbrirCaixa.Size = new System.Drawing.Size(407, 37);
             this.btnAbrirCaixa.TabIndex = 5;
             this.btnAbrirCaixa.Text = "Abrir Caixa";
             this.btnAbrirCaixa.UseVisualStyleBackColor = true;
@@ -222,13 +222,13 @@ namespace PIT_SENAI_V2.Dados
             this.dgvMovimentoDeCaixa.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvMovimentoDeCaixa.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMovimentoDeCaixa.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMovimentoDeCaixa.Location = new System.Drawing.Point(567, 0);
+            this.dgvMovimentoDeCaixa.Location = new System.Drawing.Point(486, 0);
             this.dgvMovimentoDeCaixa.Margin = new System.Windows.Forms.Padding(0);
             this.dgvMovimentoDeCaixa.MultiSelect = false;
             this.dgvMovimentoDeCaixa.Name = "dgvMovimentoDeCaixa";
             this.dgvMovimentoDeCaixa.ReadOnly = true;
             this.dgvMovimentoDeCaixa.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMovimentoDeCaixa.Size = new System.Drawing.Size(243, 634);
+            this.dgvMovimentoDeCaixa.Size = new System.Drawing.Size(324, 634);
             this.dgvMovimentoDeCaixa.TabIndex = 1;
             // 
             // mns1
@@ -272,81 +272,81 @@ namespace PIT_SENAI_V2.Dados
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.menuToolStripMenuItem.Text = "Menu";
             this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiNota
             // 
             this.tsmiNota.Name = "tsmiNota";
-            this.tsmiNota.Size = new System.Drawing.Size(180, 22);
+            this.tsmiNota.Size = new System.Drawing.Size(170, 22);
             this.tsmiNota.Text = "Nota";
             this.tsmiNota.Click += new System.EventHandler(this.tsmiNota_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiCadastrar
             // 
             this.tsmiCadastrar.Name = "tsmiCadastrar";
-            this.tsmiCadastrar.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCadastrar.Size = new System.Drawing.Size(170, 22);
             this.tsmiCadastrar.Text = "Cadastrar";
             this.tsmiCadastrar.Click += new System.EventHandler(this.tsmiCadastrar_Click);
             // 
             // tsmiAtualizarCadastro
             // 
             this.tsmiAtualizarCadastro.Name = "tsmiAtualizarCadastro";
-            this.tsmiAtualizarCadastro.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAtualizarCadastro.Size = new System.Drawing.Size(170, 22);
             this.tsmiAtualizarCadastro.Text = "Atualizar Cadastro";
             this.tsmiAtualizarCadastro.Click += new System.EventHandler(this.tsmiAtualizarCadastro_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiPesquisarID
             // 
             this.tsmiPesquisarID.Name = "tsmiPesquisarID";
-            this.tsmiPesquisarID.Size = new System.Drawing.Size(180, 22);
+            this.tsmiPesquisarID.Size = new System.Drawing.Size(170, 22);
             this.tsmiPesquisarID.Text = "Pesquisar ID";
             this.tsmiPesquisarID.Click += new System.EventHandler(this.tsmiPesquisarID_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiHistorico
             // 
             this.tsmiHistorico.Name = "tsmiHistorico";
-            this.tsmiHistorico.Size = new System.Drawing.Size(180, 22);
+            this.tsmiHistorico.Size = new System.Drawing.Size(170, 22);
             this.tsmiHistorico.Text = "Histórico";
             this.tsmiHistorico.Click += new System.EventHandler(this.tsmiHistorico_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiAbrirCaixa
             // 
             this.tsmiAbrirCaixa.Name = "tsmiAbrirCaixa";
-            this.tsmiAbrirCaixa.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAbrirCaixa.Size = new System.Drawing.Size(170, 22);
             this.tsmiAbrirCaixa.Text = "Abrir Caixa";
             this.tsmiAbrirCaixa.Click += new System.EventHandler(this.tsmiAbrirCaixa_Click);
             // 
             // tsmiFecharCaixa
             // 
             this.tsmiFecharCaixa.Name = "tsmiFecharCaixa";
-            this.tsmiFecharCaixa.Size = new System.Drawing.Size(180, 22);
+            this.tsmiFecharCaixa.Size = new System.Drawing.Size(170, 22);
             this.tsmiFecharCaixa.Text = "Fechar Caixa";
             this.tsmiFecharCaixa.Click += new System.EventHandler(this.tsmiFecharCaixa_Click);
             // 

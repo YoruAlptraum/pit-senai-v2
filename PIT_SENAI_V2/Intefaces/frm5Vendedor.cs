@@ -29,13 +29,12 @@ namespace PIT_SENAI_V2.Dados
             {
                 if (ro.retomar)
                 {
-                    pesquisarCatalogo();
                     MessageBox.Show("Ordem retomada");
-
                     grpOrdem.Enabled = btnAdicionar.Enabled =
                         btnImprimir.Enabled = btnDescartar.Enabled = ordem = true;
                     btnNovaOrdem.Enabled = false;
                 }
+                pesquisarCatalogo();
             }
             else
             {

@@ -436,37 +436,36 @@ namespace PIT_SENAI_V2.Classes
                 con.Desconectar();
             }
         }
-        public (bool valido,string mensagem, int valor) validarNota(string idNota)
+        public (bool valido,string mensagem, decimal valor) validarMovCaixa(string idMovCaixa)
         {
             bool valido;
             string mensagem;
-            int valor;
+            decimal valor;
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-                select 
-	                sum(preco)
-                from 
-                    itemsdasnotas as i 
-                inner join
-	                estoque as e on e.idEstoque = i.idEstoque
-                inner join
-	                produtos as p on p.idProduto = e.idProduto
-                where i.idNota = @idNota;
+            select
+	            ifnull(0,valor)
+            from 
+	            movimentodocaixa
+            where
+	            idMovimento = @idMovimento;
             ";
-            cmd.Parameters.AddWithValue("@idNota", idNota);
+            cmd.Parameters.AddWithValue("@idMovimento", idMovCaixa);
             try
             {
                 cmd.Connection = con.Conectar();
-                valor = (int)cmd.ExecuteScalar();
-                if (valor != 0)
+                var v = cmd.ExecuteScalar();
+                if (v != null)
                 {
                     valido = true;
-                    mensagem = "Nota encontrada";
+                    mensagem = "O ID informado é válido";
+                    valor = Decimal.Parse(v.ToString());
                 }
                 else 
                 { 
                     valido = false;
-                    mensagem = "Nota não encontrada";
+                    mensagem = "O ID informado não é válido";
+                    valor = 0;
                 }
                 return (valido, mensagem, valor);
             }
@@ -490,37 +489,53 @@ namespace PIT_SENAI_V2.Classes
             {
                 using (TransactionScope scope = new TransactionScope())
                 {
+                    string idNota;
+                    using (MySqlCommand cmd = new MySqlCommand(@"
+                    insert into notas
+	                    (idFormaDePagamento,idOrdem)
+                    values
+	                    ((select 
+		                    idFormaDePagamento 
+                        from 
+		                    formasdepagamento 
+                        where 
+		                    FormaDePagamento = @FormaDePagamento),
+	                    @idOrdem);
+
+                    select ifnull((select idNota from notas order by idNota desc limit 1),'');
+                    ",con.Conectar()))
+                    {
+                        cmd.Parameters.AddWithValue("@FormaDePagamento", FormaDePagamento);
+                        cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
+                        cmd.Connection = con.Conectar();
+                        idNota = (string)cmd.ExecuteScalar();
+                    }
+                    Debug.WriteLine("idNota:"+idNota);
                     cmd = new MySqlCommand();
                     cmd.CommandText = @"
-    insert into notas
-	    (idFormaDePagamento,idOrdem)
-    values
-	    ((select 
-		    idFormaDePagamento 
-        from 
-		    formasdepagamento 
-        where 
-		    FormaDePagamento = @FormaDePagamento),
-	    @idOrdem);
-
-    set @idNota = (select idNota from notas order by idNota desc limit 1);
-
-    insert into movimentoDoCaixa
-	    (dataMovimento, horaMovimento,tipoDeMovimento,observacao,valor,idNota,idFuncionario)
-    value
-	    (curdate(), time(now()),@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
-    insert into 
-        itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
-    ";
-                    cmd.Parameters.AddWithValue("@FormaDePagamento", FormaDePagamento);
-                    cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
+                    insert into movimentoDoCaixa
+	                    (tipoDeMovimento,observacao,valor,idNota,idFuncionario)
+                    value
+	                    (@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
+                    insert into 
+                        itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
+                    ";
                     cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
+                    Debug.WriteLine("tipo de movimento: "+ tipoDeMovimento);
                     cmd.Parameters.AddWithValue("@observacao", observacao);
+                    Debug.WriteLine("obs: " + observacao);
                     cmd.Parameters.AddWithValue("@valor", valor);
+                    Debug.WriteLine("valor: " + valor);
                     cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
+                    Debug.WriteLine("idFuncionario: " + DadosGlobais.id);
+                    cmd.Parameters.AddWithValue("@idNota", idNota);
+                    Debug.WriteLine("idNota: " + idNota);
+                    cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
+                    Debug.WriteLine("idOrdem: " + idOrdem);
                     cmd.Connection = con.Conectar();
                     cmd.ExecuteNonQuery();
                     scope.Complete();
+                    Debug.WriteLine("Debug concluido");
                     return true;
                 }
             }
@@ -533,6 +548,155 @@ namespace PIT_SENAI_V2.Classes
             {
                 con.Desconectar();
             }
+        }
+        public bool notaPagamento(string tipoDeMovimento,string obs,string valor)
+        {
+            cmd = new MySqlCommand();
+            cmd.CommandText = @"
+            insert into 
+	            movimentodocaixa(tipoDeMovimento,observacao,valor,idFuncionario)
+            values
+                (@tipoDeMovimento,@obs,@valor,@idFuncionario);
+            ";
+            cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
+            cmd.Parameters.AddWithValue("@obs", obs);
+            cmd.Parameters.AddWithValue("@valor", valor);
+            cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+        }
+        public bool notaEst(string tipoDeMovimento, string obs, string valor,string idMovimentoDoCaixa)
+        {
+            cmd = new MySqlCommand();
+            cmd.CommandText = @"
+            insert into
+	            movimentodocaixa(tipoDeMovimento,observacao,valor,idMovimentoDoCaixa,idFuncionario)
+            value
+	            (@tipoDeMovimento,@observacao,@valor,@idMovimentoDoCaixa,@idFuncionario);
+            ";
+            cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
+            cmd.Parameters.AddWithValue("@observacao", obs);
+            cmd.Parameters.AddWithValue("@valor", valor);
+            cmd.Parameters.AddWithValue("@idMovimentoDoCaixa", idMovimentoDoCaixa);
+            cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+        }
+        public DataTable dtMovDoCaixa(string pesquisa)
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+            select
+	            idMovimento as 'id',
+                horamovimento as 'hora',
+                tipoDeMovimento as 'movimento',
+                observacao as 'observação',
+                valor as 'valor',
+                idNota as 'id nota',
+                idMovimentoDoCaixa as 'id mov.est.'
+            from 
+	            movimentodocaixa 
+            where 
+	            idFuncionario = @idFuncionario
+	            and
+                dataMovimento = curdate()
+                and
+                observacao like concat('%',@pesquisa,'%') or
+                idMovimento like concat('%',@pesquisa,'%');
+            ";
+            cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
+            cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
+        public DataTable dtNotas(string pesquisa)
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+            select 
+	            n.idNota as 'id',
+                n.dataEmissao as 'data de emissao',
+                n.horaEmissao as 'hora',
+                f.FormaDePagamento as 'forma de pagamento',
+                coalesce(c.preco,0) as 'valor'
+            from notas as n
+            inner join
+	            formasdepagamento as f 
+		            on f.idFormadepagamento = n.idFormadepagamento
+            left join
+	            (
+                select
+		            n.idNota, sum(p.preco) as 'preco'
+	            from
+		            notas as n
+	            inner join
+		            itensdasnotas as i on i.idNota = n.idNota
+	            inner join
+		            estoque as e on e.idEstoque = i.idEstoque
+	            inner join
+		            produtos as p on p.idProduto = e.idProduto
+	            group by n.idNota
+                order by idNota asc
+	            ) c on c.idNota = n.idNota
+            where n.dataEmissao like concat('%',@pesquisa,'%');
+            ";
+            cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
         }
 
         #region Menus

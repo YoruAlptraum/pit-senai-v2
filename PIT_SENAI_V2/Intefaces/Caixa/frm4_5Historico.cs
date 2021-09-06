@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using PIT_SENAI_V2.Classes;
 
@@ -14,11 +13,12 @@ namespace PIT_SENAI_V2.Dados
     public partial class frm4_5Historico : Form
     {
         Caixa caixa = new Caixa();
-        Thread t1;
         public frm4_5Historico()
         {
             InitializeComponent();
             tsmiNota.Enabled = DadosGlobais.caixaAberto;
+            dgvMovCaixa.DataSource = caixa.dtMovDoCaixa("");
+            dgvNotas.DataSource = caixa.dtNotas("");
         }
 
         #region ToolStripMenu
@@ -57,5 +57,30 @@ namespace PIT_SENAI_V2.Dados
         }
         #endregion
 
+        private void btnPesquisarMovCaixa_Click(object sender, EventArgs e)
+        {
+            pesquisarMovCaixa();
+        }
+        private void txbPesquisarMovCaixa_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            pesquisarMovCaixa();
+        }
+        private void pesquisarMovCaixa()
+        {
+            dgvMovCaixa.DataSource = caixa.dtMovDoCaixa(txbPesquisarMovCaixa.Text);
+        }
+
+        private void btnPesquisarNotas_Click(object sender, EventArgs e)
+        {
+            pesquisarNotas();
+        }
+        private void txbPesquisarNotas_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            pesquisarNotas();
+        }
+        private void pesquisarNotas()
+        {
+            dgvNotas.DataSource = caixa.dtNotas(txbPesquisarNotas.Text);
+        }
     }
 }

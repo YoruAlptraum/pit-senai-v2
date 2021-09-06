@@ -16,6 +16,7 @@ namespace PIT_SENAI_V2.Dados
         public frm1Gerencia()
         {
             InitializeComponent();
+            this.Text = "Gerência: " + DadosGlobais.usuario;
         }
 
         private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
