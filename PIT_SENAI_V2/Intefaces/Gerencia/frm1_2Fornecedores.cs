@@ -40,13 +40,13 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
-            //frm1_Add add = new frm1_Add(false);
-            //add.ShowDialog();
+            frm1_2AddFornecedores add = new frm1_2AddFornecedores(false);
+            add.ShowDialog();
         }
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
-            //frm1_Add add = new frm1_Add(true,dgv.SelectedRows[0].Cells[0].Value.ToString());
-            //add.ShowDialog();
+            frm1_2AddFornecedores add = new frm1_2AddFornecedores(true,dgv.SelectedRows[0].Cells[0].Value.ToString());
+            add.ShowDialog();
         }
 
         private void txbPesquisa_KeyDown(object sender, KeyEventArgs e)

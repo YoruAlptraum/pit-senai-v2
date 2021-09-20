@@ -33,6 +33,11 @@ namespace PIT_SENAI_V2.Dados
             this.tlp1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.tlp2 = new System.Windows.Forms.TableLayoutPanel();
+            this.txbDescricao = new System.Windows.Forms.TextBox();
+            this.txbResponsavel = new System.Windows.Forms.TextBox();
+            this.txbFornecedor = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.cmbAtivo = new System.Windows.Forms.ComboBox();
             this.lblAtivo = new System.Windows.Forms.Label();
             this.txbEmail = new System.Windows.Forms.TextBox();
@@ -41,12 +46,7 @@ namespace PIT_SENAI_V2.Dados
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txbFornecedor = new System.Windows.Forms.TextBox();
-            this.txbResponsavel = new System.Windows.Forms.TextBox();
-            this.txbDescricao = new System.Windows.Forms.TextBox();
             this.tlp1.SuspendLayout();
             this.tlp2.SuspendLayout();
             this.SuspendLayout();
@@ -124,6 +124,53 @@ namespace PIT_SENAI_V2.Dados
             this.tlp2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp2.Size = new System.Drawing.Size(574, 280);
             this.tlp2.TabIndex = 1;
+            // 
+            // txbDescricao
+            // 
+            this.txbDescricao.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txbDescricao.Location = new System.Drawing.Point(173, 81);
+            this.txbDescricao.Margin = new System.Windows.Forms.Padding(1);
+            this.txbDescricao.Name = "txbDescricao";
+            this.txbDescricao.Size = new System.Drawing.Size(400, 38);
+            this.txbDescricao.TabIndex = 2;
+            // 
+            // txbResponsavel
+            // 
+            this.txbResponsavel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txbResponsavel.Location = new System.Drawing.Point(173, 41);
+            this.txbResponsavel.Margin = new System.Windows.Forms.Padding(1);
+            this.txbResponsavel.Name = "txbResponsavel";
+            this.txbResponsavel.Size = new System.Drawing.Size(400, 38);
+            this.txbResponsavel.TabIndex = 1;
+            // 
+            // txbFornecedor
+            // 
+            this.txbFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txbFornecedor.Location = new System.Drawing.Point(173, 1);
+            this.txbFornecedor.Margin = new System.Windows.Forms.Padding(1);
+            this.txbFornecedor.Name = "txbFornecedor";
+            this.txbFornecedor.Size = new System.Drawing.Size(400, 38);
+            this.txbFornecedor.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 45);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(163, 30);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Responsável:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(151, 30);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Fornecedor:";
             // 
             // cmbAtivo
             // 
@@ -203,16 +250,6 @@ namespace PIT_SENAI_V2.Dados
             this.label9.TabIndex = 8;
             this.label9.Text = "E-mail:";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 30);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Fornecedor:";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -222,43 +259,6 @@ namespace PIT_SENAI_V2.Dados
             this.label2.Size = new System.Drawing.Size(130, 30);
             this.label2.TabIndex = 23;
             this.label2.Text = "Descrição:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 45);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(163, 30);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "Responsável:";
-            // 
-            // txbFornecedor
-            // 
-            this.txbFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txbFornecedor.Location = new System.Drawing.Point(173, 1);
-            this.txbFornecedor.Margin = new System.Windows.Forms.Padding(1);
-            this.txbFornecedor.Name = "txbFornecedor";
-            this.txbFornecedor.Size = new System.Drawing.Size(400, 38);
-            this.txbFornecedor.TabIndex = 0;
-            // 
-            // txbResponsavel
-            // 
-            this.txbResponsavel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txbResponsavel.Location = new System.Drawing.Point(173, 41);
-            this.txbResponsavel.Margin = new System.Windows.Forms.Padding(1);
-            this.txbResponsavel.Name = "txbResponsavel";
-            this.txbResponsavel.Size = new System.Drawing.Size(400, 38);
-            this.txbResponsavel.TabIndex = 1;
-            // 
-            // txbDescricao
-            // 
-            this.txbDescricao.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txbDescricao.Location = new System.Drawing.Point(173, 81);
-            this.txbDescricao.Margin = new System.Windows.Forms.Padding(1);
-            this.txbDescricao.Name = "txbDescricao";
-            this.txbDescricao.Size = new System.Drawing.Size(400, 38);
-            this.txbDescricao.TabIndex = 2;
             // 
             // frm1_2AddFornecedores
             // 
