@@ -33,7 +33,8 @@ namespace PIT_SENAI_V2.Classes
                         from 
                             funcionarios
                         where 
-                            idFuncionario = @id and senha = md5(@senha)";
+                            idFuncionario = @id and senha = md5(@senha) and
+                        ativo = 1";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@senha", senha);
 

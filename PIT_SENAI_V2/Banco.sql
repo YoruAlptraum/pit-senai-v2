@@ -31,6 +31,7 @@ CREATE TABLE funcionarios (
     contato VARCHAR(50),
     email VARCHAR(255),
     idAcesso INT NOT NULL,
+    ativo bit(1) default 1,
     FOREIGN KEY (idAcesso)
         REFERENCES acessos (idAcesso)
 );
@@ -50,7 +51,8 @@ CREATE TABLE fornecedores (
     descricao VARCHAR(255),
     telefone VARCHAR(20) NOT NULL,
     contato VARCHAR(20),
-    email VARCHAR(255) UNIQUE
+    email VARCHAR(255) UNIQUE,
+    ativo bit(1) default 1
 );
 
 insert into fornecedores
@@ -62,14 +64,15 @@ values
 
 CREATE TABLE categorias (
     idCategoria INT PRIMARY KEY AUTO_INCREMENT,
-    categoria VARCHAR(100) NOT NULL UNIQUE
+    categoria VARCHAR(100) NOT NULL UNIQUE,
+    ativo bit(1) default 1
 );
-insert into categorias 
+insert into categorias (categoria)
 values
-(0,'cabos'),
-(0,'redes'),
-(0,'estantes'),
-(0,'armarios');
+('cabos'),
+('redes'),
+('estantes'),
+('armarios');
 CREATE TABLE produtos (
     idProduto INT PRIMARY KEY AUTO_INCREMENT,
     nomeProduto VARCHAR(255) NOT NULL UNIQUE,
@@ -77,6 +80,7 @@ CREATE TABLE produtos (
     estoqueMinimo INT DEFAULT 0,
     idCategoria INT,
     idFornecedor int NOT NULL,
+    ativo bit(1) default 1,
     FOREIGN KEY (idCategoria)
         REFERENCES categorias (idCategoria),
     FOREIGN KEY (idFornecedor)
@@ -148,6 +152,7 @@ CREATE TABLE clientes(
     cep VARCHAR(20),
     idVendedor INT,
     banco VARCHAR(255),
+    ativo bit(1) default 1,
     FOREIGN KEY (idVendedor)
         REFERENCES funcionarios (idFuncionario)
 );
@@ -160,32 +165,6 @@ create table contatosDosClientes(
 		references clientes(idCliente)
 );
 
-insert into 
-	clientes (nome,documento,endereco,cep,idVendedor,banco) 
-values(
-	@nome,
-    @documento,
-    @endereco,
-    @cep,
-    @idVendedor,
-    @banco
-	);
-
-set @idCliente = 10;
-select 
-	tipoContato as 'Tipo',
-    contato as 'Contato'
-from contatosdosclientes 
-where idCliente = @idCliente;
-
-
-insert into
-	contatosdosclientes
-values(
-	@idCliente,
-    @tipoContato,
-    @Contato
-	);
 
 CREATE TABLE ordens (
     idOrdem INT PRIMARY KEY AUTO_INCREMENT,
@@ -209,11 +188,6 @@ CREATE TABLE itensDasOrdens (
 );
 
 -- pesquisa baseada na data de emissão | select * from ordens where dataEmissao like ('%13%');
-
-
-insert into ordens (idOrdem,observacao,idCliente,idFuncionario)
-	values (3,'Primeira Ordem de Teste',1,5);
-call adicionarItemAOrdem(5,1);
 
 
 delimiter ##
@@ -249,7 +223,8 @@ delimiter ;
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE FormasDePagamento (
     idFormaDePagamento INT PRIMARY KEY AUTO_INCREMENT,
-    FormaDePagamento VARCHAR(100) NOT NULL UNIQUE
+    FormaDePagamento VARCHAR(100) NOT NULL UNIQUE,
+    ativo bit(1) default 1
 );
 insert into 
 	Formasdepagamento(FormaDePagamento)
@@ -281,6 +256,7 @@ CREATE TABLE notas (
     horaEmissao time default (time(now())),
     idOrdem int,
     idFormaDePagamento INT NOT NULL,
+    ativo bit(1) default 1,
     foreign key (dataEmissao)
 		references fechamentoCaixa(dataFechamento),
 	foreign key (idOrdem)
@@ -315,4 +291,3 @@ CREATE TABLE movimentoDoCaixa (
 		references funcionarios(idFuncionario)
 );
 
-    

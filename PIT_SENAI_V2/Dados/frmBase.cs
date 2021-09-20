@@ -13,7 +13,6 @@ namespace PIT_SENAI_V2.Dados
 {
     public partial class frmBase : Form
     {
-        Thread t1;
         public frmBase()
         {
             InitializeComponent();

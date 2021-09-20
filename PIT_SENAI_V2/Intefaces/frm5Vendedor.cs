@@ -13,7 +13,6 @@ namespace PIT_SENAI_V2.Dados
 {
     public partial class frm5Vendedor : Form
     {
-        private DataTable itensDasOrdens;
         private Vendedor ven = new Vendedor();
         private bool ordem;
 
