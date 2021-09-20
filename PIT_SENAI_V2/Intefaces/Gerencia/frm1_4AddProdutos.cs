@@ -23,6 +23,8 @@ namespace PIT_SENAI_V2.Dados
             nudEstoqueMin.Minimum = nudPreco.Minimum = 0;
             nudPreco.DecimalPlaces = 2;
 
+            //
+
             this.atualizar = atualizar;
             cmbAtivo.Items.Add("Desligado");
             cmbAtivo.Items.Add("Ativo");
