@@ -33,22 +33,22 @@ namespace PIT_SENAI_V2.Dados
             this.tlp1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.tlp2 = new System.Windows.Forms.TableLayoutPanel();
+            this.nudEstoqueMin = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.cmbAtivo = new System.Windows.Forms.ComboBox();
             this.lblAtivo = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.cmbFornecedor = new System.Windows.Forms.ComboBox();
+            this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.txbProduto = new System.Windows.Forms.TextBox();
             this.nudPreco = new System.Windows.Forms.NumericUpDown();
-            this.nudEstoqueMin = new System.Windows.Forms.NumericUpDown();
             this.tlp1.SuspendLayout();
             this.tlp2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPreco)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEstoqueMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPreco)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp1
@@ -120,6 +120,30 @@ namespace PIT_SENAI_V2.Dados
             this.tlp2.Size = new System.Drawing.Size(574, 240);
             this.tlp2.TabIndex = 1;
             // 
+            // nudEstoqueMin
+            // 
+            this.nudEstoqueMin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudEstoqueMin.Location = new System.Drawing.Point(173, 81);
+            this.nudEstoqueMin.Margin = new System.Windows.Forms.Padding(1);
+            this.nudEstoqueMin.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.nudEstoqueMin.Name = "nudEstoqueMin";
+            this.nudEstoqueMin.Size = new System.Drawing.Size(400, 38);
+            this.nudEstoqueMin.TabIndex = 27;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 30);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "Produto:";
+            // 
             // cmbAtivo
             // 
             this.cmbAtivo.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -140,16 +164,6 @@ namespace PIT_SENAI_V2.Dados
             this.lblAtivo.Size = new System.Drawing.Size(91, 30);
             this.lblAtivo.TabIndex = 20;
             this.lblAtivo.Text = "Status:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 30);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "Produto:";
             // 
             // label2
             // 
@@ -191,17 +205,6 @@ namespace PIT_SENAI_V2.Dados
             this.label5.TabIndex = 25;
             this.label5.Text = "Fornecedor:";
             // 
-            // cmbCategoria
-            // 
-            this.cmbCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(173, 121);
-            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(1);
-            this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(400, 39);
-            this.cmbCategoria.TabIndex = 4;
-            // 
             // cmbFornecedor
             // 
             this.cmbFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -212,6 +215,17 @@ namespace PIT_SENAI_V2.Dados
             this.cmbFornecedor.Name = "cmbFornecedor";
             this.cmbFornecedor.Size = new System.Drawing.Size(400, 39);
             this.cmbFornecedor.TabIndex = 5;
+            // 
+            // cmbCategoria
+            // 
+            this.cmbCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategoria.FormattingEnabled = true;
+            this.cmbCategoria.Location = new System.Drawing.Point(173, 121);
+            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(1);
+            this.cmbCategoria.Name = "cmbCategoria";
+            this.cmbCategoria.Size = new System.Drawing.Size(400, 39);
+            this.cmbCategoria.TabIndex = 4;
             // 
             // txbProduto
             // 
@@ -237,20 +251,6 @@ namespace PIT_SENAI_V2.Dados
             this.nudPreco.Size = new System.Drawing.Size(400, 38);
             this.nudPreco.TabIndex = 26;
             // 
-            // nudEstoqueMin
-            // 
-            this.nudEstoqueMin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudEstoqueMin.Location = new System.Drawing.Point(173, 81);
-            this.nudEstoqueMin.Margin = new System.Windows.Forms.Padding(1);
-            this.nudEstoqueMin.Maximum = new decimal(new int[] {
-            99999,
-            0,
-            0,
-            0});
-            this.nudEstoqueMin.Name = "nudEstoqueMin";
-            this.nudEstoqueMin.Size = new System.Drawing.Size(400, 38);
-            this.nudEstoqueMin.TabIndex = 27;
-            // 
             // frm1_4AddProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
@@ -266,8 +266,8 @@ namespace PIT_SENAI_V2.Dados
             this.tlp1.ResumeLayout(false);
             this.tlp2.ResumeLayout(false);
             this.tlp2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPreco)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudEstoqueMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPreco)).EndInit();
             this.ResumeLayout(false);
 
         }

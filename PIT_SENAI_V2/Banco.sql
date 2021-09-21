@@ -290,4 +290,3 @@ CREATE TABLE movimentoDoCaixa (
 	foreign key (idFuncionario)
 		references funcionarios(idFuncionario)
 );
-

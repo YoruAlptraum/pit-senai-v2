@@ -401,62 +401,62 @@ namespace PIT_SENAI_V2.Dados
             // tsmiMenu
             // 
             this.tsmiMenu.Name = "tsmiMenu";
-            this.tsmiMenu.Size = new System.Drawing.Size(180, 22);
+            this.tsmiMenu.Size = new System.Drawing.Size(170, 22);
             this.tsmiMenu.Text = "Menu";
             this.tsmiMenu.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiNota
             // 
             this.tsmiNota.Name = "tsmiNota";
-            this.tsmiNota.Size = new System.Drawing.Size(180, 22);
+            this.tsmiNota.Size = new System.Drawing.Size(170, 22);
             this.tsmiNota.Text = "Nota";
             this.tsmiNota.Click += new System.EventHandler(this.tsmiNota_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiCadastrar
             // 
             this.tsmiCadastrar.Name = "tsmiCadastrar";
-            this.tsmiCadastrar.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCadastrar.Size = new System.Drawing.Size(170, 22);
             this.tsmiCadastrar.Text = "Cadastrar";
             this.tsmiCadastrar.Click += new System.EventHandler(this.tsmiCadastrar_Click);
             // 
             // tsmiAtualizarCadastro
             // 
             this.tsmiAtualizarCadastro.Name = "tsmiAtualizarCadastro";
-            this.tsmiAtualizarCadastro.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAtualizarCadastro.Size = new System.Drawing.Size(170, 22);
             this.tsmiAtualizarCadastro.Text = "Atualizar Cadastro";
             this.tsmiAtualizarCadastro.Click += new System.EventHandler(this.tsmiAtualizarCadastro_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiPesquisarID
             // 
             this.tsmiPesquisarID.Name = "tsmiPesquisarID";
-            this.tsmiPesquisarID.Size = new System.Drawing.Size(180, 22);
+            this.tsmiPesquisarID.Size = new System.Drawing.Size(170, 22);
             this.tsmiPesquisarID.Text = "Pesquisar ID";
             this.tsmiPesquisarID.Click += new System.EventHandler(this.tsmiPesquisarID_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(167, 6);
             // 
             // tsmiHistorico
             // 
             this.tsmiHistorico.Name = "tsmiHistorico";
-            this.tsmiHistorico.Size = new System.Drawing.Size(180, 22);
+            this.tsmiHistorico.Size = new System.Drawing.Size(170, 22);
             this.tsmiHistorico.Text = "Histórico";
             this.tsmiHistorico.Click += new System.EventHandler(this.tsmiHistorico_Click);
             // 

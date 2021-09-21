@@ -16,10 +16,12 @@ namespace PIT_SENAI_V2.Dados
         Gerencia ge = new Gerencia();
         bool atualizar;
         string id;
-        public frm1_2AddFornecedores(bool atualizar,params string[] id)
+        frm1_2Fornecedores main;
+        public frm1_2AddFornecedores(frm1_2Fornecedores main,bool atualizar,params string[] id)
         {
             InitializeComponent();
             this.atualizar = atualizar;
+            this.main = main;
             cmbAtivo.Items.Add("Desligado");
             cmbAtivo.Items.Add("Ativo");
             if (atualizar)
@@ -74,6 +76,7 @@ namespace PIT_SENAI_V2.Dados
             if (ok)
             {
                 limparCampos();
+                main.pesquisar();
             }
             MessageBox.Show(mensagem);
         }

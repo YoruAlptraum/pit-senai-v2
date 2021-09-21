@@ -10,14 +10,14 @@ using PIT_SENAI_V2.Classes;
 
 namespace PIT_SENAI_V2.Dados
 {
-    public partial class AddBase2 : Form
+    public partial class frm1_7AddFormasDePagamento : Form
     {
         DataTable dt;
         Gerencia ge = new Gerencia();
         bool atualizar;
         string id;
-        Form main;
-        public AddBase2(Form main,bool atualizar,params string[] id)
+        frm1_7FormasDePagamento main;
+        public frm1_7AddFormasDePagamento(frm1_7FormasDePagamento main,bool atualizar,params string[] id)
         {
             InitializeComponent();
             this.atualizar = atualizar;
@@ -26,13 +26,13 @@ namespace PIT_SENAI_V2.Dados
             cmbAtivo.Items.Add("Ativo");
             if (atualizar)
             {
-                this.Text = "Atualizar ...: "+id[0];
+                this.Text = "Atualizar Forma de Pagamento: "+id[0];
                 btnConfirmar.Text = "Atualizar";
                 this.id = id[0];
-                //dt = ge.get (this.id);
+                dt = ge.getFormaDePagamento(this.id);
                 if (dt.Rows.Count > 0)
                 {
-
+                    txbFormaDePagamento.Text = dt.Rows[0]["formaDePagamento"].ToString();
                     cmbAtivo.SelectedIndex = int.Parse(dt.Rows[0]["ativo"].ToString());
                 }
                 else
@@ -42,7 +42,7 @@ namespace PIT_SENAI_V2.Dados
             }
             else
             {
-                this.Text = "Cadastrar ...";
+                this.Text = "Cadastrar Forma de Pagamento";
                 btnConfirmar.Text = "Cadastrar";
                 cmbAtivo.SelectedIndex = 1;
                 cmbAtivo.Enabled = false;
@@ -55,27 +55,28 @@ namespace PIT_SENAI_V2.Dados
             string mensagem = "";
             if (atualizar)
             {
-                //var i = ge.atualizar ();
-                //ok = i.ok;
-                //mensagem = i.mensagem;
+                var i = ge.atualizarFormaDePagamento(txbFormaDePagamento.Text,cmbAtivo.SelectedIndex,
+                    this.id);
+                ok = i.ok;
+                mensagem = i.mensagem;
             }
             else
             {
-                //var i = ge.adicionar ();
-                //ok = i.ok;
-                //mensagem = i.mensagem;
+                var i = ge.adicionarFormaDePagamento(txbFormaDePagamento.Text);
+                ok = i.ok;
+                mensagem = i.mensagem;
             }
             if (ok)
             {
                 limparCampos();
-                //main.pesquisar();
+                main.pesquisar();
             }
             MessageBox.Show(mensagem);
         }
         private void limparCampos()
         {
             //limpar campos
-
+            txbFormaDePagamento.Text = "";
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace PIT_SENAI_V2.Classes
 {
@@ -330,9 +331,9 @@ select
 from
 	fornecedores
 where
+    ativo = 1 and (
 	fornecedor like concat('%',@pesquisa,'%') or
-    descricao like concat('%',@pesquisa,'%') and
-    ativo = 1
+    descricao like concat('%',@pesquisa,'%'))
 ";
             }
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
@@ -623,6 +624,265 @@ where
             }
             return mensagem;
         }
+        public DataTable getCliente(string id)
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select
+	c.nome,
+    c.documento,
+    c.endereco,
+    c.cep,
+    f.nome as 'vendedor',
+    c.banco,
+    c.ativo
+from
+	clientes as c
+inner join
+	funcionarios as f
+    on f.idFuncionario = c.idVendedor
+where
+	c.idCliente = @id;
+";
+            cmd.Parameters.AddWithValue("@id", id);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
+        public (string mensagem, bool ok) adicionarCliente(string nome,string documento,
+            string endereco,string cep,string vendedor,string banco,DataTable contatos)
+        {
+            string mensagem;
+            bool ok;
+            try
+            {
+                using(TransactionScope scope = new TransactionScope())
+                {
+                    cmd = new MySqlCommand();
+                    cmd.CommandText = @"
+insert into
+	clientes(nome,documento,endereco,cep,idVendedor,banco)
+values
+	(@nome,@documento,@endereco,@cep,(select idFuncionario from funcionarios where nome = @vendedor),@banco);
+
+select 
+    idCliente 
+from 
+    clientes 
+order by idCliente desc 
+limit 1;
+";
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    cmd.Parameters.AddWithValue("@endereco", endereco);
+                    cmd.Parameters.AddWithValue("@cep", cep);
+                    cmd.Parameters.AddWithValue("@vendedor", vendedor);
+                    cmd.Parameters.AddWithValue("@banco", banco);
+
+                    cmd.Connection = con.Conectar();
+                    string id = cmd.ExecuteScalar().ToString();
+                    //inserir contatos do cliente
+                    int col = 0;
+                    for (int i = 0; i < contatos.Rows.Count; i++)
+                    {
+                        cmd = new MySqlCommand();
+                        cmd.CommandText = @"
+                            insert into
+                                contatosdosclientes
+                            values(
+                                @idCliente,
+                                @tipoContato,
+                                @Contato
+                                );
+                            ";
+                        cmd.Parameters.AddWithValue("@idCliente", id);
+                        cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
+                        cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
+                        cmd.Connection = con.Conectar();
+                        col = cmd.ExecuteNonQuery();
+                        Debug.WriteLine("col: " + col);
+                    }
+                    if (col > 0)
+                    {
+                        ok = true;
+                        mensagem = "Cliente adicionado";
+                    }
+                    else
+                    {
+                        ok = false;
+                        mensagem = "Não foi possivel cadastrar";
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                ok = false;
+                mensagem = "Erro com o banco de dados";
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return (mensagem, ok);
+        }
+        public (string mensagem, bool ok) atualizarCliente(string nome, string documento,
+            string endereco, string cep, string vendedor, string banco, int ativo, string id,
+            DataTable contatos)
+        {
+
+            string mensagem;
+            bool ok;
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    cmd = new MySqlCommand();
+                    cmd.CommandText = @"
+update
+	clientes
+set
+	nome = @nome,
+    documento = @documento,
+    endereco = @endereco,
+    cep = @cep,
+    idVendedor = (select idFuncionario from funcionarios where nome = @vendedor),
+    banco = @banco,
+    ativo = @ativo
+where
+	idCliente = @id;
+";
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@documento", documento);
+                    cmd.Parameters.AddWithValue("@endereco", endereco);
+                    cmd.Parameters.AddWithValue("@cep", cep);
+                    cmd.Parameters.AddWithValue("@vendedor", vendedor);
+                    cmd.Parameters.AddWithValue("@banco", banco);
+                    cmd.Parameters.AddWithValue("@ativo", ativo);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Connection = con.Conectar();
+                    cmd.ExecuteNonQuery();
+                    //inserir contatos
+                    int col = 0;
+                    for (int i = 0; i < contatos.Rows.Count; i++)
+                    {
+                        cmd = new MySqlCommand();
+                        cmd.CommandText = @"
+                            insert into
+                                contatosdosclientes
+                            values(
+                                @idCliente,
+                                @tipoContato,
+                                @Contato
+                                );
+                            ";
+                        cmd.Parameters.AddWithValue("@idCliente", id);
+                        cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
+                        cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
+                        cmd.Connection = con.Conectar();
+                        col = cmd.ExecuteNonQuery();
+                        Debug.WriteLine("col: " + col);
+                    }
+                    Debug.WriteLine(col);
+                    if (col > 0)
+                    {
+                        ok = true;
+                        mensagem = "Dados atualizados";
+                    }
+                    else
+                    {
+                        ok = false;
+                        mensagem = "Não foi possivel atualizar o cliente";
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                ok = false;
+                mensagem = "Erro com o banco de dados";
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return (mensagem, ok);
+        }
+        public DataTable getVendedores()
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select
+	nome
+from
+	funcionarios
+where
+	idAcesso = 5
+order by nome asc
+";
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
+        public DataTable getContatos(string id)
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select 
+	tipoContato,
+    contato
+from
+	contatosdosclientes
+where 
+	idCliente = @id
+order by tipoContato asc
+";
+            cmd.Parameters.AddWithValue("@id", id);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
 
         //Produtos
         public DataTable getProdutos(bool historico, string pesquisa)
@@ -867,6 +1127,60 @@ where
                 con.Desconectar();
             }
             return (mensagem, ok);
+        }
+        public DataTable getCategorias()
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select 
+	categoria
+from
+	categorias
+order by idCategoria asc
+";
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
+        public DataTable getFornecedores()
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select 
+	fornecedor
+from
+	fornecedores
+order by idFornecedor asc
+";
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
         }
 
         //              --- Devolução ---

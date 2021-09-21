@@ -27,7 +27,7 @@ namespace PIT_SENAI_V2.Dados
         {
             pesquisar();
         }
-        private void pesquisar()
+        public void pesquisar()
         {
             dgvFuncionarios.DataSource = ge.getFuncionarios(historico, txbPesquisa.Text);
         }
@@ -41,12 +41,12 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
-            frm1_1AddFuncionarios af = new frm1_1AddFuncionarios(false);
+            frm1_1AddFuncionarios af = new frm1_1AddFuncionarios(this,false);
             af.ShowDialog();
         }
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
-            frm1_1AddFuncionarios af = new frm1_1AddFuncionarios(true,
+            frm1_1AddFuncionarios af = new frm1_1AddFuncionarios(this,true,
                 dgvFuncionarios.SelectedRows[0].Cells[0].Value.ToString());
             af.ShowDialog();
         }

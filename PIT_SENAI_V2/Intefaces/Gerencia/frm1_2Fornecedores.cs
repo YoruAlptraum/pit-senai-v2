@@ -27,7 +27,7 @@ namespace PIT_SENAI_V2.Dados
         {
             pesquisar();
         }
-        private void pesquisar()
+        public void pesquisar()
         {
             dgv.DataSource = ge.getFornecedores(historico,txbPesquisa.Text);
         }
@@ -40,12 +40,12 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
-            frm1_2AddFornecedores add = new frm1_2AddFornecedores(false);
+            frm1_2AddFornecedores add = new frm1_2AddFornecedores(this,false);
             add.ShowDialog();
         }
         private void btnAtualizar_Click(object sender, EventArgs e)
         {
-            frm1_2AddFornecedores add = new frm1_2AddFornecedores(true,dgv.SelectedRows[0].Cells[0].Value.ToString());
+            frm1_2AddFornecedores add = new frm1_2AddFornecedores(this,true,dgv.SelectedRows[0].Cells[0].Value.ToString());
             add.ShowDialog();
         }
 

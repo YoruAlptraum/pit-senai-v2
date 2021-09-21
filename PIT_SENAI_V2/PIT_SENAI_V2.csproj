@@ -189,6 +189,24 @@
     <Compile Include="Intefaces\frmRegistrarEntrada.Designer.cs">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>
     </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_3AddClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_3AddClientes.Designer.cs">
+      <DependentUpon>frm1_3AddClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_7AddFormasDePagamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_7AddFormasDePagamento.Designer.cs">
+      <DependentUpon>frm1_7AddFormasDePagamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_6AddCategorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_6AddCategorias.Designer.cs">
+      <DependentUpon>frm1_6AddCategorias.cs</DependentUpon>
+    </Compile>
     <Compile Include="Intefaces\Gerencia\frm1_2AddFornecedores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +218,12 @@
     </Compile>
     <Compile Include="Intefaces\Gerencia\AddBase2.Designer.cs">
       <DependentUpon>AddBase2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_4AddProdutos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_4AddProdutos.Designer.cs">
+      <DependentUpon>frm1_4AddProdutos.cs</DependentUpon>
     </Compile>
     <Compile Include="Intefaces\Gerencia\frm1_7FormasDePagamento.cs">
       <SubType>Form</SubType>
@@ -296,11 +320,23 @@
     <EmbeddedResource Include="Intefaces\frmRegistrarEntrada.resx">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Gerencia\frm1_3AddClientes.resx">
+      <DependentUpon>frm1_3AddClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Gerencia\frm1_7AddFormasDePagamento.resx">
+      <DependentUpon>frm1_7AddFormasDePagamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Gerencia\frm1_6AddCategorias.resx">
+      <DependentUpon>frm1_6AddCategorias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\Gerencia\frm1_2AddFornecedores.resx">
       <DependentUpon>frm1_2AddFornecedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\Gerencia\AddBase2.resx">
       <DependentUpon>AddBase2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Gerencia\frm1_4AddProdutos.resx">
+      <DependentUpon>frm1_4AddProdutos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\Gerencia\frm1_7FormasDePagamento.resx">
       <DependentUpon>frm1_7FormasDePagamento.cs</DependentUpon>

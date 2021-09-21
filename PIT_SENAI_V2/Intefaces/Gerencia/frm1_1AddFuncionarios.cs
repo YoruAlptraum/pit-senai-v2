@@ -16,10 +16,12 @@ namespace PIT_SENAI_V2.Dados
         Gerencia ge = new Gerencia();
         bool atualizar;
         string idFuncionario;
-        public frm1_1AddFuncionarios(bool atualizar,params string[] idFuncionario)
+        frm1_1Funcionarios main;
+        public frm1_1AddFuncionarios(frm1_1Funcionarios main,bool atualizar,params string[] idFuncionario)
         {
             InitializeComponent();
             this.atualizar = atualizar;
+            this.main = main;
             cmbAtivo.Items.Add("Desligado");
             cmbAtivo.Items.Add("Ativo");
 
@@ -90,6 +92,8 @@ namespace PIT_SENAI_V2.Dados
                         if (ok)
                         {
                             limparCampos();
+                            //atualizar dgv
+                            main.pesquisar();
                         }
                         MessageBox.Show(mensagem);
                     }
