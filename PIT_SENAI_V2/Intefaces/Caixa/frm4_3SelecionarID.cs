@@ -16,8 +16,8 @@ namespace PIT_SENAI_V2.Dados
         Thread t1;
         Caixa caixa = new Caixa();
         string idCliente;
-        Form main;
-        public frm4_3SelecionarID(Form main)
+        frm4Caixa main;
+        public frm4_3SelecionarID(frm4Caixa main)
         {
             InitializeComponent();
             this.main = main;
@@ -30,26 +30,17 @@ namespace PIT_SENAI_V2.Dados
         private void btnSelecionar_Click(object sender, EventArgs e)
         {
             this.Close();
-            main.Close();
-            t1 = new Thread(abrirCadastrarCliente);
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start();
-        }
-        private void abrirCadastrarCliente()
-        {
-            Application.Run(new frm4_2CadastrarCliente(false,idCliente));
+            main.abrirSubFrm(new frm4_2CadastrarCliente(main,false, idCliente),"Atualizar Cliente");
         }
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            //pesquisar se o cliente é valido e mostrar o nome do
-            //cliente pesquisado
+            //pesquisar se o cliente é valido e mostrar o nome do cliente pesquisado
             var cliente = caixa.pesquisarCliente(txbIDCliente.Text);
             lblCliente.Text = cliente.mensagem;
             idCliente = txbIDCliente.Text;
-            //alterar o estado do btnSelecionar para ser igual a
-            //validação
-            btnSelecionar.Enabled = cliente.valido;    
+            //alterar o estado do btnSelecionar para ser igual a validação
+            btnSelecionar.Enabled = cliente.valido;
         }
     }
 }

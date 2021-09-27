@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PIT_SENAI_V2.Classes;
+using PIT_SENAI_V2.Properties;
 
 namespace PIT_SENAI_V2.Dados
 {
@@ -26,20 +27,16 @@ namespace PIT_SENAI_V2.Dados
             btnEmitirNota.Enabled = btnValidarIdOrdem.Enabled = txbIdOrdem.Enabled = false;
             nudValor.Minimum = 0;
             nudValor.Maximum = 999999;
+            nudValor.DecimalPlaces = 2;
         }
         private void popularCmbTiposDeMovimento()
         {
             cmbTipoDeMovimento.Items.Clear();
             cmbTipoDeMovimento.Items.Add("Tipo de Movimento");
-            string[] tiposDeMovimento ={
-                "Recebimento",
-                "Pagamento",
-                "Est. Debt",
-                "Est. Cred"
-            };
-            for (int i= 0; i< tiposDeMovimento.Length; i++)
+            dt = caixa.getTiposDeMovimento();
+            for (int i= 0; i< dt.Rows.Count; i++)
             {
-                cmbTipoDeMovimento.Items.Add(tiposDeMovimento[i]);
+                cmbTipoDeMovimento.Items.Add(dt.Rows[i][0]);
             }
         }
         private void popularCmbFormasDePagamento()

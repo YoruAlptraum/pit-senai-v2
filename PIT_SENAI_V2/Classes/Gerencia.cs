@@ -765,6 +765,11 @@ set
     ativo = @ativo
 where
 	idCliente = @id;
+
+delete
+from
+	contatosdosclientes
+where idCliente = @id;
 ";
                     cmd.Parameters.AddWithValue("@nome", nome);
                     cmd.Parameters.AddWithValue("@documento", documento);
@@ -1183,8 +1188,112 @@ order by idFornecedor asc
             return dt;
         }
 
-        //              --- Devolução ---
-
+        //              --- Devoluçções ---
+        public DataTable getNotas(bool historico, string pesquisa)
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            if (historico)
+            {
+                cmd.CommandText = @"
+select
+	n.idNota as 'id',
+    n.dataEmissao,
+    n.horaEmissao,
+    n.idOrdem as 'idOrdem',
+    f.FormaDePagamento,
+    n.ativo
+from 
+	notas as n
+inner join
+	formasdepagamento as f
+    on f.idFormaDePagamento = n.idFormaDePagamento
+where
+    dataEmissao like concat('%',@pesquisa,'%');
+";
+            }
+            else
+            {
+                cmd.CommandText = @"
+select
+	n.idNota as 'id',
+    n.dataEmissao,
+    n.horaEmissao,
+    n.idOrdem as 'idOrdem',
+    f.FormaDePagamento
+from 
+	notas as n
+inner join
+	formasdepagamento as f
+		on f.idFormaDePagamento = n.idFormaDePagamento
+where
+	n.ativo = 1
+    and n.dataEmissao like concat('%',@pesquisa,'%');
+";
+            }
+            cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
+        }
+        public string removerNota(string id)
+        {
+            string mensagem;
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    cmd = new MySqlCommand();
+                    cmd.CommandText = @"
+update
+	notas
+set
+	ativo = 0
+where
+	idNota = @id;
+    
+update
+	estoque
+set
+	vendido = 0
+where idEstoque in
+	(select idEstoque from itensdasnotas where idNota = @id)
+";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Connection = con.Conectar();
+                    int col = cmd.ExecuteNonQuery();
+                    Debug.WriteLine(col);
+                    if (col > 0)
+                    {
+                        mensagem = "Estatus da nota foi atualizado";
+                    }
+                    else mensagem = "Não foi possivel atualizar";
+                    scope.Complete();
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                mensagem = "Erro com o banco de dados";
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return mensagem;
+        }
 
         //Categorias
         public DataTable getCategorias(bool historico, string pesquisa)

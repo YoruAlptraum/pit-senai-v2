@@ -20,153 +20,19 @@ namespace PIT_SENAI_V2.Classes
         public DataTable dt;
         private Conexao con = new Conexao();
 
-        public bool cadastrarCliente(string nome, string documento, 
-            string endereco, string cep, string banco,DataTable contatos)
-        {
-            try
-            {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    string idCliente;
-                    //criar o cliente
-                    cmd = new MySqlCommand();
-                    cmd.CommandText = @"
-                        insert into 
-	                        clientes (nome,documento,endereco,cep,idVendedor,
-                                        banco) 
-                        values(
-	                        @nome,
-                            @documento,
-                            @endereco,
-                            @cep,
-                            @idVendedor,
-                            @banco);
-                        select 
-                            idCliente 
-                        from 
-                            clientes 
-                        order by idCliente desc 
-                        limit 1;
-                        ";
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@documento", documento);
-                    cmd.Parameters.AddWithValue("@endereco", endereco);
-                    cmd.Parameters.AddWithValue("@cep", cep);
-                    cmd.Parameters.AddWithValue("@idVendedor", DadosGlobais.id);
-                    cmd.Parameters.AddWithValue("@banco", banco);
-                    cmd.Connection = con.Conectar();
-                    idCliente = cmd.ExecuteScalar().ToString();
-                    //inserir os contatos do cliente
-                    for (int i = 0; i< contatos.Rows.Count;i++)
-                    {
-                        cmd = new MySqlCommand();
-                        cmd.CommandText = @"
-                            insert into
-                                contatosdosclientes
-                            values(
-                                @idCliente,
-                                @tipoContato,
-                                @Contato
-                                );
-                            ";
-                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
-                        cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
-                        cmd.Connection = con.Conectar();
-                        cmd.ExecuteNonQuery();                        
-                    }
-                    scope.Complete();
-                    return true;
-                }
-            }
-            catch(MySqlException e)
-            {
-                Debug.WriteLine(e.Message);
-                return false;
-            }
-            finally
-            {
-                con.Desconectar();
-            }
-        }
-        public bool atualizarCliente(string nome, string documento,
-            string endereco, string cep, string banco, 
-            DataTable contatos, string idCliente)
-        {
-            try
-            {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    //atualizar o cliente
-                    cmd = new MySqlCommand();
-                    cmd.CommandText = @"          
-                        update clientes
-							set nome = @nome, 
-							documento = @documento,
-							endereco = @endereco,
-							cep = @cep,
-							idVendedor = @idVendedor,
-							banco = @banco
-                        where idCliente = @idCliente;
-                        delete from 
-                            contatosdosclientes 
-                        where 
-                            idCliente = @idCliente;
-                    ";
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@documento", documento);
-                    cmd.Parameters.AddWithValue("@endereco", endereco);
-                    cmd.Parameters.AddWithValue("@cep", cep);
-                    cmd.Parameters.AddWithValue("@idVendedor", DadosGlobais.id);
-                    cmd.Parameters.AddWithValue("@banco", banco);
-                    cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                    cmd.Connection = con.Conectar();
-                    cmd.ExecuteNonQuery();
-                    //inserir os contatos do cliente
-                    for (int i = 0; i < contatos.Rows.Count; i++)
-                    {
-                        cmd = new MySqlCommand();
-                        cmd.CommandText = @"
-                            insert into
-                                contatosdosclientes
-                            values(
-                                @idCliente,
-                                @tipoContato,
-                                @Contato
-                                );
-                            ";
-                        cmd.Parameters.AddWithValue("@idCliente", idCliente);
-                        cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
-                        cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
-                        cmd.Connection = con.Conectar();
-                        cmd.ExecuteNonQuery();
-                    }
-                    scope.Complete();
-                    return true;
-                }
-            }
-            catch (MySqlException e)
-            {
-                Debug.WriteLine(e.Message);
-                return false;
-            }
-            finally
-            {
-                con.Desconectar();
-            }
-
-        }
         public DataTable contatos(string idCliente)
         {
             cmd = new MySqlCommand();
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-                select 
-	                tipoContato as 'Tipo',
-                    contato as 'Contato'
-                from contatosdosclientes 
-                where idCliente = @idCliente;
+select 
+	tipoContato as 'Tipo',
+    contato as 'Contato'
+from 
+	contatosdosclientes 
+where 
+	idCliente = @idCliente;
             ";
             cmd.Parameters.AddWithValue("@idCliente", idCliente);
             try
@@ -190,12 +56,13 @@ namespace PIT_SENAI_V2.Classes
             bool valido = false;
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-                select
-	                nome
-                from 
-	                clientes 
-                where 
-	                idCliente = @idCliente;
+select
+	nome
+from 
+	clientes 
+where 
+	idCliente = @idCliente and
+    ativo = 1;
             ";
             cmd.Parameters.AddWithValue("@idCliente", idCliente);
             try
@@ -226,13 +93,14 @@ namespace PIT_SENAI_V2.Classes
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-                select
-	                nome, documento, endereco,cep,banco
-                from 
-	                clientes
-                where
-	                idCliente = @idCliente;
-            ";
+select
+	nome, documento, endereco,cep,banco
+from 
+	clientes
+where
+	idCliente = @idCliente and
+    ativo = 1;
+";
             cmd.Parameters.AddWithValue("@idCliente", idCliente);
             try
             {
@@ -256,13 +124,14 @@ namespace PIT_SENAI_V2.Classes
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-                select
-	                nome, idCliente
-                from
-	                clientes
-                where
-	                documento = @documento;
-            ";
+select
+	nome, idCliente
+from
+	clientes
+where
+	documento = @documento and
+    ativo = 1;
+";
             cmd.Parameters.AddWithValue("@documento", doc);
             try
             {
@@ -292,15 +161,42 @@ namespace PIT_SENAI_V2.Classes
             }
             return mensagem;
         }
-        public bool abrirCaixa(int saldoInicial)
+        public (bool aberto, string mensagem) abrirCaixa(int saldoInicial)
         {
             bool retorno;
+            string mensagem;
+            using (cmd = new MySqlCommand(@"
+select 
+	horafechamento
+from 
+	fechamentocaixa
+where 
+	dataFechamento = curdate();",con.Conectar()))
+            {
+                try
+                {
+                    if (cmd.ExecuteScalar() != null)
+                    {
+                        retorno = false;
+                        mensagem = "Só é possivel abrir o caixa uma vez ao dia";
+                        return (DadosGlobais.caixaAberto = retorno, mensagem);
+                    }
+                }
+                catch (MySqlException e)
+                {
+                    Debug.WriteLine(e.Message);
+                    retorno = false;
+                    mensagem = "Ocorreu um erro com o banco de dados";
+                    return (DadosGlobais.caixaAberto = retorno, mensagem);
+                }
+            }
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-                insert into fechamentocaixa
-	                (horaAbertura,idFuncionarioAbertura,saldoInicial)
-                values
-	                (time(now()),@idFuncionario,@saldoInicial)";
+insert into fechamentocaixa
+	(horaAbertura,idFuncionarioAbertura,saldoInicial)
+values
+	(time(now()),@idFuncionario,@saldoInicial)
+";
             cmd.Parameters.AddWithValue("@idFuncionario",DadosGlobais.id);
             cmd.Parameters.AddWithValue("@saldoInicial", saldoInicial);
             try
@@ -308,6 +204,72 @@ namespace PIT_SENAI_V2.Classes
                 cmd.Connection = con.Conectar();
                 cmd.ExecuteNonQuery();
                 retorno = true;
+                mensagem = "Caixa aberto";
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                retorno = false;
+                mensagem = "Ocorreu um erro com o banco de dados";
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return (DadosGlobais.caixaAberto = retorno,mensagem);
+        }
+        public bool fecharCaixa(int valorContado,string obs)
+        {
+            decimal saldoInicial;
+            using (cmd = new MySqlCommand(@"
+select
+    saldoInicial
+from
+    fechamentocaixa
+where
+    dataFechamento = curdate()", con.Conectar()))
+            {
+                saldoInicial = (decimal)cmd.ExecuteScalar();
+            };
+            bool retorno;
+            cmd = new MySqlCommand();
+            cmd.CommandText = @"
+update fechamentocaixa
+set
+	horaFechamento = time(now()),
+    idFuncionarioFechamento = @idFuncionarioFechamento,
+    valorFechamento = 
+(	
+select
+    (select sum(valor)
+	from
+		movimentodocaixa
+	where
+		dataMovimento = curdate() and
+        idtipodemovimento in (1,3))
+	+
+	(@saldoI)
+	-
+    (select sum(valor)
+	from
+		movimentodocaixa
+	where
+		dataMovimento = curdate() and
+        idtipodemovimento in (2,4))
+),
+    valorContado = @valorContado,
+    observacao = @observacao
+where dataFechamento = curdate();
+";
+            cmd.Parameters.AddWithValue("@idFuncionarioFechamento", DadosGlobais.id);
+            cmd.Parameters.AddWithValue("@valorContado", valorContado);
+            cmd.Parameters.AddWithValue("@observacao", obs);
+            cmd.Parameters.AddWithValue("@saldoI",saldoInicial);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                cmd.ExecuteNonQuery();
+                retorno = true;
             }
             catch(MySqlException e)
             {
@@ -320,46 +282,119 @@ namespace PIT_SENAI_V2.Classes
             }
             return DadosGlobais.caixaAberto = retorno;
         }
-        public bool fecharCaixa(int valorContado,string obs)
+        public DataTable dtTotalDia()
         {
-            bool retorno;
             cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
             cmd.CommandText = @"
-            update fechamentocaixa
-            set
-	            horaFechamento = time(now()),
-                idFuncionarioFechamento = @idFuncionarioFechamento,
-                valorFechamento = @valorFechamento,
-                valorContado = @valorContado,
-                observacao = @observacao
-            where dataFechamento = curdate();";
-            cmd.Parameters.AddWithValue("@idFuncionarioFechamento", DadosGlobais.id);
-            //cmd.Parameters.AddWithValue("@valorFechamento",);
-            cmd.Parameters.AddWithValue("@valorContado", valorContado);
-            cmd.Parameters.AddWithValue("@observacao", obs);
+select
+	t.tipoDeMovimento,
+	sum(m.valor) as 'totalDia'
+from
+	movimentodocaixa as m
+inner join
+	tiposdemovimento as t
+    on t.idTipoDeMovimento = m.idTipoDeMovimento
+where
+    m.dataMovimento = curdate()
+group by
+	m.idTipoDeMovimento
+union
+	select
+		'Saldo Inicial',
+        (select 
+			saldoInicial
+		from
+			fechamentocaixa
+		where 
+			dataFechamento = curdate())
+union
+	select
+		'Total Geral',
+	(
+    (select 
+		Sum(valor)
+	from
+		movimentodocaixa
+	where
+		dataMovimento = curdate() and
+        idtipodemovimento in (1,3))
+	+
+        (select 
+			saldoInicial
+		from
+			fechamentocaixa
+		where 
+			dataFechamento = curdate())
+	-
+    ifnull(
+    (select sum(valor)
+	from
+		movimentodocaixa
+	where
+		dataMovimento = curdate() and
+        idtipodemovimento in (2,4)
+	)
+    ,0)
+    ) as 'sum'
+";
             try
             {
                 cmd.Connection = con.Conectar();
-                cmd.ExecuteNonQuery();
-                retorno = false;
+                da.Fill(dt);
             }
-            catch(MySqlException e)
+            catch (MySqlException e)
             {
                 Debug.WriteLine(e.Message);
-                retorno = true;
             }
             finally
             {
                 con.Desconectar();
             }
-            return DadosGlobais.caixaAberto = retorno;
+            return dt;
+        }
+        public DataTable getTiposDeMovimento()
+        {
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select 
+    tipodemovimento 
+from 
+    tiposdemovimento
+where
+    ativo = 1
+";
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
         }
         public DataTable getFormaDePagamento()
         {
             cmd = new MySqlCommand();
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
-            cmd.CommandText = @"select formadepagamento from formasdepagamento";
+            cmd.CommandText = @"
+select 
+    formadepagamento 
+from 
+    formasdepagamento
+where
+    ativo = 1
+";
             try
             {
                 cmd.Connection = con.Conectar();
@@ -443,12 +478,12 @@ namespace PIT_SENAI_V2.Classes
             decimal valor;
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-            select
-	            ifnull(0,valor)
-            from 
-	            movimentodocaixa
-            where
-	            idMovimento = @idMovimento;
+select
+	ifnull(0,valor)
+from 
+	movimentodocaixa
+where
+	idMovimento = @idMovimento;
             ";
             cmd.Parameters.AddWithValue("@idMovimento", idMovCaixa);
             try
@@ -491,19 +526,28 @@ namespace PIT_SENAI_V2.Classes
                 {
                     string idNota;
                     using (MySqlCommand cmd = new MySqlCommand(@"
-                    insert into notas
-	                    (idFormaDePagamento,idOrdem)
-                    values
-	                    ((select 
-		                    idFormaDePagamento 
-                        from 
-		                    formasdepagamento 
-                        where 
-		                    FormaDePagamento = @FormaDePagamento),
-	                    @idOrdem);
+insert into notas
+	(idFormaDePagamento,idOrdem)
+values
+	((select 
+		idFormaDePagamento 
+    from 
+		formasdepagamento 
+    where 
+		FormaDePagamento = @FormaDePagamento and
+        ativo = 1),
+	@idOrdem);
 
-                    select ifnull((select idNota from notas order by idNota desc limit 1),'');
-                    ",con.Conectar()))
+select ifnull((
+    select 
+	    idNota 
+    from 
+	    notas 
+    where
+	    ativo = 1
+    order by idNota desc limit 1),
+'');
+                    ", con.Conectar()))
                     {
                         cmd.Parameters.AddWithValue("@FormaDePagamento", FormaDePagamento);
                         cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
@@ -513,12 +557,25 @@ namespace PIT_SENAI_V2.Classes
                     Debug.WriteLine("idNota:"+idNota);
                     cmd = new MySqlCommand();
                     cmd.CommandText = @"
-                    insert into movimentoDoCaixa
-	                    (tipoDeMovimento,observacao,valor,idNota,idFuncionario)
-                    value
-	                    (@tipoDeMovimento, @observacao,@valor,@idNota,@idFuncionario);
-                    insert into 
-                        itensdasnotas (select i.idEstoque, @idNota from itensdasordens as i where i.idOrdem = @idOrdem);
+insert into 
+    movimentoDoCaixa
+	(idTipoDeMovimento,observacao,valor,idNota,idFuncionario)
+value
+	((select
+        idTipoDeMovimento
+      from
+        tiposDeMovimento
+      where
+        tipodemovimento = @tipodemovimento and
+        ativo = 1),
+    @observacao,@valor,@idNota,@idFuncionario);
+insert into 
+    itensdasnotas (
+    select 
+        i.idEstoque, @idNota 
+    from 
+        itensdasordens as i 
+    where i.idOrdem = @idOrdem);
                     ";
                     cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
                     Debug.WriteLine("tipo de movimento: "+ tipoDeMovimento);
@@ -553,10 +610,17 @@ namespace PIT_SENAI_V2.Classes
         {
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-            insert into 
-	            movimentodocaixa(tipoDeMovimento,observacao,valor,idFuncionario)
-            values
-                (@tipoDeMovimento,@obs,@valor,@idFuncionario);
+insert into 
+	movimentodocaixa(idTipoDeMovimento,observacao,valor,idFuncionario)
+values
+    ((select
+        idTipoDeMovimento
+      from
+        tiposDeMovimento
+      where
+        tipodemovimento = @tipodemovimento and
+        ativo = 1)
+    ,@obs,@valor,@idFuncionario);
             ";
             cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
             cmd.Parameters.AddWithValue("@obs", obs);
@@ -582,11 +646,18 @@ namespace PIT_SENAI_V2.Classes
         {
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-            insert into
-	            movimentodocaixa(tipoDeMovimento,observacao,valor,idMovimentoDoCaixa,idFuncionario)
-            value
-	            (@tipoDeMovimento,@observacao,@valor,@idMovimentoDoCaixa,@idFuncionario);
-            ";
+insert into
+	movimentodocaixa(idTipoDeMovimento,observacao,valor,idMovEst,idFuncionario)
+value
+	((select
+        idTipoDeMovimento
+      from
+        tiposDeMovimento
+      where
+        tipoDeMovimento = @tipoDeMovimento and
+        ativo = 1),
+    @observacao,@valor,@idMovimentoDoCaixa,@idFuncionario);
+";
             cmd.Parameters.AddWithValue("@tipoDeMovimento", tipoDeMovimento);
             cmd.Parameters.AddWithValue("@observacao", obs);
             cmd.Parameters.AddWithValue("@valor", valor);
@@ -608,30 +679,34 @@ namespace PIT_SENAI_V2.Classes
                 con.Desconectar();
             }
         }
+        
+        //Historicos
         public DataTable dtMovDoCaixa(string pesquisa)
         {
             cmd = new MySqlCommand();
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-            select
-	            idMovimento as 'id',
-                horamovimento as 'hora',
-                tipoDeMovimento as 'movimento',
-                observacao as 'observação',
-                valor as 'valor',
-                idNota as 'id nota',
-                idMovimentoDoCaixa as 'id mov.est.'
-            from 
-	            movimentodocaixa 
-            where 
-	            idFuncionario = @idFuncionario
-	            and
-                dataMovimento = curdate()
-                and
-                observacao like concat('%',@pesquisa,'%') or
-                idMovimento like concat('%',@pesquisa,'%');
-            ";
+select
+	m.idMovimento as 'id',
+    m.dataMovimento,
+    m.horamovimento as 'hora',
+    t.tipodemovimento as 'movimento',
+    m.observacao as 'observação',
+    m.valor as 'valor',
+    m.idNota as 'id nota',
+    m.idMovEst as 'id mov.est.'
+from 
+	movimentodocaixa as m
+inner join
+	tiposdemovimento as t
+    on t.idTipoDeMovimento = m.idTipoDeMovimento
+where 
+	m.idFuncionario = @idFuncionario and
+    m.observacao like concat('%',@pesquisa,'%') or
+    m.idMovimento like concat('%',@pesquisa,'%') or
+    m.dataMovimento like concat('%',@pesquisa,'%');
+";
             cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
             try
@@ -655,32 +730,33 @@ namespace PIT_SENAI_V2.Classes
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-            select 
-	            n.idNota as 'id',
-                n.dataEmissao as 'data de emissao',
-                n.horaEmissao as 'hora',
-                f.FormaDePagamento as 'forma de pagamento',
-                coalesce(c.preco,0) as 'valor'
-            from notas as n
-            inner join
-	            formasdepagamento as f 
-		            on f.idFormadepagamento = n.idFormadepagamento
-            left join
-	            (
-                select
-		            n.idNota, sum(p.preco) as 'preco'
-	            from
-		            notas as n
-	            inner join
-		            itensdasnotas as i on i.idNota = n.idNota
-	            inner join
-		            estoque as e on e.idEstoque = i.idEstoque
-	            inner join
-		            produtos as p on p.idProduto = e.idProduto
-	            group by n.idNota
-                order by idNota asc
-	            ) c on c.idNota = n.idNota
-            where n.dataEmissao like concat('%',@pesquisa,'%');
+select 
+	n.idNota as 'id',
+    n.dataEmissao as 'data de emissao',
+    n.horaEmissao as 'hora',
+    f.FormaDePagamento as 'forma de pagamento',
+    coalesce(c.preco,0) as 'valor'
+from notas as n
+inner join
+	formasdepagamento as f 
+		on f.idFormadepagamento = n.idFormadepagamento
+left join
+	(
+    select
+		n.idNota, sum(p.preco) as 'preco'
+	from
+		notas as n
+	inner join
+		itensdasnotas as i on i.idNota = n.idNota
+	inner join
+		estoque as e on e.idEstoque = i.idEstoque
+	inner join
+		produtos as p on p.idProduto = e.idProduto
+	group by n.idNota
+    order by idNota asc
+	) c on c.idNota = n.idNota
+where n.dataEmissao like concat('%',@pesquisa,'%') and
+    n.ativo = 1;
             ";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
             try
@@ -698,77 +774,51 @@ namespace PIT_SENAI_V2.Classes
             }
             return dt;
         }
-
-        #region Menus
-        Thread t1;
-        //Menu
-        public void abrirMenu(Form f)
+        public DataTable dtFechamentos(string pesquisa)
         {
-            f.Close();
-            t1 = new Thread(abrirfrm4Caixa);
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start();
+            cmd = new MySqlCommand();
+            da = new MySqlDataAdapter(cmd);
+            dt = new DataTable();
+            cmd.CommandText = @"
+select
+	f.dataFechamento,
+    f.horaAbertura,
+    f1.nome,
+    f.saldoInicial,
+    f.horaFechamento,
+    f2.nome,
+    f.valorFechamento,
+    f.valorContado,
+    f.observacao
+from
+	fechamentoCaixa as f
+inner join
+	funcionarios as f1
+    on f1.idFuncionario = f.idFuncionarioAbertura
+inner join
+	funcionarios as f2
+    on f2.idFuncionario = f.idFuncionarioFechamento
+where
+	f.dataFechamento like concat('%',@pesquisa,'%') or
+	f1.nome like concat('%',@pesquisa,'%') or
+	f2.nome like concat('%',@pesquisa,'%') or
+    f.observacao like concat('%',@pesquisa,'%'); 
+";
+            cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
+            try
+            {
+                cmd.Connection = con.Conectar();
+                da.Fill(dt);
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+            return dt;
         }
-        //Nota
-        public void abrirNota(Form f)
-        {
-            frm4_1Nota fn = new frm4_1Nota();
-            fn.ShowDialog();
-        }
-        //Cadastrar
-        public void  abrirCadastrarCliente(Form f)
-        {
-            f.Close();
-            t1 = new Thread(abrirfrmCadastrarCliente);
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start();
-        }
-        //Atualizar Cliente
-        public void abrirAtualizarCliente(Form f)
-        {
-            frm4_3SelecionarID si = new frm4_3SelecionarID(f);
-            si.ShowDialog();
-        }
-        //Pesquisar ID
-        public void abrirPesquisarID(Form f)
-        {
-            frm4_4PesquisarID pi = new frm4_4PesquisarID();
-            pi.ShowDialog();
-        }
-        //Historico
-        public void abrirHistorico(Form f)
-        {
-            f.Close();
-            t1 = new Thread(abrirfrmHistorico);
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start();
-        }
-        public void abrirAbrirCaixa(frm4Caixa f)
-        {
-            frm4_6AbrirCaixa fa = new frm4_6AbrirCaixa(f);
-            fa.ShowDialog();
-        }
-        //Fechar Caixa
-        public void abrirFecharCaixa(frm4Caixa f)
-        {
-            frm4_7FecharCaixa fc = new frm4_7FecharCaixa(f);
-            fc.ShowDialog();
-        }
-
-
-        private void abrirfrm4Caixa()
-        {
-            Application.Run(new frm4Caixa());
-        }
-        private void abrirfrmCadastrarCliente()
-        {
-            Application.Run(new frm4_2CadastrarCliente(true));
-        }
-        private void abrirfrmHistorico()
-        {
-            Application.Run(new frm4_5Historico());
-        }
-
-        #endregion
     }
 }

@@ -274,19 +274,69 @@ CREATE TABLE itensDasNotas (
         REFERENCES notas (idNota)
 );
 
+create table tiposDeMovimento(
+	idTipoDeMovimento int primary key auto_increment,
+    tipoDeMovimento varchar(255),
+    ativo bit(1) default 1
+);
+
+insert into
+	tiposDeMovimento(tipoDeMovimento)
+values
+	('Recebimento'),
+	('Pagamento'),
+	('Est. Debt'),
+	('Est. Cred');
+
 CREATE TABLE movimentoDoCaixa (
     idMovimento INT PRIMARY KEY AUTO_INCREMENT,
     dataMovimento date default (curdate()),
     horaMovimento time default (time(now())),
-    tipoDeMovimento varchar(255),
+    idTipoDeMovimento int,
     observacao VARCHAR(255),
     valor DECIMAL(32 , 2 ) ,
     idNota int,
+    idMovEst int,
     idFuncionario int,
     foreign key (dataMovimento)
 		references fechamentoCaixa(dataFechamento),
 	foreign key (idNota)
 		references notas(idNota),
+	foreign key (idMovEst)
+		references movimentodocaixa(idMovimento),
 	foreign key (idFuncionario)
-		references funcionarios(idFuncionario)
+		references funcionarios(idFuncionario),
+	foreign key (idTipoDeMovimento)
+		references tiposDeMovimento(idTipoDeMovimento)
 );
+/*
+create table tiposDeEst(
+	idTipoEst int,
+    tipoEst varchar(255),
+    ativo bit(1)
+);
+CREATE TABLE estMovimentoDoCaixa (
+    idEst INT PRIMARY KEY AUTO_INCREMENT,
+    dataEst date default (curdate()),
+    horaEst time default (time(now())),
+    idTipoDeEst int,
+    observacao VARCHAR(255),
+    valor DECIMAL(32 , 2 ) ,
+    idMovimento int,
+    idFuncionario int,
+    foreign key (dataEst)
+		references fechamentoCaixa(dataFechamento),
+	foreign key (idMovimento)
+		references movimentodocaixa(idMovimento),
+	foreign key (idFuncionario)
+		references funcionarios(idFuncionario),
+	foreign key (idTipoDeEst)
+		references tiposDeMovimento(idTipoDeEst)
+);
+*/
+/*
++recebimento
+-pagamento
++est.debt
+-est.cred
+*/

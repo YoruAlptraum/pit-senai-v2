@@ -80,20 +80,38 @@ namespace PIT_SENAI_V2.Dados
         }
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            DataTable contatos1 = new DataTable();
+            foreach (DataGridViewColumn col in dgvContatos.Columns)
+            {
+                contatos1.Columns.Add(col.Name);
+            }
+
+            foreach (DataGridViewRow row in dgvContatos.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    DataRow dRow = contatos1.NewRow();
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        dRow[cell.ColumnIndex] = cell.Value;
+                    }
+                    contatos1.Rows.Add(dRow);
+                }
+            }
             bool ok = false;
             string mensagem = "";
             if (atualizar)
             {
                 var i = ge.atualizarCliente(txbNome.Text,txbDocumento.Text,txbEndereco.Text,
                     txbCep.Text,cmbVendedor.Text,txbBanco.Text,cmbAtivo.SelectedIndex,this.id,
-                    contatos);
+                    contatos1);
                 ok = i.ok;
                 mensagem = i.mensagem;
             }
             else
             {
                 var i = ge.adicionarCliente(txbNome.Text, txbDocumento.Text, txbEndereco.Text,
-                    txbCep.Text, cmbVendedor.Text, txbBanco.Text,contatos);
+                    txbCep.Text, cmbVendedor.Text, txbBanco.Text, contatos1);
                 ok = i.ok;
                 mensagem = i.mensagem;
             }

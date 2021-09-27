@@ -85,6 +85,7 @@ namespace PIT_SENAI_V2.Dados
             this.logOffToolStripMenuItem.Name = "logOffToolStripMenuItem";
             this.logOffToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.logOffToolStripMenuItem.Text = "Sair";
+            this.logOffToolStripMenuItem.Click += new System.EventHandler(this.logOffToolStripMenuItem_Click);
             // 
             // tlp2
             // 
@@ -160,6 +161,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnDevolucao.TabIndex = 5;
             this.btnDevolucao.Text = "Devolução";
             this.btnDevolucao.UseVisualStyleBackColor = true;
+            this.btnDevolucao.Click += new System.EventHandler(this.btnDevolucao_Click);
             // 
             // btnProdutos
             // 

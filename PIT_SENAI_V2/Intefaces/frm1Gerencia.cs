@@ -28,7 +28,7 @@ namespace PIT_SENAI_V2.Dados
             btnCategorias.Image = (Image)(new Bitmap(
                 Properties.Resources.Categorias,new Size(30,30)));
             btnFormasDePagamento.Image = (Image)(new Bitmap(
-                Properties.Resources.Pagamento, new Size(40, 40)));
+                Properties.Resources.Pagamento, new Size(30, 30)));
         }
 
         private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,6 +91,10 @@ namespace PIT_SENAI_V2.Dados
                 subForm.Close();
                 subForm = null;
             }
+        }
+        private void btnDevolucao_Click(object sender, EventArgs e)
+        {
+            abrirSubFrm(new frm1_5Devolucoes(), "Devoluções");
         }
     }
 }

@@ -33,15 +33,9 @@ namespace PIT_SENAI_V2.Dados
             }
         }
 
-
         private void pesquisar()
         {
             lblMensagem.Text = caixa.pesquisarID(txbSelecionarID.Text);
-        }
-
-        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DadosGlobais.sair(this);
         }
     }
 }

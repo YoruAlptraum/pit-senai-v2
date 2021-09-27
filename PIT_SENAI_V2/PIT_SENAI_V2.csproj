@@ -189,6 +189,12 @@
     <Compile Include="Intefaces\frmRegistrarEntrada.Designer.cs">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>
     </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_5Devolucoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\Gerencia\frm1_5Devolucoes.Designer.cs">
+      <DependentUpon>frm1_5Devolucoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Intefaces\Gerencia\frm1_3AddClientes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -320,6 +326,9 @@
     <EmbeddedResource Include="Intefaces\frmRegistrarEntrada.resx">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\Gerencia\frm1_5Devolucoes.resx">
+      <DependentUpon>frm1_5Devolucoes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\Gerencia\frm1_3AddClientes.resx">
       <DependentUpon>frm1_3AddClientes.cs</DependentUpon>
     </EmbeddedResource>
@@ -388,7 +397,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icons8-cash-counter-80.ico" />
     <Content Include="Main Icon.ico" />
+    <None Include="Resources\icons8-cash-counter-80.ico" />
+    <None Include="Resources\notas.png" />
+    <None Include="Resources\Cadastrar.png" />
+    <None Include="Resources\Atualizar Cadastro.png" />
+    <None Include="Resources\Pesquisar ID.png" />
+    <None Include="Resources\Historico.png" />
+    <None Include="Resources\Abrir Caixa.png" />
+    <None Include="Resources\Fechar Caixa.png" />
     <None Include="Resources\Produtos.png" />
     <None Include="Resources\Pagamento.png" />
     <None Include="Resources\Menus.png" />

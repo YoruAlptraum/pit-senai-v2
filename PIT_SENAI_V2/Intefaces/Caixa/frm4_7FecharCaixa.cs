@@ -18,6 +18,10 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             this.main = f;
+            dgvSaldos.DataSource = caixa.dtTotalDia();
+            nudTotalContado.Minimum = 0;
+            nudTotalContado.Maximum = 99999;
+            nudTotalContado.DecimalPlaces = 2;
         }
 
         private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -30,6 +34,7 @@ namespace PIT_SENAI_V2.Dados
             if (caixa.fecharCaixa((int)nudTotalContado.Value,txbObs.Text))
             {
                 MessageBox.Show("Caixa Fechado");
+                DadosGlobais.caixaAberto = false;
                 this.Close();
                 main.atualizar();
             }

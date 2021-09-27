@@ -34,16 +34,16 @@ namespace PIT_SENAI_V2.Dados
             this.dgvSaldos = new System.Windows.Forms.DataGridView();
             this.tlpTotalContado = new System.Windows.Forms.TableLayoutPanel();
             this.lblTotalContado = new System.Windows.Forms.Label();
+            this.nudTotalContado = new System.Windows.Forms.NumericUpDown();
             this.btnFecharCaixa = new System.Windows.Forms.Button();
             this.tlpObs = new System.Windows.Forms.TableLayoutPanel();
             this.lblObs = new System.Windows.Forms.Label();
             this.txbObs = new System.Windows.Forms.TextBox();
-            this.nudTotalContado = new System.Windows.Forms.NumericUpDown();
             this.tlp1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaldos)).BeginInit();
             this.tlpTotalContado.SuspendLayout();
-            this.tlpObs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTotalContado)).BeginInit();
+            this.tlpObs.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlp1
@@ -63,6 +63,7 @@ namespace PIT_SENAI_V2.Dados
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlp1.Size = new System.Drawing.Size(465, 458);
             this.tlp1.TabIndex = 0;
             // 
@@ -104,6 +105,15 @@ namespace PIT_SENAI_V2.Dados
             this.lblTotalContado.Size = new System.Drawing.Size(219, 30);
             this.lblTotalContado.TabIndex = 0;
             this.lblTotalContado.Text = "Total Contado: R$";
+            // 
+            // nudTotalContado
+            // 
+            this.nudTotalContado.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTotalContado.Location = new System.Drawing.Point(226, 1);
+            this.nudTotalContado.Margin = new System.Windows.Forms.Padding(1);
+            this.nudTotalContado.Name = "nudTotalContado";
+            this.nudTotalContado.Size = new System.Drawing.Size(238, 38);
+            this.nudTotalContado.TabIndex = 1;
             // 
             // btnFecharCaixa
             // 
@@ -152,15 +162,6 @@ namespace PIT_SENAI_V2.Dados
             this.txbObs.Size = new System.Drawing.Size(301, 38);
             this.txbObs.TabIndex = 1;
             // 
-            // nudTotalContado
-            // 
-            this.nudTotalContado.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudTotalContado.Location = new System.Drawing.Point(226, 1);
-            this.nudTotalContado.Margin = new System.Windows.Forms.Padding(1);
-            this.nudTotalContado.Name = "nudTotalContado";
-            this.nudTotalContado.Size = new System.Drawing.Size(238, 38);
-            this.nudTotalContado.TabIndex = 1;
-            // 
             // frm4_7FecharCaixa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
@@ -168,6 +169,7 @@ namespace PIT_SENAI_V2.Dados
             this.ClientSize = new System.Drawing.Size(465, 458);
             this.Controls.Add(this.tlp1);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(7);
             this.Name = "frm4_7FecharCaixa";
@@ -177,9 +179,9 @@ namespace PIT_SENAI_V2.Dados
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaldos)).EndInit();
             this.tlpTotalContado.ResumeLayout(false);
             this.tlpTotalContado.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTotalContado)).EndInit();
             this.tlpObs.ResumeLayout(false);
             this.tlpObs.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTotalContado)).EndInit();
             this.ResumeLayout(false);
 
         }

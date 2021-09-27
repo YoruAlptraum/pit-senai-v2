@@ -23,16 +23,16 @@ namespace PIT_SENAI_V2.Classes
             cmd = new MySqlCommand();
             dt = new DataTable();
             da = new MySqlDataAdapter(cmd);
-            cmd.CommandText = @"                
-                select
-                    ifnull(idCliente,'') as 'idCliente' ,
-                    ifnull(observacao,'') as 'observacao',
-                    ifnull(idOrdem,'') as 'idOrdem'
-                from 
-                    ordens 
-                where completa = 0
-                and idFuncionario = @idFuncionario
-                order by idOrdem desc limit 1 ;
+            cmd.CommandText = @"
+select
+    ifnull(idCliente,'') as 'idCliente' ,
+    ifnull(observacao,'') as 'observacao',
+    ifnull(idOrdem,'') as 'idOrdem'
+from 
+    ordens 
+where completa = 0
+and idFuncionario = @idFuncionario
+order by idOrdem desc limit 1 ;
             ";
             cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
             try
@@ -67,29 +67,31 @@ namespace PIT_SENAI_V2.Classes
             da = new MySqlDataAdapter(cmd);
             dt = new DataTable();
             cmd.CommandText = @"
-                select
-		            p.idProduto as 'codigo',
-                    p.nomeProduto as 'produto',
-                    p.preco as 'preço',
-                    Count(*) as 'estoque',
-                    c.categoria,
-                    f.fornecedor
-                from 
-		            produtos as p
-	            inner join 
-		            estoque as e on e.idProduto = p.idProduto
-	            inner join 
-		            categorias as c on c.idCategoria = p.idCategoria
-                inner join
-		            fornecedores as f on f.idFornecedor = p.idFornecedor    
-                where 
-		            if(@pesquisa = null, null,
-				            p.nomeProduto like concat('%',@pesquisa,'%') or
-				            p.idProduto like @pesquisa)
-		            and saida is null
-                    and vendido = 0
-	            group by p.idProduto
-                order by p.idProduto asc;";
+select
+	p.idProduto as 'codigo',
+    p.nomeProduto as 'produto',
+    p.preco as 'preço',
+    Count(*) as 'estoque',
+    c.categoria,
+    f.fornecedor
+from 
+	produtos as p
+inner join 
+	estoque as e on e.idProduto = p.idProduto
+inner join 
+	categorias as c on c.idCategoria = p.idCategoria
+inner join
+	fornecedores as f on f.idFornecedor = p.idFornecedor    
+where 
+	if(@pesquisa = null, null,
+			p.nomeProduto like concat('%',@pesquisa,'%') or
+			p.idProduto like @pesquisa)
+	and e.saida is null
+    and e.vendido = 0
+    and p.ativo = 1
+group by p.idProduto
+order by p.idProduto asc;
+";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
             try
             {
@@ -111,20 +113,27 @@ namespace PIT_SENAI_V2.Classes
             cmd = new MySqlCommand();
 
             cmd.CommandText = @"
-                insert into
-                    ordens
-                        (observacao,idCliente,idFuncionario)
-                values
-                    (@observacao,(
-                select idCliente
-                from clientes 
-                where documento = @documento)
-                ,@idFuncionario);
-                select idOrdem 
-                from ordens 
-                where idFuncionario = @idFuncionario 
-                order by idOrdem desc 
-                limit 1;";
+insert into
+    ordens
+        (observacao,idCliente,idFuncionario)
+values
+    (@observacao,(
+	select 
+		idCliente
+	from 
+		clientes 
+	where documento = @documento and
+    ativo = 1)
+	,@idFuncionario);
+select
+	idOrdem
+from
+	ordens
+where
+	idFuncionario = @idFuncionario 
+order by idOrdem desc
+limit 1;
+";
             cmd.Parameters.AddWithValue("@observacao", observacao);
             cmd.Parameters.AddWithValue("@documento",documento);
             cmd.Parameters.AddWithValue("@idFuncionario", DadosGlobais.id);
@@ -149,16 +158,17 @@ namespace PIT_SENAI_V2.Classes
         {
             cmd = new MySqlCommand();
             cmd.CommandText = @"
-                update ordens 
-                set 
-	                observacao = @observacao,
-	                idCliente = (
-                        select idCliente
-                        from clientes 
-                        where documento = @documento),
-	                dataEmissao = curdate(),
-                    completa = 1
-                where idOrdem = @idOrdem;
+update 
+    ordens 
+set 
+	observacao = @observacao,
+	idCliente = (
+        select idCliente
+        from clientes 
+        where documento = @documento),
+	dataEmissao = curdate(),
+    completa = 1
+where idOrdem = @idOrdem;
                 ";
             cmd.Parameters.AddWithValue("@observacao", observacao);
             cmd.Parameters.AddWithValue("@documento", documento);
@@ -184,18 +194,19 @@ namespace PIT_SENAI_V2.Classes
             dt = new DataTable();
 
             cmd.CommandText = @"
-                select
-	                p.idProduto as 'ID',
-                    p.nomeProduto as 'Produto',
-                    p.preco as 'Preço',
-                    Count(*) as 'Qtde'
-                from produtos as p
-                inner join estoque as e
-	                on p.idProduto = e.idProduto
-                inner join itensdasordens as i
-	                on e.idEstoque = i.idEstoque 
-                    where i.idOrdem = @idOrdem
-                group by p.idProduto;";
+select
+	p.idProduto as 'ID',
+    p.nomeProduto as 'Produto',
+    p.preco as 'Preço',
+    Count(*) as 'Qtde'
+from produtos as p
+inner join estoque as e
+	on p.idProduto = e.idProduto
+inner join itensdasordens as i
+	on e.idEstoque = i.idEstoque 
+    where i.idOrdem = @idOrdem
+group by p.idProduto;
+";
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
             try
             {
@@ -218,14 +229,15 @@ namespace PIT_SENAI_V2.Classes
             string soma;
 
             cmd.CommandText = @"
-                select 
-	                sum(p.preco)
-                from produtos as p
-                inner join estoque as e
-	                on p.idProduto = e.idProduto
-                inner join itensdasordens as i
-	                on i.idEstoque = e.idEstoque
-                where i.idOrdem = @idOrdem;";
+select 
+	sum(p.preco)
+from produtos as p
+inner join estoque as e
+	on p.idProduto = e.idProduto
+inner join itensdasordens as i
+	on i.idEstoque = e.idEstoque
+where i.idOrdem = @idOrdem;
+";
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
 
             try
@@ -250,9 +262,14 @@ namespace PIT_SENAI_V2.Classes
             cmd = new MySqlCommand();
             
             cmd.CommandText = @"
-                select nome 
-                from clientes 
-                where documento = @documento;";
+select 
+    nome 
+from 
+    clientes 
+where 
+    documento = @documento and
+    ativo = 1;
+";
             cmd.Parameters.AddWithValue("@documento",documento);
 
             try
@@ -280,7 +297,8 @@ namespace PIT_SENAI_V2.Classes
             cmd = new MySqlCommand();
 
             cmd.CommandText = @"
-                call adicionarItemAOrdem(@idOrdem,@idProduto);";
+call adicionarItemAOrdem(@idOrdem,@idProduto);
+";
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
             cmd.Parameters.AddWithValue("@idProduto", idProduto);
 
@@ -302,16 +320,16 @@ namespace PIT_SENAI_V2.Classes
         {
             cmd = new MySqlCommand();
             cmd.CommandText = @"                
-                update estoque 
-                    set vendido = 0 
-                where idEstoque in 
-                    (select idEstoque 
-                        from itensdasordens 
-                            where idOrdem = @idOrdem);
-                delete from itensdasordens
-                    where idOrdem = @idOrdem;
-                delete from ordens 
-                    where idOrdem = @idOrdem;
+update estoque 
+    set vendido = 0 
+where idEstoque in 
+    (select idEstoque 
+        from itensdasordens 
+            where idOrdem = @idOrdem);
+delete from itensdasordens
+    where idOrdem = @idOrdem;
+delete from ordens 
+    where idOrdem = @idOrdem;
             ";
             cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
             try

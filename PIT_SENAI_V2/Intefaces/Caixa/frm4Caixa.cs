@@ -9,107 +9,115 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using PIT_SENAI_V2.Classes;
+using PIT_SENAI_V2.Properties;
 
 namespace PIT_SENAI_V2.Dados
 {
     public partial class frm4Caixa : Form
     {
+        Form subForm = null;
         Caixa caixa = new Caixa();
         public frm4Caixa()
         {
             InitializeComponent();
             atualizar();
-            dgvMovimentoDeCaixa.DataSource = caixa.dtMovDoCaixa("");
+
+            //inserir imagens
+            btnMenus.Image = (Image)(new Bitmap(
+                Properties.Resources.Menus, new Size(30, 30)));
+            btnNota.Image = (Image)(new Bitmap(
+                Properties.Resources.notas, new Size(30, 30)));
+            btnCadastrar.Image = (Image)(new Bitmap(
+                Properties.Resources.Cadastrar, new Size(30, 30)));
+            btnAtualizarCadastro.Image = (Image)(new Bitmap(
+                Properties.Resources.Atualizar_Cadastro, new Size(30, 30)));
+            btnPesquisarID.Image = (Image)(new Bitmap(
+                Properties.Resources.Pesquisar_ID, new Size(30, 30)));
+            btnHistorico.Image = (Image)(new Bitmap(
+                Properties.Resources.Historico, new Size(30, 30)));
+            btnAbrirCaixa.Image = (Image)(new Bitmap(
+                Properties.Resources.Abrir_Caixa, new Size(30, 30)));
+            btnFecharCaixa.Image = (Image)(new Bitmap(
+                Properties.Resources.Fechar_Caixa, new Size(30, 30)));
         }
         public void atualizar()
         {
             this.Text = "Caixa: " + DadosGlobais.usuario;
-            menuToolStripMenuItem.Enabled = false;
-            btnFecharCaixa.Enabled = btnNota.Enabled =
-                tsmiFecharCaixa.Enabled = tsmiNota.Enabled = DadosGlobais.caixaAberto;
-            btnAbrirCaixa.Enabled = 
-                tsmiAbrirCaixa.Enabled = !DadosGlobais.caixaAberto;
+            btnAbrirCaixa.Enabled = !DadosGlobais.caixaAberto;
+            btnNota.Enabled = btnFecharCaixa.Enabled = DadosGlobais.caixaAberto;
+            fecharMenus();
+        }
+        public void abrirSubFrm(Form f, string t)
+        {
+            if (lblTitulo.Text != t)
+            {
+                if (subForm != null)
+                {
+                    subForm.Close();
+                }
+                subForm = f;
+                subForm.TopLevel = false;
+                subForm.AutoScroll = true;
+                subForm.Dock = DockStyle.Fill;
+                this.pnlConteudo.Controls.Add(subForm);
+                subForm.Show();
+                lblTitulo.Text = t;
+            }
+        }
+
+        private void btnMenus_Click(object sender, EventArgs e)
+        {
+            fecharMenus();
+        }
+        public void fecharMenus()
+        {
+            if (subForm != null)
+            {
+                lblTitulo.Text = "Menus";
+                subForm.Close();
+                subForm = null;
+            }
         }
         private void btnNota_Click(object sender, EventArgs e)
         {
-            //gerar nota
-            caixa.abrirNota(this);
+            frm4_1Nota fn = new frm4_1Nota();
+            fn.ShowDialog();
         }
-
         private void btnCadastrar_Click(object sender, EventArgs e)
         {
-            caixa.abrirCadastrarCliente(this);
+            abrirSubFrm(new frm4_2CadastrarCliente(this,true), "Cadastrar");
         }
-
         private void btnAtualizarCadastro_Click(object sender, EventArgs e)
         {
-            caixa.abrirAtualizarCliente(this);
+            abrirAtualizarCadastro();
+        }
+        public void abrirAtualizarCadastro()
+        {
+            frm4_3SelecionarID si = new frm4_3SelecionarID(this);
+            si.ShowDialog();
         }
         private void btnPesquisarID_Click(object sender, EventArgs e)
         {
-            caixa.abrirPesquisarID(this);
+            frm4_4PesquisarID pi = new frm4_4PesquisarID();
+            pi.ShowDialog();
         }
-
         private void btnHistorico_Click(object sender, EventArgs e)
         {
-            caixa.abrirHistorico(this);
+            abrirSubFrm(new frm4_5Historico(), "Histórico");
         }
-
         private void btnAbrirCaixa_Click(object sender, EventArgs e)
         {
-            caixa.abrirAbrirCaixa(this);
+            frm4_6AbrirCaixa fa = new frm4_6AbrirCaixa(this);
+            fa.ShowDialog();
         }
         private void btnFecharCaixa_Click(object sender, EventArgs e)
         {
-            caixa.abrirFecharCaixa(this);
+            abrirSubFrm(new frm4_7FecharCaixa(this),"Fechar Caixa");
         }
 
-
-        #region ToolStripMenu
         private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DadosGlobais.sair(this);
         }
-        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            caixa.abrirMenu(this);
-        }
-
-        private void tsmiNota_Click(object sender, EventArgs e)
-        {
-            caixa.abrirNota(this);
-        }
-
-        private void tsmiCadastrar_Click(object sender, EventArgs e)
-        {
-            caixa.abrirCadastrarCliente(this);
-        }
-
-        private void tsmiAtualizarCadastro_Click(object sender, EventArgs e)
-        {
-            caixa.abrirAtualizarCliente(this);
-        }
-
-        private void tsmiPesquisarID_Click(object sender, EventArgs e)
-        {
-            caixa.abrirPesquisarID(this);
-        }
-
-        private void tsmiHistorico_Click(object sender, EventArgs e)
-        {
-            caixa.abrirHistorico(this);
-        }
-
-        private void tsmiAbrirCaixa_Click(object sender, EventArgs e)
-        {
-            caixa.abrirAbrirCaixa(this);
-        }
-
-        private void tsmiFecharCaixa_Click(object sender, EventArgs e)
-        {
-            caixa.abrirFecharCaixa(this);
-        }
-        #endregion
-
     }
 }

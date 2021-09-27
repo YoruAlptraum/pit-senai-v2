@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PIT_SENAI_V2.Classes;
+using PIT_SENAI_V2.Properties;
 using System.Threading;
 
 namespace PIT_SENAI_V2.Dados

@@ -63,6 +63,36 @@ namespace PIT_SENAI_V2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Abrir_Caixa {
+            get {
+                object obj = ResourceManager.GetObject("Abrir_Caixa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Atualizar_Cadastro {
+            get {
+                object obj = ResourceManager.GetObject("Atualizar_Cadastro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cadastrar {
+            get {
+                object obj = ResourceManager.GetObject("Cadastrar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Categorias {
             get {
                 object obj = ResourceManager.GetObject("Categorias", resourceCulture);
@@ -93,6 +123,16 @@ namespace PIT_SENAI_V2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fechar_Caixa {
+            get {
+                object obj = ResourceManager.GetObject("Fechar_Caixa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fornecedores {
             get {
                 object obj = ResourceManager.GetObject("Fornecedores", resourceCulture);
@@ -113,6 +153,26 @@ namespace PIT_SENAI_V2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Historico {
+            get {
+                object obj = ResourceManager.GetObject("Historico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Logo {
+            get {
+                object obj = ResourceManager.GetObject("Logo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Menus {
             get {
                 object obj = ResourceManager.GetObject("Menus", resourceCulture);
@@ -123,9 +183,29 @@ namespace PIT_SENAI_V2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap notas {
+            get {
+                object obj = ResourceManager.GetObject("notas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pagamento {
             get {
                 object obj = ResourceManager.GetObject("Pagamento", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pesquisar_ID {
+            get {
+                object obj = ResourceManager.GetObject("Pesquisar_ID", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

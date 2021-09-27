@@ -109,7 +109,7 @@ namespace PIT_SENAI_V2.Dados
             this.grpCliente.Size = new System.Drawing.Size(764, 100);
             this.grpCliente.TabIndex = 3;
             this.grpCliente.TabStop = false;
-            this.grpCliente.Text = "Selecionar Cliente:";
+            this.grpCliente.Text = "Informe o documento do cliente:";
             // 
             // tlpCliente
             // 

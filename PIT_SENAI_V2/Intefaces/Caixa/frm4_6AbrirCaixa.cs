@@ -21,20 +21,15 @@ namespace PIT_SENAI_V2.Dados
             this.main = f;
         }
 
-        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DadosGlobais.sair(this);
-        }
-
         private void btnAbrirCaixa_Click(object sender, EventArgs e)
         {
-            if (caixa.abrirCaixa((int)nudSaldoInicial.Value))
+            var c = caixa.abrirCaixa((int)nudSaldoInicial.Value);
+            if(c.aberto)
             {
-                MessageBox.Show("Caixa aberto");
                 this.Close();
                 main.atualizar();
             }
-            else MessageBox.Show("Algum erro ocorreu");
+            MessageBox.Show(c.mensagem);
         }
     }
 }

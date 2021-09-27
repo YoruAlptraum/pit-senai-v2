@@ -14,12 +14,15 @@ namespace PIT_SENAI_V2.Dados
     public partial class frm4_2CadastrarCliente : Form
     {
         Caixa caixa = new Caixa();
+        Gerencia ge = new Gerencia();
         bool cadastrar;
         DataTable contatos;
         string idCliente;
-        public frm4_2CadastrarCliente(bool cadastrar,
+        frm4Caixa main;
+        public frm4_2CadastrarCliente(frm4Caixa main,bool cadastrar,
             params string[] idCliente)
         {
+            this.main = main;
             InitializeComponent();
             this.cadastrar = cadastrar;
             if (cadastrar)
@@ -47,7 +50,6 @@ namespace PIT_SENAI_V2.Dados
                 txbBanco.Text = (string)cliente.Rows[0]["banco"];
             }
             btnRemoverContato.Enabled = false;
-            tsmiNota.Enabled = DadosGlobais.caixaAberto;
         }
         private void btnAdicionarContato_Click(object sender, EventArgs e)
         {
@@ -87,29 +89,24 @@ namespace PIT_SENAI_V2.Dados
             }
             if (cadastrar)
             {
-                if(caixa.cadastrarCliente(txbNome.Text,
-                    txbDocumento.Text,
-                    txbEndereco.Text, txbCep.Text, txbBanco.Text, contatos1))
+                var r = ge.adicionarCliente(txbNome.Text, txbDocumento.Text, txbEndereco.Text,
+                    txbCep.Text, DadosGlobais.id.ToString(), txbBanco.Text, contatos1);
+                MessageBox.Show(r.mensagem);
+                if (r.ok)
                 {
                     resetarForm();
-                }
-                else
-                {
-                    MessageBox.Show("Erro com o banco de dados");
                 }
             }
             else
             {
-                if(caixa.atualizarCliente(txbNome.Text,txbDocumento.Text, 
-                    txbEndereco.Text, txbCep.Text,txbBanco.Text, contatos1,
-                    idCliente))
+                var r = ge.atualizarCliente(txbNome.Text, txbDocumento.Text, txbEndereco.Text,
+                    txbCep.Text, DadosGlobais.id.ToString(), txbBanco.Text, 1, this.idCliente,
+                    contatos1);
+                MessageBox.Show(r.mensagem);
+                if (r.ok)
                 {
-                    caixa.abrirAtualizarCliente(this);
+                    main.abrirAtualizarCadastro();
                     this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Erro com o banco de dados");
                 }
             }
         }
@@ -131,42 +128,5 @@ namespace PIT_SENAI_V2.Dados
                 btnRemoverContato.Enabled = true;
             else btnRemoverContato.Enabled = false;
         }
-
-        #region ToolStripMenu
-        private void logOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DadosGlobais.sair(this);
-        }
-        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            caixa.abrirMenu(this);
-        }
-
-        private void tsmiNota_Click(object sender, EventArgs e)
-        {
-            caixa.abrirNota(this);
-        }
-
-        private void tsmiCadastrar_Click(object sender, EventArgs e)
-        {
-            caixa.abrirCadastrarCliente(this);
-        }
-
-        private void tsmiAtualizarCadastro_Click(object sender, EventArgs e)
-        {
-            caixa.abrirAtualizarCliente(this);
-        }
-
-        private void tsmiPesquisarID_Click(object sender, EventArgs e)
-        {
-            caixa.abrirPesquisarID(this);
-        }
-
-        private void tsmiHistorico_Click(object sender, EventArgs e)
-        {
-            caixa.abrirHistorico(this);
-        }
-        #endregion
-
     }
 }

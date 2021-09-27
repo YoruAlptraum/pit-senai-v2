@@ -48,10 +48,21 @@ namespace PIT_SENAI_V2.Classes
                         DadosGlobais.privilegio = Convert.ToInt32(dr["idAcesso"]);
                         DadosGlobais.usuario = dr["nome"].ToString();
                         cmd = new MySqlCommand();
+                        da = new MySqlDataAdapter(cmd);
+                        dt = new DataTable();
                         cmd.CommandText = @"
-select dataFechamento from fechamentocaixa where dataFechamento = curdate();";
+select 
+	horaAbertura,
+	horaFechamento
+from 
+	fechamentocaixa 
+where 
+	dataFechamento = curdate();
+";
                         cmd.Connection = con.Conectar();
-                        if (cmd.ExecuteScalar() == null)
+                        da.Fill(dt);
+                        if (dt.Rows.Count == 0 || 
+                            dt.Rows[0]["horaFechamento"] == null)
                         {
                             DadosGlobais.caixaAberto = false;
                         }
