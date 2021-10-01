@@ -665,14 +665,39 @@ where
         public (string mensagem, bool ok) adicionarCliente(string nome,string documento,
             string endereco,string cep,string vendedor,string banco,DataTable contatos)
         {
-            string mensagem;
+            string mensagem,hr = null;
             bool ok;
             try
             {
-                using(TransactionScope scope = new TransactionScope())
+                using (cmd = new MySqlCommand())
                 {
-                    cmd = new MySqlCommand();
                     cmd.CommandText = @"
+select ativo from clientes where documento = @doc
+";
+                    cmd.Parameters.AddWithValue("@doc", documento);
+                    cmd.Connection = con.Conectar();
+                    if (cmd.ExecuteScalar() != null)
+                    {
+                        hr = cmd.ExecuteScalar().ToString();
+                        Debug.WriteLine("ativo: " + hr);
+                    }
+                }
+                if(hr == "1")
+                {
+                    mensagem = "O documento ja está cadastrado";
+                    ok = false;
+                }
+                else if(hr == "0")
+                {
+                    mensagem = "O cadastro relacionado ao codumento encontra-se desativado";
+                    ok = false;
+                }
+                else
+                {
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        cmd = new MySqlCommand();
+                        cmd.CommandText = @"
 insert into
 	clientes(nome,documento,endereco,cep,idVendedor,banco)
 values
@@ -682,24 +707,24 @@ select
     idCliente 
 from 
     clientes 
-order by idCliente desc 
+order by idCliente desc
 limit 1;
 ";
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@documento", documento);
-                    cmd.Parameters.AddWithValue("@endereco", endereco);
-                    cmd.Parameters.AddWithValue("@cep", cep);
-                    cmd.Parameters.AddWithValue("@vendedor", vendedor);
-                    cmd.Parameters.AddWithValue("@banco", banco);
+                        cmd.Parameters.AddWithValue("@nome", nome);
+                        cmd.Parameters.AddWithValue("@documento", documento);
+                        cmd.Parameters.AddWithValue("@endereco", endereco);
+                        cmd.Parameters.AddWithValue("@cep", cep);
+                        cmd.Parameters.AddWithValue("@vendedor", vendedor);
+                        cmd.Parameters.AddWithValue("@banco", banco);
 
-                    cmd.Connection = con.Conectar();
-                    string id = cmd.ExecuteScalar().ToString();
-                    //inserir contatos do cliente
-                    int col = 0;
-                    for (int i = 0; i < contatos.Rows.Count; i++)
-                    {
-                        cmd = new MySqlCommand();
-                        cmd.CommandText = @"
+                        cmd.Connection = con.Conectar();
+                        string id = cmd.ExecuteScalar().ToString();
+                        //inserir contatos do cliente
+                        int col = 0;
+                        for (int i = 0; i < contatos.Rows.Count; i++)
+                        {
+                            cmd = new MySqlCommand();
+                            cmd.CommandText = @"
                             insert into
                                 contatosdosclientes
                             values(
@@ -708,24 +733,25 @@ limit 1;
                                 @Contato
                                 );
                             ";
-                        cmd.Parameters.AddWithValue("@idCliente", id);
-                        cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
-                        cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
-                        cmd.Connection = con.Conectar();
-                        col = cmd.ExecuteNonQuery();
-                        Debug.WriteLine("col: " + col);
+                            cmd.Parameters.AddWithValue("@idCliente", id);
+                            cmd.Parameters.AddWithValue("@tipoContato", contatos.Rows[i][0]);
+                            cmd.Parameters.AddWithValue("@Contato", contatos.Rows[i][1]);
+                            cmd.Connection = con.Conectar();
+                            col = cmd.ExecuteNonQuery();
+                            Debug.WriteLine("col: " + col);
+                        }
+                        if (col > 0)
+                        {
+                            ok = true;
+                            mensagem = "Cliente adicionado";
+                        }
+                        else
+                        {
+                            ok = false;
+                            mensagem = "Não foi possivel cadastrar";
+                        }
+                        scope.Complete();
                     }
-                    if (col > 0)
-                    {
-                        ok = true;
-                        mensagem = "Cliente adicionado";
-                    }
-                    else
-                    {
-                        ok = false;
-                        mensagem = "Não foi possivel cadastrar";
-                    }
-                    scope.Complete();
                 }
             }
             catch (MySqlException e)
