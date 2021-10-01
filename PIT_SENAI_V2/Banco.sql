@@ -31,7 +31,7 @@ CREATE TABLE funcionarios (
     contato VARCHAR(50),
     email VARCHAR(255),
     idAcesso INT NOT NULL,
-    ativo bit(1) default 1,
+    ativo BIT(1) DEFAULT 1,
     FOREIGN KEY (idAcesso)
         REFERENCES acessos (idAcesso)
 );
@@ -65,7 +65,7 @@ values
 CREATE TABLE categorias (
     idCategoria INT PRIMARY KEY AUTO_INCREMENT,
     categoria VARCHAR(100) NOT NULL UNIQUE,
-    ativo bit(1) default 1
+    ativo BIT(1) DEFAULT 1
 );
 insert into categorias (categoria)
 values
@@ -190,36 +190,6 @@ CREATE TABLE itensDasOrdens (
 -- pesquisa baseada na data de emissão | select * from ordens where dataEmissao like ('%13%');
 
 
-delimiter ##
-create procedure adicionarItemAOrdem(idDaOrdem int,idDoProduto int)
-begin
-	declare idDoEstoque int;
-    set idDoEstoque =
-		(select 
-			idEstoque 
-		from 
-			estoque
-		where 
-			vendido = 0 and idProduto = idDoProduto
-		limit 1
-		);
-        
-	insert into 
-		itensdasordens (idEstoque,idOrdem)
-	values 
-		(idDoEstoque,idDaOrdem);
-        
-	update 
-		estoque 
-    set 
-		vendido = 1 
-    where 
-		idEstoque = idDoEstoque;
-end;##
-delimiter ;
-
--- call adicionarItemAOrdem(6,2);
-
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE FormasDePagamento (
     idFormaDePagamento INT PRIMARY KEY AUTO_INCREMENT,
@@ -339,4 +309,5 @@ CREATE TABLE estMovimentoDoCaixa (
 -pagamento
 +est.debt
 -est.cred
+-sangria
 */

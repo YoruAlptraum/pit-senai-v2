@@ -13,6 +13,7 @@ namespace PIT_SENAI_V2.Dados
 {
     public partial class frm5Vendedor : Form
     {
+        frm5_1QtdeProduto qtde;
         private Vendedor ven = new Vendedor();
         private bool ordem;
 
@@ -73,8 +74,24 @@ namespace PIT_SENAI_V2.Dados
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             //adicionar o produto selecionado a lista de items da ordem
-            ven.adicionarItemAOrdem(
-                dgvCatalogo.SelectedRows[0].Cells["codigo"].Value.ToString());
+            qtde = new frm5_1QtdeProduto(
+                dgvCatalogo.SelectedRows[0].Cells["id"].Value.ToString(),
+                int.Parse(dgvCatalogo.SelectedRows[0].Cells["estoque"].Value.ToString()),
+                true,ven);
+            qtde.ShowDialog();
+            //atualizar a dgvItensDaOrdem
+            dgvItensDaOrdem.DataSource = ven.ItensDaOrdem();
+            lblTotal.Text = "Total: " + ven.totalOrdem();
+            pesquisarCatalogo();
+        }
+        private void btnRemover_Click(object sender, EventArgs e)
+        {
+            //remover produto selecionado
+            qtde = new frm5_1QtdeProduto(
+                dgvItensDaOrdem.SelectedRows[0].Cells["id"].Value.ToString(),
+                int.Parse(dgvItensDaOrdem.SelectedRows[0].Cells["qtde"].Value.ToString()),
+                false,ven);
+            qtde.ShowDialog();
             //atualizar a dgvItensDaOrdem
             dgvItensDaOrdem.DataSource = ven.ItensDaOrdem();
             lblTotal.Text = "Total: " + ven.totalOrdem();

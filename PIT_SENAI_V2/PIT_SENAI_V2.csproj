@@ -183,6 +183,12 @@
     <Compile Include="Intefaces\Caixa\frm4_2CadastrarCliente.Designer.cs">
       <DependentUpon>frm4_2CadastrarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Intefaces\frm5_1QtdeProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intefaces\frm5_1QtdeProduto.Designer.cs">
+      <DependentUpon>frm5_1QtdeProduto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Intefaces\frmRegistrarEntrada.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -322,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\Caixa\frm4_2CadastrarCliente.resx">
       <DependentUpon>frm4_2CadastrarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intefaces\frm5_1QtdeProduto.resx">
+      <DependentUpon>frm5_1QtdeProduto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Intefaces\frmRegistrarEntrada.resx">
       <DependentUpon>frmRegistrarEntrada.cs</DependentUpon>

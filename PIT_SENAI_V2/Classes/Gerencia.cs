@@ -540,12 +540,12 @@ select
     c.documento,
     c.endereco,
     c.cep,
-    f.nome,
+    f.nome as 'vendedor',
     c.banco,
     c.ativo
 from 
 	clientes as c
-inner join
+left join
 	funcionarios as f
 		on f.idFuncionario = c.idVendedor
 where
@@ -561,11 +561,11 @@ select
     c.documento,
     c.endereco,
     c.cep,
-    f.nome,
+    f.nome as 'vendedor',
     c.banco
 from 
 	clientes as c
-inner join
+left join
 	funcionarios as f
 		on f.idFuncionario = c.idVendedor
 where

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace PIT_SENAI_V2.Classes
 {
-    class Vendedor
+    public class Vendedor
     {
         private Conexao con = new Conexao();
         private MySqlCommand cmd;
@@ -42,6 +43,8 @@ order by idOrdem desc limit 1 ;
                 if(dt.Rows.Count > 0)
                 {
                     idOrdem = (string)dt.Rows[0]["idOrdem"];
+
+                    Debug.WriteLine("retomado 1:" + idOrdem);
                     retomar = true;
                 }
                 else
@@ -68,7 +71,7 @@ order by idOrdem desc limit 1 ;
             dt = new DataTable();
             cmd.CommandText = @"
 select
-	p.idProduto as 'codigo',
+	p.idProduto as 'id',
     p.nomeProduto as 'produto',
     p.preco as 'preço',
     Count(*) as 'estoque',
@@ -195,10 +198,10 @@ where idOrdem = @idOrdem;
 
             cmd.CommandText = @"
 select
-	p.idProduto as 'ID',
-    p.nomeProduto as 'Produto',
-    p.preco as 'Preço',
-    Count(*) as 'Qtde'
+	p.idProduto as 'id',
+    p.nomeProduto as 'produto',
+    p.preco as 'preço',
+    Count(*) as 'qtde'
 from produtos as p
 inner join estoque as e
 	on p.idProduto = e.idProduto
@@ -292,24 +295,123 @@ where
             }
             return mensagem;
         }
-        public void adicionarItemAOrdem(string idProduto)
+        public bool adicionarItemAOrdem(string idProduto,int qtde)
         {
-            cmd = new MySqlCommand();
-
-            cmd.CommandText = @"
-call adicionarItemAOrdem(@idOrdem,@idProduto);
-";
-            cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
-            cmd.Parameters.AddWithValue("@idProduto", idProduto);
-
             try
             {
-                cmd.Connection = con.Conectar();
-                cmd.ExecuteNonQuery();
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    for(int i = 0; i < qtde; i++)
+                    {
+                        string idEstoque;
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            cmd.CommandText = @"
+select 
+	idEstoque 
+from 
+	estoque
+where 
+	vendido = 0 and     
+    saida is null and 
+    idProduto = @idProduto
+limit 1
+";
+                            cmd.Parameters.AddWithValue("@idProduto", idProduto);
+                            cmd.Connection = con.Conectar();
+                            idEstoque = cmd.ExecuteScalar().ToString();
+                        }
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            cmd.CommandText = @"
+insert into 
+	itensdasordens (idEstoque,idOrdem)
+values 
+	(@idEstoque,@idOrdem);
+	
+UPDATE estoque 
+SET 
+    vendido = 1
+WHERE
+    idEstoque = @idEstoque;
+";
+                            cmd.Parameters.AddWithValue("@idOrdem", this.idOrdem);
+                            cmd.Parameters.AddWithValue("@idEstoque", idEstoque);
+                            cmd.Connection = con.Conectar();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    scope.Complete();
+                    return true;
+                }
             }
             catch(MySqlException e)
             {
                 Debug.WriteLine(e.Message);
+                return false;
+            }
+            finally
+            {
+                con.Desconectar();
+            }
+        }
+        public bool removerItemDaOrdem(string idProduto,int qtde)
+        {
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    for (int i = 0; i < qtde; i++)
+                    {
+                        string idEstoque;
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            cmd.CommandText = @"
+select 
+	i.idEstoque
+from 
+	itensdasordens as i
+inner join
+	estoque as e on e.idEstoque = i.idEstoque
+where 
+	e.idProduto = @idProduto and
+    idOrdem = @idOrdem
+    limit 1;
+";
+                            cmd.Parameters.AddWithValue("@idProduto", idProduto);
+                            cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
+                            cmd.Connection = con.Conectar();
+                            idEstoque = cmd.ExecuteScalar().ToString();
+                        }
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            cmd.CommandText = @"
+delete from
+	itensdasordens
+where
+	idOrdem = @idOrdem	and
+    idEstoque = @idEstoque;
+
+UPDATE estoque 
+SET 
+    vendido = 0
+WHERE
+    idEstoque = @idEstoque;
+";
+                            cmd.Parameters.AddWithValue("@idOrdem", idOrdem);
+                            cmd.Parameters.AddWithValue("@idEstoque", idEstoque);
+                            cmd.Connection = con.Conectar();
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    scope.Complete();
+                    return true;
+                }
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine(e.Message);
+                return false;
             }
             finally
             {

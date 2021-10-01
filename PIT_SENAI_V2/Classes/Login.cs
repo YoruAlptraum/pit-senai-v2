@@ -62,7 +62,7 @@ where
                         cmd.Connection = con.Conectar();
                         da.Fill(dt);
                         if (dt.Rows.Count == 0 || 
-                            dt.Rows[0]["horaFechamento"] == null)
+                            dt.Rows[0]["horaFechamento"] != null)
                         {
                             DadosGlobais.caixaAberto = false;
                         }

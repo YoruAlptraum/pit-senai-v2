@@ -45,11 +45,17 @@ namespace PIT_SENAI_V2.Dados
             this.txbDescricao = new System.Windows.Forms.TextBox();
             this.lblDescricao = new System.Windows.Forms.Label();
             this.btnEmitirNota = new System.Windows.Forms.Button();
+            this.tlpTroco = new System.Windows.Forms.TableLayoutPanel();
+            this.lblTroco = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudTroco = new System.Windows.Forms.NumericUpDown();
             this.tlp1.SuspendLayout();
             this.tlpIdOrdem.SuspendLayout();
             this.tlp2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudValor)).BeginInit();
             this.tlpObservacao.SuspendLayout();
+            this.tlpTroco.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTroco)).BeginInit();
             this.SuspendLayout();
             // 
             // tlp1
@@ -60,17 +66,19 @@ namespace PIT_SENAI_V2.Dados
             this.tlp1.Controls.Add(this.cmbTipoDeMovimento, 0, 0);
             this.tlp1.Controls.Add(this.tlp2, 0, 3);
             this.tlp1.Controls.Add(this.tlpObservacao, 0, 2);
-            this.tlp1.Controls.Add(this.btnEmitirNota, 0, 4);
+            this.tlp1.Controls.Add(this.btnEmitirNota, 0, 5);
+            this.tlp1.Controls.Add(this.tlpTroco, 0, 4);
             this.tlp1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlp1.Location = new System.Drawing.Point(0, 0);
             this.tlp1.Name = "tlp1";
-            this.tlp1.RowCount = 5;
+            this.tlp1.RowCount = 6;
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlp1.Size = new System.Drawing.Size(709, 236);
+            this.tlp1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlp1.Size = new System.Drawing.Size(709, 276);
             this.tlp1.TabIndex = 0;
             // 
             // tlpIdOrdem
@@ -196,6 +204,7 @@ namespace PIT_SENAI_V2.Dados
             this.nudValor.Name = "nudValor";
             this.nudValor.Size = new System.Drawing.Size(310, 38);
             this.nudValor.TabIndex = 7;
+            this.nudValor.ValueChanged += new System.EventHandler(this.nudTroco_ValueChanged);
             // 
             // tlpObservacao
             // 
@@ -235,7 +244,7 @@ namespace PIT_SENAI_V2.Dados
             // btnEmitirNota
             // 
             this.btnEmitirNota.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnEmitirNota.Location = new System.Drawing.Point(0, 200);
+            this.btnEmitirNota.Location = new System.Drawing.Point(0, 240);
             this.btnEmitirNota.Margin = new System.Windows.Forms.Padding(0);
             this.btnEmitirNota.Name = "btnEmitirNota";
             this.btnEmitirNota.Size = new System.Drawing.Size(709, 40);
@@ -244,17 +253,65 @@ namespace PIT_SENAI_V2.Dados
             this.btnEmitirNota.UseVisualStyleBackColor = true;
             this.btnEmitirNota.Click += new System.EventHandler(this.btnEmitirNota_Click);
             // 
+            // tlpTroco
+            // 
+            this.tlpTroco.ColumnCount = 3;
+            this.tlpTroco.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tlpTroco.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpTroco.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpTroco.Controls.Add(this.lblTroco, 2, 0);
+            this.tlpTroco.Controls.Add(this.label1, 0, 0);
+            this.tlpTroco.Controls.Add(this.nudTroco, 1, 0);
+            this.tlpTroco.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpTroco.Location = new System.Drawing.Point(0, 200);
+            this.tlpTroco.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpTroco.Name = "tlpTroco";
+            this.tlpTroco.RowCount = 1;
+            this.tlpTroco.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpTroco.Size = new System.Drawing.Size(709, 40);
+            this.tlpTroco.TabIndex = 10;
+            // 
+            // lblTroco
+            // 
+            this.lblTroco.AutoSize = true;
+            this.lblTroco.Location = new System.Drawing.Point(400, 5);
+            this.lblTroco.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.lblTroco.Name = "lblTroco";
+            this.lblTroco.Size = new System.Drawing.Size(85, 30);
+            this.lblTroco.TabIndex = 0;
+            this.lblTroco.Text = "Troco:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 5);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 31);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Pago:";
+            // 
+            // nudTroco
+            // 
+            this.nudTroco.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTroco.Location = new System.Drawing.Point(86, 1);
+            this.nudTroco.Margin = new System.Windows.Forms.Padding(1);
+            this.nudTroco.Name = "nudTroco";
+            this.nudTroco.Size = new System.Drawing.Size(310, 38);
+            this.nudTroco.TabIndex = 2;
+            this.nudTroco.ValueChanged += new System.EventHandler(this.nudTroco_ValueChanged);
+            // 
             // frm4_1Nota
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 236);
+            this.ClientSize = new System.Drawing.Size(709, 276);
             this.Controls.Add(this.tlp1);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(7);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(16, 275);
+            this.MinimumSize = new System.Drawing.Size(16, 315);
             this.Name = "frm4_1Nota";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nota";
@@ -266,6 +323,9 @@ namespace PIT_SENAI_V2.Dados
             ((System.ComponentModel.ISupportInitialize)(this.nudValor)).EndInit();
             this.tlpObservacao.ResumeLayout(false);
             this.tlpObservacao.PerformLayout();
+            this.tlpTroco.ResumeLayout(false);
+            this.tlpTroco.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTroco)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -287,5 +347,9 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.TextBox txbDescricao;
         private System.Windows.Forms.Label lblDescricao;
         private System.Windows.Forms.Label lblValidacao;
+        private System.Windows.Forms.TableLayoutPanel tlpTroco;
+        private System.Windows.Forms.Label lblTroco;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudTroco;
     }
 }

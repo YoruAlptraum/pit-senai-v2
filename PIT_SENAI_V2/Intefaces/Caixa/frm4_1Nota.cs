@@ -25,9 +25,9 @@ namespace PIT_SENAI_V2.Dados
             cmbTipoDeMovimento.SelectedIndex = 
                 cmbFormaDePagamento.SelectedIndex = 0;
             btnEmitirNota.Enabled = btnValidarIdOrdem.Enabled = txbIdOrdem.Enabled = false;
-            nudValor.Minimum = 0;
-            nudValor.Maximum = 999999;
-            nudValor.DecimalPlaces = 2;
+            nudValor.Minimum = nudTroco.Minimum = 0;
+            nudValor.Maximum = nudTroco.Maximum = 999999;
+            nudValor.DecimalPlaces = nudTroco.DecimalPlaces = 2;
         }
         private void popularCmbTiposDeMovimento()
         {
@@ -146,6 +146,13 @@ namespace PIT_SENAI_V2.Dados
                         mensagem = "Est. Cred registrado";
                     }
                     break;
+                case "Sangria":
+                    if (caixa.notaPagamento(cmbTipoDeMovimento.Text, txbDescricao.Text,
+                        nudValor.Value.ToString()))
+                    {
+                        mensagem = "Sangria registrada";
+                    }
+                    break;
                 default:
                     mensagem = "Falha ao procurar tipo de movimento selecionado";
                     break;
@@ -174,6 +181,10 @@ namespace PIT_SENAI_V2.Dados
                 lblValidacao.Text = "";
                 lblValidacao.ForeColor = Color.Black;
             }
+        }
+        private void nudTroco_ValueChanged(object sender, EventArgs e)
+        {
+            lblTroco.Text = "Troco: "+(nudTroco.Value - nudValor.Value).ToString();
         }
     }
 }

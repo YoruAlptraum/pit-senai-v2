@@ -33,7 +33,7 @@ from
 	contatosdosclientes 
 where 
 	idCliente = @idCliente;
-            ";
+";
             cmd.Parameters.AddWithValue("@idCliente", idCliente);
             try
             {
@@ -63,7 +63,7 @@ from
 where 
 	idCliente = @idCliente and
     ativo = 1;
-            ";
+";
             cmd.Parameters.AddWithValue("@idCliente", idCliente);
             try
             {
@@ -239,23 +239,24 @@ set
 	horaFechamento = time(now()),
     idFuncionarioFechamento = @idFuncionarioFechamento,
     valorFechamento = 
-(	
+(
 select
+    ifnull(
     (select sum(valor)
 	from
 		movimentodocaixa
 	where
 		dataMovimento = curdate() and
-        idtipodemovimento in (1,3))
+        idtipodemovimento in (1,3)),0)
 	+
-	(@saldoI)
+	ifnull(@saldoI,0)
 	-
-    (select sum(valor)
+    ifnull((select sum(valor)
 	from
 		movimentodocaixa
 	where
 		dataMovimento = curdate() and
-        idtipodemovimento in (2,4))
+        idtipodemovimento in (2,4,5)),0)
 ),
     valorContado = @valorContado,
     observacao = @observacao
@@ -334,7 +335,7 @@ union
 		movimentodocaixa
 	where
 		dataMovimento = curdate() and
-        idtipodemovimento in (2,4)
+        idtipodemovimento in (2,4,5)
 	)
     ,0)
     ) as 'sum'
@@ -517,6 +518,8 @@ where
                 con.Desconectar();
             }
         }
+        
+        //Notas
         public bool notaRecebimento(string FormaDePagamento, string idOrdem, string tipoDeMovimento,
             string observacao, string valor)
         {
@@ -679,7 +682,8 @@ value
                 con.Desconectar();
             }
         }
-        
+
+
         //Historicos
         public DataTable dtMovDoCaixa(string pesquisa)
         {

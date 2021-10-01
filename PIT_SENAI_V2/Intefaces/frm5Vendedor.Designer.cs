@@ -39,7 +39,8 @@ namespace PIT_SENAI_V2.Dados
             this.lblCliente = new System.Windows.Forms.Label();
             this.tlp2 = new System.Windows.Forms.TableLayoutPanel();
             this.grpOrdem = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpItens = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRemover = new System.Windows.Forms.Button();
             this.lblTotal = new System.Windows.Forms.Label();
             this.dgvItensDaOrdem = new System.Windows.Forms.DataGridView();
             this.grpCatalogo = new System.Windows.Forms.GroupBox();
@@ -65,7 +66,7 @@ namespace PIT_SENAI_V2.Dados
             this.tlpPesquisarCliente.SuspendLayout();
             this.tlp2.SuspendLayout();
             this.grpOrdem.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tlpItens.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItensDaOrdem)).BeginInit();
             this.grpCatalogo.SuspendLayout();
             this.tlpProdutos.SuspendLayout();
@@ -191,7 +192,7 @@ namespace PIT_SENAI_V2.Dados
             // 
             // grpOrdem
             // 
-            this.grpOrdem.Controls.Add(this.tableLayoutPanel1);
+            this.grpOrdem.Controls.Add(this.tlpItens);
             this.grpOrdem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpOrdem.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpOrdem.Location = new System.Drawing.Point(549, 0);
@@ -204,26 +205,40 @@ namespace PIT_SENAI_V2.Dados
             this.grpOrdem.TabStop = false;
             this.grpOrdem.Text = "Itens da Ordem:";
             // 
-            // tableLayoutPanel1
+            // tlpItens
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.lblTotal, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dgvItensDaOrdem, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(230, 254);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tlpItens.ColumnCount = 1;
+            this.tlpItens.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpItens.Controls.Add(this.btnRemover, 0, 2);
+            this.tlpItens.Controls.Add(this.lblTotal, 0, 1);
+            this.tlpItens.Controls.Add(this.dgvItensDaOrdem, 0, 0);
+            this.tlpItens.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpItens.Location = new System.Drawing.Point(0, 31);
+            this.tlpItens.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpItens.Name = "tlpItens";
+            this.tlpItens.RowCount = 3;
+            this.tlpItens.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpItens.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tlpItens.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlpItens.Size = new System.Drawing.Size(230, 254);
+            this.tlpItens.TabIndex = 0;
+            // 
+            // btnRemover
+            // 
+            this.btnRemover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemover.Location = new System.Drawing.Point(0, 214);
+            this.btnRemover.Margin = new System.Windows.Forms.Padding(0);
+            this.btnRemover.Name = "btnRemover";
+            this.btnRemover.Size = new System.Drawing.Size(230, 40);
+            this.btnRemover.TabIndex = 2;
+            this.btnRemover.Text = "Remover";
+            this.btnRemover.UseVisualStyleBackColor = true;
+            this.btnRemover.Click += new System.EventHandler(this.btnRemover_Click);
             // 
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(3, 224);
+            this.lblTotal.Location = new System.Drawing.Point(3, 184);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(77, 30);
             this.lblTotal.TabIndex = 0;
@@ -242,7 +257,7 @@ namespace PIT_SENAI_V2.Dados
             this.dgvItensDaOrdem.Name = "dgvItensDaOrdem";
             this.dgvItensDaOrdem.ReadOnly = true;
             this.dgvItensDaOrdem.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvItensDaOrdem.Size = new System.Drawing.Size(230, 224);
+            this.dgvItensDaOrdem.Size = new System.Drawing.Size(230, 184);
             this.dgvItensDaOrdem.TabIndex = 1;
             // 
             // grpCatalogo
@@ -477,8 +492,8 @@ namespace PIT_SENAI_V2.Dados
             this.tlpPesquisarCliente.PerformLayout();
             this.tlp2.ResumeLayout(false);
             this.grpOrdem.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tlpItens.ResumeLayout(false);
+            this.tlpItens.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItensDaOrdem)).EndInit();
             this.grpCatalogo.ResumeLayout(false);
             this.tlpProdutos.ResumeLayout(false);
@@ -500,7 +515,7 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.TableLayoutPanel tlp1;
         private System.Windows.Forms.TableLayoutPanel tlp2;
         private System.Windows.Forms.GroupBox grpOrdem;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tlpItens;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.DataGridView dgvItensDaOrdem;
         private System.Windows.Forms.GroupBox grpCatalogo;
@@ -526,5 +541,6 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.MenuStrip mns1;
         private System.Windows.Forms.ToolStripMenuItem logOffToolStripMenuItem;
+        private System.Windows.Forms.Button btnRemover;
     }
 }
