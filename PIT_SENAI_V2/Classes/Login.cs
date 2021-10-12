@@ -28,16 +28,15 @@ namespace PIT_SENAI_V2.Classes
                     dt = new DataTable();
 
                     cmd.CommandText = @"
-                        select 
-                            idFuncionario,idAcesso,nome 
-                        from 
-                            funcionarios
-                        where 
-                            idFuncionario = @id and senha = md5(@senha) and
-                        ativo = 1";
+select 
+    idFuncionario,idAcesso,nome 
+from 
+    funcionarios
+where 
+    idFuncionario = @id and senha = md5(@senha) and
+ativo = 1";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.Parameters.AddWithValue("@senha", senha);
-
                     cmd.Connection = con.Conectar();
                     da.Fill(dt);
                     if (dt.Rows.Count > 0)
@@ -61,12 +60,16 @@ where
 ";
                         cmd.Connection = con.Conectar();
                         da.Fill(dt);
-                        if (dt.Rows.Count == 0 || 
-                            dt.Rows[0]["horaFechamento"] != null)
+                        if (dt.Rows.Count > 0 && dt.Rows[0]["horaFechamento"] == null)
                         {
+                            Debug.WriteLine("caixa Aberto");
+                            DadosGlobais.caixaAberto = true;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("caixa Fechado");
                             DadosGlobais.caixaAberto = false;
                         }
-                        else DadosGlobais.caixaAberto = true;
                         //retornar o acesso
                         return true;
                     }

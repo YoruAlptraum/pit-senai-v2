@@ -50,6 +50,7 @@ namespace PIT_SENAI_V2.Dados
                 this.pnlConteudo.Controls.Add(subForm);
                 subForm.Show();
                 lblTitulo.Text = t;
+                lblTitulo.Left = (pnlTitulo.Width - lblTitulo.Width) / 2;
             }
         }
 
@@ -88,6 +89,7 @@ namespace PIT_SENAI_V2.Dados
             if(subForm != null)
             {
                 lblTitulo.Text = "Menus";
+                lblTitulo.Left = (pnlTitulo.Width - lblTitulo.Width) / 2;
                 subForm.Close();
                 subForm = null;
             }

@@ -640,7 +640,7 @@ select
     c.ativo
 from
 	clientes as c
-inner join
+left join
 	funcionarios as f
     on f.idFuncionario = c.idVendedor
 where

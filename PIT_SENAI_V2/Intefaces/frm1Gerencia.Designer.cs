@@ -159,7 +159,7 @@ namespace PIT_SENAI_V2.Dados
             this.btnDevolucao.Name = "btnDevolucao";
             this.btnDevolucao.Size = new System.Drawing.Size(294, 50);
             this.btnDevolucao.TabIndex = 5;
-            this.btnDevolucao.Text = "Devolução";
+            this.btnDevolucao.Text = "Devoluções";
             this.btnDevolucao.UseVisualStyleBackColor = true;
             this.btnDevolucao.Click += new System.EventHandler(this.btnDevolucao_Click);
             // 

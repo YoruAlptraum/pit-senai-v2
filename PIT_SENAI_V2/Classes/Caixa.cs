@@ -736,6 +736,7 @@ where
             cmd.CommandText = @"
 select 
 	n.idNota as 'id',
+    o.idCliente as 'cliente',
     n.dataEmissao as 'data de emissao',
     n.horaEmissao as 'hora',
     f.FormaDePagamento as 'forma de pagamento',
@@ -744,6 +745,9 @@ from notas as n
 inner join
 	formasdepagamento as f 
 		on f.idFormadepagamento = n.idFormadepagamento
+inner join
+	ordens as o
+		on o.idOrdem = n.idOrdem
 left join
 	(
     select
@@ -787,10 +791,10 @@ where n.dataEmissao like concat('%',@pesquisa,'%') and
 select
 	f.dataFechamento,
     f.horaAbertura,
-    f1.nome,
+    f1.nome as 'funcionario abertura',
     f.saldoInicial,
     f.horaFechamento,
-    f2.nome,
+    f2.nome as 'funcionario fechamento',
     f.valorFechamento,
     f.valorContado,
     f.observacao
