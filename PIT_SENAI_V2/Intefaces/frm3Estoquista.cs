@@ -17,7 +17,6 @@ namespace PIT_SENAI_V2.Dados
         public frm3Estoquista()
         {
             InitializeComponent();
-            btnSaida.Enabled = false;
             UpdateDGVs();
             KeyPreview = true;
             this.Text = "Controle de Estoque: " + DadosGlobais.usuario;
@@ -50,9 +49,24 @@ namespace PIT_SENAI_V2.Dados
 
         private void btnSaida_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
-                est.registrarSaida(
-                    dgvEstoque.SelectedRows[0].Cells[0].Value.ToString()));
+            string ms = "um ou mais itens selecionados ja foram registrados como retirados.";
+            bool f = true;
+            for (int j = 0; j < dgvEstoque.SelectedRows.Count; j++)
+            {
+                if (dgvEstoque.SelectedRows[j].Cells["saida"].Value.ToString() != "")
+                {
+                    f = false;
+                }
+            }
+            if (f)
+            {
+                for (int i = 0; i < dgvEstoque.SelectedRows.Count; i++)
+                {
+                    ms = est.registrarSaida(
+                        dgvEstoque.SelectedRows[i].Cells[0].Value.ToString());
+                }
+            }
+            MessageBox.Show(ms);
             UpdateDGVs();
         }
         private void btnEntrada_Click(object sender, EventArgs e)

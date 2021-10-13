@@ -343,7 +343,6 @@ namespace PIT_SENAI_V2.Dados
             this.dgvEstoque.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvEstoque.Location = new System.Drawing.Point(0, 40);
             this.dgvEstoque.Margin = new System.Windows.Forms.Padding(0);
-            this.dgvEstoque.MultiSelect = false;
             this.dgvEstoque.Name = "dgvEstoque";
             this.dgvEstoque.ReadOnly = true;
             this.dgvEstoque.RowTemplate.Height = 40;

@@ -416,6 +416,7 @@ namespace PIT_SENAI_V2.Dados
             this.ClientSize = new System.Drawing.Size(574, 607);
             this.Controls.Add(this.tlp1);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(7);
             this.Name = "frm1_3AddClientes";

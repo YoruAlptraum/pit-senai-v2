@@ -6,8 +6,6 @@ flush privileges;
 revoke all privileges on *.* from 'gerencia'@'localhost'
 */
 create database pit_senai_v2;
-use pit_senai_v2;
-
 
 CREATE TABLE acessos (
     idAcesso INT PRIMARY KEY,
@@ -113,19 +111,6 @@ insert into estoque values (0,0,date(now()),null,3);
 
 -- selecionar as primeiras instancias de um produto que ainda não tenha sendo vendido
 -- select * from estoque where idproduto = 1 and vendido = 0 limit 3;
-
--- drop procedure registrarSaida;
-delimiter ##
-create procedure registrarSaida(id int)
-begin
-	update
-		estoque
-	set
-		saida = curdate()
-	where idEstoque = id;
-end;##
-delimiter ;
--- call registrarSaida(1);
 
 delimiter ##
 create procedure registrarEntrada(idProd int, qtde int)

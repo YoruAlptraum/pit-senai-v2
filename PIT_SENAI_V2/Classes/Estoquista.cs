@@ -7,6 +7,7 @@ using PIT_SENAI_V2.Dados;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace PIT_SENAI_V2.Classes
 {
@@ -162,7 +163,8 @@ where
 	e.idEstoque like @pesquisa or   
 	p.idProduto like @pesquisa or
     e.entrada like concat('%',@pesquisa,'%') or
-    e.saida like concat('%',@pesquisa,'%'));
+    e.saida like concat('%',@pesquisa,'%'))
+order by e.idestoque asc;
 ";
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);
 
@@ -214,17 +216,23 @@ call registrarEntrada(@idProduto,@qtde);
         public string registrarSaida(string idEstoque)
         {
             string mensagem = "";
-            cmd = new MySqlCommand();
-            cmd.CommandText = @"
-call registrarSaida(@idEstoque)
-";
-            cmd.Parameters.AddWithValue("@idEstoque", idEstoque);
 
+            using (cmd = new MySqlCommand())
+            {
+                cmd.CommandText = @"
+update
+	estoque
+set
+	saida = curdate()
+where idEstoque = @id;
+";
+                cmd.Parameters.AddWithValue("@id", idEstoque);
+            }
             try
             {
                 cmd.Connection = conexao.Conectar();
                 cmd.ExecuteNonQuery();
-                mensagem = "Saída registrada";
+                mensagem = "Saída(s) registrada(s)";
             }
             catch (MySqlException e)
             {

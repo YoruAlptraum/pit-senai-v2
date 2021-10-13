@@ -60,14 +60,15 @@ where
 ";
                         cmd.Connection = con.Conectar();
                         da.Fill(dt);
-                        if (dt.Rows.Count > 0 && dt.Rows[0]["horaFechamento"] == null)
+                        if (dt.Rows.Count > 0 &&
+                            dt.Rows[0]["horaFechamento"].ToString() == "")
                         {
                             Debug.WriteLine("caixa Aberto");
                             DadosGlobais.caixaAberto = true;
                         }
                         else
                         {
-                            Debug.WriteLine("caixa Fechado");
+                            Debug.WriteLine("caixa Fechado: "+dt.Rows.Count+" "+dt.Rows[0]["horaFechamento"].ToString());
                             DadosGlobais.caixaAberto = false;
                         }
                         //retornar o acesso
