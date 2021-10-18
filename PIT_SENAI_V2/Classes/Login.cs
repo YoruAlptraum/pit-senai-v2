@@ -68,7 +68,7 @@ where
                         }
                         else
                         {
-                            Debug.WriteLine("caixa Fechado: "+dt.Rows.Count+" "+dt.Rows[0]["horaFechamento"].ToString());
+                            Debug.WriteLine("caixa Fechado");
                             DadosGlobais.caixaAberto = false;
                         }
                         //retornar o acesso
