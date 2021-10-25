@@ -19,6 +19,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             KeyPreview = true;
+            ToolTip tipFuncionarios = new ToolTip();
+            tipFuncionarios.SetToolTip(btnPesquisar, "Pesquisar pelo nome do funcionario");
             pesquisar();
             btnAtualizar.Enabled = btnRemover.Enabled = false;
         }

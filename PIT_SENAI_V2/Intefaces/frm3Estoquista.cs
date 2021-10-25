@@ -18,6 +18,12 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             UpdateDGVs();
+            ToolTip tip1 = new ToolTip();
+            tip1.SetToolTip(btnPesquisarEstoque, "Pesquisar pelo nome ou id do produto, id do estoque ou pela data de entrada ou saída do estoque.");
+            ToolTip tip2 = new ToolTip();
+            tip2.SetToolTip(btnPesquisarProduto, "Pesquisar pelo nome ou id do produto.");
+            ToolTip tip3 = new ToolTip();
+            tip3.SetToolTip(btnPesquisarFornecedor, "Pesquisar pelo nome ou id do fornecedor.");
             KeyPreview = true;
             this.Text = "Controle de Estoque: " + DadosGlobais.usuario;
         }

@@ -25,6 +25,8 @@ namespace PIT_SENAI_V2.Dados
             btnPesquisar.BackgroundImage = Properties.Resources.Search;
             btnPesquisar.BackgroundImageLayout = ImageLayout.Stretch;
             txbIDCliente.Focus();
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(btnPesquisar, "Validar o id do cliente.");
         }
 
         private void btnSelecionar_Click(object sender, EventArgs e)

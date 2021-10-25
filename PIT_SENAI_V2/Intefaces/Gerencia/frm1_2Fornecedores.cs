@@ -19,6 +19,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             pesquisar();
+            ToolTip tipFornecedores = new ToolTip();
+            tipFornecedores.SetToolTip(btnPesquisar, "Pesquisar pelo nome do fornecedor ou por sua descrição.");
             btnAtualizar.Enabled = btnRemover.Enabled = false;
             KeyPreview = true;
         }

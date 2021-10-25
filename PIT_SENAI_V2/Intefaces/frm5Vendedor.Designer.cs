@@ -29,6 +29,7 @@ namespace PIT_SENAI_V2.Dados
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm5Vendedor));
             this.tlp1 = new System.Windows.Forms.TableLayoutPanel();
             this.grpCliente = new System.Windows.Forms.GroupBox();
@@ -60,6 +61,8 @@ namespace PIT_SENAI_V2.Dados
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.mns1 = new System.Windows.Forms.MenuStrip();
             this.logOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tipCatalogo = new System.Windows.Forms.ToolTip(this.components);
+            this.tipCliente = new System.Windows.Forms.ToolTip(this.components);
             this.tlp1.SuspendLayout();
             this.grpCliente.SuspendLayout();
             this.tlpCliente.SuspendLayout();
@@ -542,5 +545,7 @@ namespace PIT_SENAI_V2.Dados
         private System.Windows.Forms.MenuStrip mns1;
         private System.Windows.Forms.ToolStripMenuItem logOffToolStripMenuItem;
         private System.Windows.Forms.Button btnRemover;
+        private System.Windows.Forms.ToolTip tipCatalogo;
+        private System.Windows.Forms.ToolTip tipCliente;
     }
 }

@@ -19,6 +19,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             pesquisar();
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(btnPesquisar, "Pesquisar pelo nome da categoria.");
             btnAtualizar.Enabled = btnRemover.Enabled = false;
             KeyPreview = true;
         }

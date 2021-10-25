@@ -19,6 +19,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             pesquisar();
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(btnPesquisar, "Pesquisar pela data de emissão ou id da nota.");
             btnRemover.Enabled = false;
             if (DadosGlobais.caixaAberto)
             {

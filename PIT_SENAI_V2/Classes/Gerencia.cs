@@ -1236,7 +1236,8 @@ inner join
 	formasdepagamento as f
     on f.idFormaDePagamento = n.idFormaDePagamento
 where
-    dataEmissao like concat('%',@pesquisa,'%');
+    n.idNota like concat ('%',@pesquisa,'%') or
+    n.dataEmissao like concat('%',@pesquisa,'%');
 ";
             }
             else
@@ -1255,7 +1256,10 @@ inner join
 		on f.idFormaDePagamento = n.idFormaDePagamento
 where
 	n.ativo = 1
-    and n.dataEmissao like concat('%',@pesquisa,'%');
+    and
+    (
+    n.idNota like concat ('%',@pesquisa,'%') or
+    n.dataEmissao like concat('%',@pesquisa,'%'));
 ";
             }
             cmd.Parameters.AddWithValue("@pesquisa", pesquisa);

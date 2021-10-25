@@ -21,7 +21,12 @@ namespace PIT_SENAI_V2.Dados
             pesquisarMovCaixa();
             pesquisarNotas();
             pesquisarFechamentos();
-            pesquisarClientes();
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(btnPesquisarMovCaixa, "Pesquisar pela observação, id ou data do movimento.");
+            ToolTip tip1 = new ToolTip();
+            tip1.SetToolTip(btnPesquisarNotas, "Pesquisar pela data de emissão da nota.");
+            ToolTip tip2 = new ToolTip();
+            tip2.SetToolTip(btnPesquisarFechamentos, "Pesquisar pela data ou observação do fechamento ou pelo nome do funcionário de abertura ou fechamento do caixa.");
             KeyPreview = true;
         }
 
@@ -37,10 +42,6 @@ namespace PIT_SENAI_V2.Dados
         private void pesquisarFechamentos()
         {
             dgvFechamentos.DataSource = caixa.dtFechamentos(txbPesquisarFechamentos.Text);
-        }
-        private void pesquisarClientes()
-        {
-            dgvClientes.DataSource = ge.getClientes(false, txbPesquisarClientes.Text);
         }
 
         //txb
@@ -68,14 +69,6 @@ namespace PIT_SENAI_V2.Dados
                 e.SuppressKeyPress = true;
             }
         }
-        private void txbPesquisarClientes_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnPesquisarClientes.PerformClick();
-                e.SuppressKeyPress = true;
-            }
-        }
 
         //botões
         private void btnPesquisarMovCaixa_Click(object sender, EventArgs e)
@@ -89,10 +82,6 @@ namespace PIT_SENAI_V2.Dados
         private void btnPesquisarFechamentos_Click(object sender, EventArgs e)
         {
             pesquisarFechamentos();
-        }
-        private void btnPesquisarClientes_Click(object sender, EventArgs e)
-        {
-            pesquisarClientes();
         }     
     }
 }

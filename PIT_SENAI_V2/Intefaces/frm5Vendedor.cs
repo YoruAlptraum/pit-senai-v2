@@ -23,6 +23,8 @@ namespace PIT_SENAI_V2.Dados
 
             btnImprimir.Enabled = btnDescartar.Enabled = 
                 btnAdicionar.Enabled = grpOrdem.Enabled = ordem = false;
+            tipCatalogo.SetToolTip(btnPesquisarCatalogo, "Pesquisar pelo nome ou id do produto.");
+            tipCliente.SetToolTip(btnPesquisarCliente, "Pesquisar documento do cliente.");
             this.Text = "Vendedor: " + DadosGlobais.usuario;
             var ro = retomarOrdem();
             if (ro.conectado)

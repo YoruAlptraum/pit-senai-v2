@@ -17,6 +17,8 @@ namespace PIT_SENAI_V2.Dados
         {
             InitializeComponent();
             KeyPreview = true;
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(btnPesquisarID, "Pesquisar utilizando o documento do cliente.");
         }
 
         private void btnPesquisarID_Click(object sender, EventArgs e)
